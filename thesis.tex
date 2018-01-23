@@ -1,12 +1,37 @@
 % Benjamin Barrett's PhD thesis - 2018.
 
-\documentclass{Classes/thesis.cls}
+\documentclass[a4paper,11pt]{Classes/thesis}
 
 \title{Detecting topological properties of boundaries of hyperbolic groups}
 \author{Benjamin Barrett}
 \date{2018}
 
 \begin{document}
+
+\frontmatter
+
+\maketitle
+
+% Preface pages
+\include{Dedication/dedication}
+\include{Declaration/declaration}
+\include{Acknowledgement/acknowledgement}
+\include{Abstract/abstract}
+
+\tableofcontents
+
+% Body chapters
+\mainmatter
+\include{Chapter1/chapter1} % Introduction?
+\include{Chapter2/chapter2} % Preliminaries?
+\include{Chapter3/chapter3} % Cech decomposition?
+\include{Chapter4/chapter4} % JSJs?
+\include{Chapter5/chapter5} % Computing JSJs?
+
+% Bibliography
+\bibliographystyle{alpha}
+\cleardoublepage
+\bibliography{References/references} % Path to the references.bib file
 
 \end{document}
 

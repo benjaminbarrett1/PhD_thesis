@@ -1,7 +1,9 @@
-% This is a class file for my thesis.
+% -------------- CLASS IDENTIFICATION ---------------
+\newcommand\filedate{2018/01/23}
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{thesis}[2018/01/23 Benjamin Barrett's PhD thesis]
+\ProvidesClass{thesis}[\filedate Benjamin Barrett's PhD thesis class file]
 
+% ----------------- CLASS DEFINTIION ----------------
 \LoadClass{book}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
 
