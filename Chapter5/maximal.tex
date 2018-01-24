@@ -1,0 +1,524 @@
+\section{Maximal splittings}\label{sec:maximal}
+
+We now apply the technical results of sections~\ref{sec:cutpairsalgorithms}
+and~\ref{sec:fuchsiangroups} to the problem of finding a maximal splitting of a
+one-ended hyperbolic group.
+
+\subsection{JSJ decompositions}
+
+We begin by recalling the definition a JSJ decomposition. For a more detailed
+account see~\cite{guirardellevitt16}. Let $\Gamma$ be a group and let
+$\mathcal{A}$ be a collection of subgroups of $\Gamma$ that is closed under
+conjugation and taking subgroups. Let $\mathcal{H}$ be another collection of
+subgroups of $\Gamma$. An \emph{$(\mathcal{A}, \mathcal{H})$-tree} is a tree
+with a $\Gamma$-action with no edge inversions in which the stabiliser of each
+edge is in $\mathcal{A}$ and each element of $\mathcal{H}$ is \emph{elliptic},
+that is, it fixes a point in the tree. An $(\mathcal{A}, \mathcal{H})$-tree $T$
+\emph{dominates} another such tree $T'$ if there is a $\Gamma$-equivariant
+morphism from $T$ to $T'$.  $T$ is \emph{elliptic with respect to $T'$} if the
+stabiliser of each edge in $T$ is elliptic in $T'$. For $v$ a vertex of $T$ we
+denote by $\Gamma_v$ the stabiliser of $v$, and similarly if $e$ is an edge of
+$T$ we let $\Gamma_e$ denote the stabiliser of $e$. We will sometimes refer to
+a $(\mathcal{A}, \mathcal{H})$-tree as a \emph{splitting of $\Gamma$ over
+$\mathcal{A}$ relative to $\mathcal{H}$}. A splitting is \emph{trivial} if
+$\Gamma$ is elliptic. We will frequently implicitly move between the languages
+of group actions on trees and graphs of groups.
+
+Fixing $\mathcal{A}$ and $\mathcal{H}$, a subgroup of $\Gamma$ is
+\emph{universally elliptic} if it is elliptic with respect to any
+$(\mathcal{A}, \mathcal{H})$-tree. An $(\mathcal{A}, \mathcal{H})$-tree is
+universally elliptic if the stabiliser of each if its edges is universally
+elliptic. An $(\mathcal{A}, \mathcal{H})$ tree is a \emph{JSJ tree} if it is
+universally elliptic and is maximal for domination among universally elliptic
+$(\mathcal{A}, \mathcal{H})$ trees. 
+
+\subsection{The Bowditch JSJ}
+
+In~\cite{bowditch98} Bowditch defines a canonical JSJ tree $\Sigma$ for a
+one-ended hyperbolic group $\Gamma$ where $\mathcal{A}$ is the set of virtually
+cyclic subgroups of $\Gamma$ and $\mathcal{H}$ is empty. (To ensure that
+$\mathcal{A}$ is closed under taking subgroups we should strictly speaking also
+include the finite subgroups of $\Gamma$ in $\mathcal{A}$. However, since
+$\Gamma$ is assumed to be one-ended it does not split over any finite subgroup,
+so this change is not important.) We recall a description of the tree $\Sigma$ here.
+
+$\Sigma$ is a tree with a three-colouring: its vertex set $V(\Sigma)$ admits a
+partition $V_1(\Sigma) \disjointunion V_2(\Sigma) \disjointunion V_3(\Sigma)$
+preserved by the action of $\Gamma$ such that no two vertices in either
+$V_1(\Sigma)$ or $V_2(\Sigma) \union V_3(\Sigma)$ are adjacent.
+
+The stabiliser of a vertex in $V_1(\Sigma)$ is a maximal virtually cyclic subgroup of
+$\Gamma$ and therefore contains the stabiliser of each incident edge at finite
+index.
+
+To describe the vertices of the second type we require the following
+definition. Recall definition~\ref{defn:boundedFuchsian} of a bounded Fuchsian
+group.
+
+\begin{defn} A \emph{hanging Fuchsian} subgroup $Q$ of $\Gamma$ is a subgroup
+of $\Gamma$ that is the stabiliser of a vertex in some finite splitting of
+$\Gamma$ over virtually cyclic subgroups such that $Q$ admits an isomorphism
+with a bounded Fuchsian group that maps the stabilisers of incident
+edges precisely to the peripheral subgroups.\end{defn}
+
+Stabilisers of vertices in $V_2(\Sigma)$ are precisely the maximal hanging
+Fuchsian subgroups of $\Gamma$ and the stabilisers of incident edges at such a
+vertex in the JSJ decomposition are precisely the peripheral subgroups referred
+to in the definition.
+
+The stabiliser of a vertex in $V_3(\Sigma)$ is not virtually cyclic and is not
+a hanging Fuchsian subgroup.
+
+\subsection{Splittings and the topology of the boundary}\label{sec:splittingstopology}
+
+In this section we recall and extend some results linking the existence of a
+non-trivial splitting of a hyperbolic group relative to a collection of
+virtually cyclic subgroups to the topology of a particular Bowditch boundary. 
+
+For the remainder of Section~\ref{sec:splittingstopology}, we fix a hyperbolic
+group $\Gamma$ and a collection $\mathcal{H}$ of virtually cyclic subgroups. If
+$H$ is any virtually cyclic subgroup of $\Gamma$, let $\widehat{H}$ be the unique
+maximal virtually cyclic subgroup of $\Gamma$ containing $H$. Then let
+$\widehat{\mathcal{H}}$ be $\{\widehat{H} \vert H \in \mathcal{H}\}$. Recall
+Lemma~\ref{lem:vcycperipheral}: since each group in $\widehat{\mathcal{H}}$ is
+maximal virtually cyclic, $\Gamma$ is hyperbolic relative to
+$\widehat{\mathcal{H}}$. We may therefore study the boundary $\boundary(\Gamma,
+\widehat{\mathcal{H}})$.
+
+\subsubsection{Boundaries with cut points}
+
+We first recall results that deal with the case in which $\boundary(\Gamma,
+\widehat{\mathcal{H}})$ contains a cut point. First recall
+Bowditch's definition~\cite{bowditch01} of a \emph{peripheral splitting}.
+
+\begin{defn} If $\Gamma$ is a group and $\mathcal{H}$ is a finite collection of
+subgroups of $\Gamma$, a \emph{peripheral splitting} of $\Gamma$ with respect
+to $\mathcal{H}$ is a representation of $\Gamma$ is a finite bipartite graph of
+groups such that each vertex group of one colour is conjugate to an element of
+$\mathcal{H}$, and each element of $\mathcal{H}$ is conjugate to a vertex group
+of that colour.
+
+As for any splitting, we say that a peripheral splitting is \emph{trivial} if
+some vertex group is equal to $\Gamma$.\end{defn}
+
+Note that, in our setting, a peripheral splitting of $\Gamma$ with respect to
+$\widehat{\mathcal{H}}$ is a splitting of $\Gamma$ over virtually cyclic subgroups
+relative to $\mathcal{H}$.
+
+Then the following proposition, which we obtain by putting together two
+theorems of Bowditch, completes our treatment of the case in which the boundary
+contains a cut point.
+
+\begin{prop}\label{prop:cutpointimpliessplitting} Suppose that
+  $\boundary(\Gamma, \widehat{\mathcal{H}})$ is connected and contains a cut point.
+Then the pair $\Gamma$ admits a non-trivial splitting over virtually cyclic
+subgroups relative to $\mathcal{H}$.
+\end{prop}
+
+\begin{proof} By~\cite[Theorem 0.2]{bowditch99a} the global cut
+  point of $\boundary(\Gamma, \widehat{\mathcal{H}})$ is a parabolic fixed point.
+By~\cite[Theorem 1.2]{bowditch99b} $\Gamma$ admits a non-trivial peripheral
+splitting with respect to $\widehat{\mathcal{H}})$. The edge groups in this splitting
+are automatically virtually cyclic, since each edge meets a vertex with vertex
+group conjugate into $\widehat{\mathcal{H}}$, and the splitting is automatically
+relative to $\mathcal{H}$: in fact it is relative to $\widehat{\mathcal{H}}$.
+\end{proof}
+
+\subsubsection{Boundaries with cut pairs}
+
+In the absence of cut points, the existence of a relative splitting is
+reflected in the existence of cut pairs in the boundary.  In the absolute case,
+recall the following theorem of~\cite{bowditch98}.
+
+\begin{thm}\cite[Theorem 6.2]{bowditch98}\label{thm:cutpairimpliessplitting}
+Let $\Gamma$ be a one-ended hyperbolic group such that $\boundary(\Gamma,
+\emptyset)$ contains a cut pair and is not homeomorphic to $S^1$. Then $\Gamma$
+admits a non-trivial splitting over a virtually cyclic subgroup.  \end{thm}
+
+We require a relative version of this theorem. We only require such a result in the case
+when $\Gamma$ arises as a vertex group in a splitting of a larger group over
+virtually cyclic subgroups, and $\mathcal{H}$ is the collection of edge groups
+incident at that vertex. In this section we show that in this simple case the
+relative result follows from Theorem~\ref{thm:cutpairimpliessplitting}, and one
+can avoid $\reals$-trees machinery. For a discussion in greater generality,
+see~\cite{groff13}.
+
+\begin{prop}\label{prop:cutpairimpliesrelativesplitting} Let $v$ be a vertex in
+a minimal $\Gamma$-tree $T$ with virtually cyclic edge groups where $\Gamma$
+is hyperbolic and one-ended. Let $\inc v$ be a set of representatives of
+$\Gamma_v$-conjugacy classes of stabilisers of edges in $T$ incident at $v$.
+Suppose that $\boundary(\Gamma_v, \inc v)$ is not a single point, does not
+contain a cut point and is not homeomorphic to a circle but does contain a
+cut pair. Then $\Gamma_v$ admits a non-trivial splitting over virtually cyclic
+subgroups of $\Gamma_v$ relative to $\inc v$.  \end{prop}
+
+First we need the following lemma. Recall that for a vertex $v$ in a
+$\Gamma$-tree, we defined $\inc v$ to be a set of conjugacy class
+representatives of the stabilisers of the edges of the $\Gamma$-tree incident
+at $v$, and let $\widehat{\inc v}$ be the set of maximal virtually cyclic
+subgroups of $\Gamma_v$ that contain the elements of $\inc v$.
+
+\begin{lem}\label{lem:fixedcomponent} Let $f \colon T_1 \to T_2$ be an
+  equivariant map of $\Gamma$-trees with virtually infinite cyclic edge
+  stabilisers such that the action of $\Gamma$ on $T_1$ is cocompact and the
+  action of $\Gamma$ on $T_2$ is minimal.  (This means that there is no proper
+  $\Gamma$-invariant subtree of $T_2$.) Let $v$ be a vertex of $T_2$ such that
+  $\boundary(\Gamma_v, \widehat{\inc v})$ is not a single point, is connected
+  and does not contain a cut point. Then the action of $\Gamma_v$ on $T_1$
+  fixes a component of $f^{-1}(v)$.\end{lem}
+
+\begin{proof} First we show that there is a vertex $w \in T_1$ such that
+$\Gamma_w \intersection \Gamma_v$ is non-elementary. If this is not the case
+then the stabiliser of each edge of $T_1$ with respect to the action of
+$\Gamma_v$ on $T_1$ is either finite or commensurable with the stabilisers of
+its end points. Therefore the action induces a splitting of $\Gamma_v$ with
+finite edge groups and virtually cyclic vertex groups. By minimality of the
+action of $\Gamma$ on $T_2$ each edge $e$ incident at $v$ is $f(e')$ for some
+edge $e'$ of $T_1$, and then $\Gamma_{e'}$ is a finite index subgroup of
+$\Gamma_e$, since each is virtually infinite cyclic. In particular,
+$\widehat{\Gamma_e}$ is elliptic, and the splitting is relative to $\widehat{\inc v}$.
+But $\boundary(\Gamma_v, \widehat{\inc v})$ was assumed to be connected and not a
+single point, which is a contradiction.
+
+Then $f(w) = v$, otherwise any edge separating $f(w)$ from $v$ in $T_2$ has
+non-elementary stabiliser. Let $S$ be the component of $f^{-1}(v)$ containing
+$w$. We now show that any other vertex $w'$ of $T_1$ such that $\Gamma_{w'}
+\intersection \Gamma_v$ is non-elementary is also in $S$. Suppose that $e$ is
+an edge of $T_1$ that is not in $f^{-1}(v)$. As in Section~1
+of~\cite{bowditch98} there exists a partition of $\boundary(\Gamma, \emptyset) -
+\Lambda\Gamma_e$ as $U_1 \disjointunion U_2$.  The intersection of $\Gamma_e$
+with $\Gamma_v$ is either finite or commensurable with a conjugate of an
+element of $\widehat{\inc v}$, so the images of $U_1 \intersection
+\Lambda\Gamma_v$ and $U_2 \intersection \Lambda\Gamma_v$ under the projection
+map $\Lambda\Gamma_v \to \boundary(\Gamma, \widehat{\inc v})$ cover all but at
+most a point of $\boundary(\Gamma, \widehat{\inc v})$. These sets are disjoint,
+so one must be empty, say $U_2$. But $\Lambda\Gamma_w$ and $\Lambda\Gamma_{w'}$
+each contain more than two points, so must both be contained in $U_1 \union
+\Lambda\Gamma_e$. This implies that $w$ and $w'$ are on the same side of $e$.
+
+Therefore the action of $\Gamma_v$ on $T_1$ fixes $S$, for any element of
+$\Gamma_v$ must send $w$ to a vertex of $S$.\end{proof}
+
+\begin{proof}[Proof of Proposition~\ref{prop:cutpairimpliesrelativesplitting}]
+Let $\Sigma$ be Bowditch's JSJ tree for $\Gamma$. $\Sigma$ is
+then elliptic with respect to $T$, so by~\cite[Proposition
+2.2]{guirardellevitt16} there exists a $\Gamma$-tree $\widehat\Sigma$ and maps $p
+\colon \widehat\Sigma \to \Sigma$ and $f \colon \widehat\Sigma \to T$ such that:
+\begin{enumerate}
+  \item $p$ is a collapse map. (i.e.\ a map given by collapsing some edges of
+    $\widehat\Sigma$ to points.)
+  \item For $w \in \Sigma$, the restriction of $f$ to $p^{-1}(w)$ is injective.
+\end{enumerate}
+
+Let $S \subset \widehat\Sigma$ be the component of $f^{-1}(v)$ fixed by the action
+of $\Gamma_v$ constructed in Lemma~\ref{lem:fixedcomponent}. Suppose that a
+vertex $w$ of $S$ is fixed by the $\Gamma_v$-action.
+
+If $e$ is any edge of $\widehat\Sigma$ that is adjacent to but not contained in $S$
+then $\Gamma_e \leq \Gamma_{f(e)}$ and the subgroup is necessarily of finite
+index. Conversely the stabiliser of any edge incident at $v$ contains the
+stabiliser of an edge adjacent to $S$ at finite index. The stabiliser of any
+edge adjacent to $S$ is then commensurable with the stabiliser of an edge
+incident at $w$, and vice versa. Therefore $\boundary(\Gamma_v, \widehat{\inc w})$ is
+homeomorphic to $\boundary(\Gamma_v, \widehat{\inc v})$. We assumed that
+$\boundary(\Gamma_v, \widehat{\inc v})$ was neither a point nor homeomorphic to a circle,
+so $pw$ is not in $V_1(\Sigma)$ or $V_2(\Sigma)$, and is therefore in
+$V_3(\Sigma)$.
+
+Let $x$ and $y$ be points in $\boundary(\Gamma_v, \widehat{\inc v})$ and choose preimages
+$\widetilde{x}$ and $\widetilde{y}$ in $\boundary(\Gamma_v, \emptyset)$, which
+we identify with $\Lambda\Gamma_v \subset \boundary(\Gamma, \emptyset)$.  
+The set of components of $\boundary(\Gamma_v, \widehat{\inc v}) - \{x, y\}$ is in
+bijection with the set of those components of $\boundary(\Gamma, \emptyset) -
+\{\widetilde{x}, \widetilde{y}\}$ that meet $\Lambda\Gamma_v$. 
+
+Suppose then
+that $\{x, y\}$ is a cut pair in $\boundary(\Gamma_v, \widehat{\inc v})$, so at least two
+components of $\boundary(\Gamma, \emptyset) - \{\widetilde{x}, \widetilde{y}\}$ meet
+$\Lambda\Gamma_v$.
+
+Then by Theorem~\ref{thm:cutpairimpliessplitting} there is a type 1 or type 2
+vertex $u$ of $\Sigma$ such that $\Lambda\Gamma_u$ contains $\{\widetilde{x},
+\widetilde{y}\}$. Then $\{\widetilde{x}, \widetilde{y}\} = \Lambda\Gamma_u
+\intersection \Lambda\Gamma_v$, so $\{\widetilde{x}, \widetilde{y}\}$ is the
+limit set of an edge incident at $v$. Therefore $\{x, y\} \subset
+\boundary(\Gamma_v, \widehat{\inc v})$ is a single point, which is a contradiction
+because $\boundary(\Gamma_v, \widehat{\inc v})$ was assumed not to contain a cut
+point. Hence the action of $\Gamma_v$ on $S$ does not fix any vertex and
+therefore gives rise to a non-trivial splitting of $\Gamma_v$ relative to $\inc v$.
+
+\end{proof}
+
+\subsubsection{Boundaries without cut points or pairs}
+
+Our description of the relationship between the existence of splittings and the
+topology of the boundary is completed by the following proposition, which serves as a
+converse to Propositions~\ref{prop:cutpointimpliessplitting}
+and~\ref{prop:cutpairimpliesrelativesplitting}.
+
+\begin{prop}\label{prop:relativesplittingimpliescutpair} Let $\Gamma$ be a
+  hyperbolic group and let $\mathcal{H}$ be a finite set of virtually cyclic
+  subgroups of $\Gamma$ such that $\boundary(\Gamma, \widehat{\mathcal{H}})$ is
+    connected.  Suppose that $\Gamma$ admits a non-trivial splitting over a
+  virtually cyclic subgroup relative to $\mathcal{H}$.  Then $\boundary(\Gamma,
+\widehat{\mathcal{H}})$ contains a cut point or pair.\end{prop}
+
+\begin{proof} Let $T$ be the $\Gamma$-tree associated to such a non-trivial splitting.
+Without loss of generality assume that the action of $\Gamma$ on $T$ is
+minimal. Let $e$ be any edge in $T$. Let $T_1$ and $T_2$ be the two
+components of the complement of the interior of $e$ in $T$. Then as in the proof of Lemma~\ref{lem:fixedcomponent}
+ we obtain a partition of $\boundary(\Gamma,
+\emptyset) - \Lambda\Gamma_e$ as $U_1\disjointunion U_2$ where $U_i$ are open
+sets given by
+\begin{align*}
+  U_i = \boundary T_i \union \bigunion_{w \in T_i} (\Lambda\Gamma_w - \Lambda\Gamma_e)
+\end{align*}
+
+If a subgroup $H$ of $\Gamma$ is in $\mathcal{H}$, $H \leq \Gamma_w$ for some vertex $w \in \Sigma$ and either $\Lambda H =
+\Lambda\Gamma_e$ or $\Lambda H \intersection \Lambda\Gamma_e = \emptyset$.
+In the latter case either
+$\Lambda H \subset U_1$ or $\Lambda H \subset U_2$. Let $\pi \colon
+\boundary(\Gamma, \emptyset) \to \boundary(\Gamma, \widehat{\mathcal{H}})$ be the
+quotient projection of Lemma~\ref{lem:bowditchfromgromov}. It follows that the images
+of $U_1$ and $U_2$ under $\pi$ in the complement of $\pi(\Lambda\Gamma_e)$ in
+$\boundary(\Gamma, \widehat{\mathcal{H}})$ are disjoint open sets; they are non-empty by
+the minimality of the action of $\Gamma$ on $T$. The image of $\Lambda\Gamma_e$
+is either one or two points, and therefore $\boundary(\Gamma, \widehat{\mathcal{H}})$
+contains a cut point or pair. \end{proof}
+
+\subsection{Virtually cyclic subgroups and finding splittings}
+
+We will need the following lemma, which allows us to do various computations
+related to virtually cyclic subgroups of hyperbolic groups.
+
+\begin{lem}\cite[Lemma 2.8]{dahmaniguirardel11}\label{lem:twoendedsubgroups}
+There is an algorithm that, when given a presentation for a hyperbolic group
+$\Gamma$ and a finite subset $S \subset \Gamma$, returns an answer to the
+question ``is $\langle S \rangle \leq \Gamma$ virtually cyclic?'' If the
+answer is ``yes'' then the algorithm also determines
+\begin{enumerate}
+\item the (unique) maximal finite normal subgroup of $\langle S \rangle$, 
+\item a presentation for $\langle S\rangle$,
+\item whether $\langle S \rangle$ is of type $\mathcal{Z}$ or $D_\infty$.
+  (Recall that we say that a virtually cyclic group of type $\mathcal{Z}$
+  (respectively $D_\infty$) if it surjects onto $\integers$ (respectively
+  $D_\infty$).)
+\item a generating set for the maximal virtually cyclic subgroup of $\Gamma$
+  containing $\langle S\rangle$.\end{enumerate}
+\end{lem}
+
+The proof of this lemma in~\cite{dahmaniguirardel11} uses Makanin's algorithm
+for solving equations in hyperbolic groups. We modify that part of the argument
+to use only elementary methods in keeping with the themes of this paper.
+
+\begin{proof} We give an alternative method to determine whether or not
+$\langle S\rangle$ is virtually cyclic and to produce a maximal finite normal
+subgroup of $\langle S\rangle$ in the case that it is; the rest of the
+argument can be copied verbatim from~\cite{dahmaniguirardel11}. First compute
+$\delta$ with respect to which $\Gamma$ is $\delta$-hyperbolic.
+
+Use the algorithm of~\cite[Proposition 4]{kapovich96} to search for a constant
+$K$ with respect to which $\langle S\rangle$ is $K$-quasi-convex in $\Gamma$.
+This algorithm finds such a constant if it exists and does not terminate of
+$\langle S\rangle$ is not quasi-convex; note that if $\langle S\rangle$ is
+virtually cyclic then it is guaranteed to be quasi-convex. If the algorithm
+terminates use $K$ and $\delta$ to compute $\delta'$ such that $\langle
+S\rangle$ is $\delta'$-hyperbolic.  Then all finite subgroups of $\langle
+S\rangle$ can be conjugated into a ball of radius at most $4\delta' + 2$ with
+respect to the word metric in $\langle S\rangle$, so all finite normal
+subgroups of $S$ can be computed using a solution to the word and conjugacy
+problems in $\Gamma$. Once this is computed the algorithm
+of~\cite{dahmaniguirardel11} can be used to determine whether or not $\langle
+S\rangle$ is virtually cyclic.
+
+In parallel, search for a pair of elements $g$ and $h$ in $\langle S\rangle$
+such that $[g^2, h^2]$ has infinite order. This can be checked since the order
+of an element of $\Gamma$ of finite order is bounded above by the number of
+elements of $\Gamma$ in the ball of radius $4\delta + 2$.
+
+If $\langle S\rangle$ is not quasi-convex then it contains a free group on two
+generators, so a pair $(g, h)$ as in the previous paragraph certainly exists.
+Conversely, if such a pair exists then $\langle S\rangle$ cannot be virtually cyclic,
+since any virtually cyclic group contains a subgroup of index two that surjects onto
+$\integers$ with finite kernel.  \end{proof}
+
+\begin{lem}\label{lem:findingasplitting} There is an algorithm that takes as
+  input a presentation for a hyperbolic group $\Gamma$ and a collection
+  $\mathcal{H}$ of peripheral subgroups and either returns the graph of groups
+  associated to a non-trivial splitting of $\Gamma$ relative to $\mathcal{H}$
+over virtually cyclic subgroups or does not terminate if no such splitting
+exists.  \end{lem}
+
+\begin{proof} Suppose that $\Gamma$ admits a proper splitting relative to
+  $\mathcal{H}$ as an amalgamated product over a virtually cyclic subgroup; the
+  case of an HNN extension is similar. Then $\Gamma$ admits a presentation that
+  makes this splitting explicit in the following sense. There are finite
+  disjoint symmetric sets of symbols $S_1$, $S_2$ and $S_3$, finite subsets
+  $R_1$, $R_2$ and $R_3$ of the free monoids $S_1^\star$, $S_2^\star$ and
+  $S_3^\star$ respectively, and maps $\iota_1$ and $\iota_2$ from $S_3^\star$
+  to $S_1^\star$ and $S_2^\star$ respectively, such that $\Gamma$ admits an
+  isomorphism to the group $\mod{\mathcal{P}}$ with presentation $\mathcal{P}$ of the form
+\begin{align*}
+  \langle S_1 \union S_2 \union S_3 \vert R_1 \union R_2 \union R_3 \union
+    \{s^{-1}\iota_1(s), s^{-1}\iota_2(s) \colon s \in S_3\}\rangle
+\end{align*}
+where $\{\iota_1(r) \vert r \in R_3\} \subset R_1$ and $\{\iota_2(r) \vert r
+\in R_3\} \subset R_2$. This ensures that $\iota_1$ and $\iota_2$ induce group
+homomorphisms from $\langle S_3 \vert R_3\rangle$ to $\langle S_1 \vert
+R_1\rangle$ and  $\langle S_2 \vert R_2\rangle$, which we shall denote
+$\widehat\iota_1$ and $\widehat\iota_2$. Let $\widehat\iota$ be the induced map from
+$\langle S_3 \vert R_3\rangle$ to $\Gamma$. Then the assumptions on the nature
+of the splitting give the following conditions:
+\begin{enumerate}
+\item that $\langle S_3 \vert R_3 \rangle$ be virtually cyclic,
+\item that $\widehat\iota_1$ and $\widehat\iota_2$ be injective,
+\item that $\widehat\iota_1$ and $\widehat\iota_2$ not be surjective and
+\item that for each $H \in \mathcal{H}$ with generating set $S_H$ there exists
+  $g_H$ in $\Gamma$ such that either $S_1$ or $S_2$ contains the image of
+  $g_HS_Hg_H^{-1}$ under the isomorphism from $\Gamma$ to $\mod{\mathcal{P}}$.
+\end{enumerate}
+
+We show that there is an algorithm that finds such a presentation for
+$\Gamma$ if it exists. Using Tietze transformations, there is an algorithm that
+enumerates all presentations of $\Gamma$ and for each presentation gives an
+explicit isomorphism from $\Gamma$ to the realisation of that presentation;
+therefore it is sufficient to show that each of the four conditions above can
+be checked algorithmically.
+
+The first condition can be checked using the first part of the algorithm of
+Lemma~\ref{lem:twoendedsubgroups}.
+
+$\widehat\iota_1$ and $\widehat\iota_2$ are both injective if and only if $\widehat\iota$
+is injective: one direction is trivial, the other is a consequence of the
+normal form theorem for the amalgamated product. To check this condition,
+compute the maximal finite normal subgroup of $\langle S_3\vert R_3\rangle$ and
+check the triviality of the image under $\widehat\iota$ of each of these elements.
+Then find an element of $\langle S_3\vert R_3\rangle$ of infinite order and
+check whether or not the image under $\widehat\iota$ of this element has infinite
+order.
+
+To check the surjectivity of $\widehat\iota_1$ first check whether or not $\langle
+S_1 \rangle$ is virtually cyclic. If it is, check whether or not the maximal finite
+normal subgroup of $\im\widehat\iota_1$ is equal to the maximal finite normal
+subgroup of $\langle S_1 \rangle$. If it is, next check whether or not $\langle
+S_1 \rangle$ and $\langle S_3 \rangle$ are either both of $\mathcal{Z}$-type or
+both of $D_\infty$ type. If they are both of the same type, pass to an index 2
+subgroup of each if necessary to ensure that they are both of $\mathcal{Z}$
+type, then check whether or not the composition of $\widehat\iota_1$ with the
+natural surjection to $\integers$ is surjective. If it is then $\widehat\iota_1$ is
+surjective; if any of these tests produced the opposite answer then
+$\widehat\iota_1$ is not surjective. Repeat this process for $\widehat\iota_2$.
+
+The final condition can be checked using a solution to the simultaneous
+conjugacy problem in $\Gamma$.
+
+The existence of such a presentation for $\Gamma$ guarantees that $\Gamma$
+splits non-trivially as an internal amalgamated product 
+\begin{align*}
+  \Gamma \isom \langle S_1 \vert R_1 \rangle \freeprod_{\langle S_3 \vert R_3
+    \rangle} \langle S_2 \vert R_2 \rangle.
+\end{align*}
+This splitting is over a virtually cyclic
+subgroup of $\Gamma$ and is relative to $\mathcal{H}$. 
+\end{proof}
+
+\subsection{Computing a maximal splitting}
+
+We will need to be able to determine algorithmically whether or not the
+boundary of the given hyperbolic group is homeomorphic to a circle. This is
+achieved using the algorithm of Corollary~\ref{cor:noncutpaircomputable} and a
+theorem from point-set topology, which we note here.
+
+\begin{thm}\cite[II.2.13]{wilder49}\label{thm:topologyimpliescircle} Any
+separable, connected, locally connected space containing more than one point
+that is without a cut point and in which every pair is a cut pair is
+homeomorphic to $S^1$.\end{thm}
+
+\begin{prop}\label{prop:isthereasplitting} There is an algorithm that takes as
+  input a presentation for a hyperbolic group $\Gamma$ with a collection
+  $\mathcal{H}$ of virtually cyclic subgroups such that $\boundary(\Gamma,
+  \widehat{\mathcal{H}})$ is connected and $\Gamma$ appears as the stabiliser
+  of some vertex in the action of a hyperbolic group on a tree and
+  $\mathcal{H}$ is a set of conjugacy class representatives of incident edge
+  groups and returns the answer to the question ``does $\Gamma$ split
+non-trivially over a virtually cyclic subgroup relative to
+$\mathcal{H}$?''\end{prop}
+
+\begin{figure}
+\centering
+\input{Chapter5/flowchart}
+\caption{The decision process in the algorithm of Proposition~\ref{prop:isthereasplitting}.}
+\end{figure}
+
+\begin{proof} Let the given group be $\Gamma$ and the peripheral structure be
+$\mathcal{H}$. First check whether or not $\Gamma$ is virtually cyclic. If it
+is then $\Gamma$ does not split properly over a virtually cyclic subgroup.
+If it is not then compute $\widehat{\mathcal{H}}$; then $\boundary(\Gamma,
+\widehat{\mathcal{H}})$ contains more than a single point and the results
+of this section can be applied.
+
+Next compute $\delta$ such that the cusped space $X$ associated to the pair
+$(\Gamma, \widehat{\mathcal{H}})$ is $\delta$-hyperbolic.  Search for a
+non-trivial splitting of $\Gamma$ relative to $\mathcal{H}$ using
+Lemma~\ref{lem:findingasplitting} and, in parallel, search for $n$ such that
+$\ddag_n$ holds in $X$; one of these processes must terminate by
+Proposition~\ref{prop:Xsatisfiesddag} and
+Proposition~\ref{prop:cutpointimpliessplitting}.
+
+If a splitting is found then $\Gamma$ does split non-trivially over a virtually
+cyclic subgroup relative to $\mathcal{H}$, and the algorithm can return
+``yes''. If $X$ satisfies $\ddag_n$ then use the algorithm of
+Corollary~\ref{cor:cutpaircomputable} to check whether or not
+$\boundary(\Gamma, \widehat{\mathcal{H}})$ contains a cut point. If it does then $\Gamma$
+does split properly over a virtually cyclic subgroup by
+Proposition~\ref{prop:cutpointimpliessplitting}
+
+If there is no cut point, use the algorithm of
+Corollary~\ref{cor:cutpaircomputable} on $X$ to determine whether or
+$\boundary(\Gamma, \widehat{\mathcal{H}})$ contains a cut pair; if it does not then
+$\Gamma$ does not split relative to $\mathcal{H}$ by
+Proposition~\ref{prop:relativesplittingimpliescutpair}.
+
+If there is a cut pair then simultaneously run the algorithms of
+Lemma~\ref{lem:findingasplitting} and
+Lemma~\ref{lem:identifyingsmallorbifolds}. If the former terminates then a
+splitting has been found; if the latter does then no splitting exists.
+\end{proof}
+
+Note that a subprocess of this algorithm, together with the algorithm
+of~\cite{gerasimov} that determines whether or not a hyperbolic group is
+one-ended, provides the algorithm promised in
+Theorem~\ref{thm:S1boundarycomputable}.
+
+\begin{prop}\label{prop:maximalsplittingcomputable} There is an algorithm that,
+when given a presentation for a hyperbolic group, computes the graph of groups
+associated to a splitting of that group that is maximal for domination.
+\end{prop}
+
+\begin{proof} The algorithm iteratively constructs a sequence of
+$\Gamma$-marked graphs of groups $G_i$. Let $G_1$ consist of a single vertex
+with vertex group $\Gamma$. Then to obtain $G_{i+1}$ from $G_i$, use
+Proposition~\ref{prop:isthereasplitting} to check whether each vertex group
+splits non-trivially relative to its incident edge groups. If no vertex group
+does split then halt the algorithm here. If the group at a vertex $v$ does
+split then find the non-trivial graph of groups $G'$ with fundamental group
+$\Gamma_v$ using Lemma~\ref{lem:findingasplitting}. Then define $G_{i+1}$ by
+replacing the vertex $v$ of $G_i$ by the graph $G'$ and connecting edges
+corresponding to the edges of $G_i$ incident at $v$ to $G'$ in the obvious
+way.
+
+This process must eventually stabilise: this follows from an accessibility
+theorem~\cite{bestvinafeighn91} since the associated group actions on trees
+constructed are minimal and reduced by construction. Let the corresponding
+$\Gamma$-trees stabilise at a $\Gamma$-tree $T$. 
+
+Suppose that another $\Gamma$-tree $T'$ with virtually cyclic edge stabilisers
+dominates $T$. Let $v$ be a vertex of $T$. If $e$ is an incident edge then
+$\Gamma_e$ is elliptic with respect to the action on $T'$, since it contains
+the stabiliser of an edge of $T'$ as a subgroup of finite index.  Therefore
+each incident edge subgroup of $\Gamma_v$ is elliptic with respect to $T'$. The
+vertex stabiliser $\Gamma_v$ does not split over a virtually cyclic subgroup
+relative to its incident edge groups, so $\Gamma_v$ is elliptic with respect to
+$T'$. The vertex $v$ was arbitrary, so $T$ dominates $T'$, and so $T$ is maximal
+for domination.  \end{proof}
+

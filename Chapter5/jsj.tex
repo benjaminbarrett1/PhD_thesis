@@ -1,0 +1,239 @@
+\section{JSJ Decompositions}\label{sec:JSJcomputable}
+
+In this section we show that three closely related types of JSJ splittings are
+computable for hyperbolic groups. Fix a one-ended hyperbolic group $\Gamma$ and recall that 
+$\mathcal{VC}$ is defined to be the set of all virtually cyclic subgroups of $\Gamma$,
+$\mathcal{Z}$ is defined to be the set of all virtually cyclic subgroups of $\Gamma$
+with infinite centre and $\mathcal{Z}_\text{max}$ is defined to be the set of
+subgroups of $\Gamma$ in $\mathcal{Z}$ that are maximal for inclusion. We
+consider the JSJ splittings over groups in these three sets.
+
+\subsection{Two-ended edge groups}
+
+We now prove the first part of Theorem~\ref{thm:maintheorem}.
+
+\begin{thm}\label{thm:VC-JSJcomputable} There is an algorithm that takes as
+input a presentation for a one-ended hyperbolic group and returns as output the graph
+of groups associated to a $\mathcal{VC}$-JSJ decomposition for that group.
+This decomposition can be taken to be Bowditch's canonical
+decomposition.\end{thm}
+
+We first prove the following lemma.
+
+\begin{lem}\label{lem:JSJfrommaximal} The tree obtained from the tree
+associated to a maximal splitting by collapsing each edge whose stabiliser is
+not universally elliptic is a $\mathcal{VC}$-JSJ tree.\end{lem}
+
+\begin{proof} Let $T$ be the tree associated to a maximal splitting and let
+$T'$ be the tree obtained by collapsing each edge of $T$ that is not
+universally elliptic. Then certainly $T'$ is universally elliptic, so it is
+sufficient to show that if $\Sigma$ is another universally elliptic
+$\Gamma$-tree then $T'$ dominates $\Sigma$.
+
+The tree $\Sigma$ can be refined to dominate $T$, so there exists a map $f
+\colon T \to \Sigma$.  Let $v$ be a vertex of $T'$ and let $S$ be a
+component of its preimage in $T$.  Then $f\restricted{S}$ is constant: if
+an edge $e$ in $S$ is mapped into an edge $e'$ in $\Sigma$ then $\Gamma_e \leq
+\Gamma_{e'}$, which is universally elliptic.  But then the image of $S$ in
+$T'$ contains more than a single vertex.  Therefore $\Gamma_v$ fixes the
+vertex $f(S)$ in $\Sigma$, so is elliptic with respect to $\Sigma$. This shows that
+$T'$ dominates $\Sigma$.\end{proof}
+
+We must now identify the edges in the tree associated to the maximal splitting
+that are not maximally elliptic. We make the following definitions.
+
+\begin{defn}\label{defn:mobiusstripgroup} An \emph{extended M\"obius strip
+group} is a virtually cyclic group of $\mathcal{Z}$ type with peripheral
+structure consisting of a single index 2 subgroup.\end{defn}
+
+\begin{defn}\label{defn:surfaceboundaryedges} We say that an edge $e$
+connecting vertices $v_1$ and $v_2$ of a $\Gamma$-tree is a \emph{internal
+surface edge} if, for each $i$, either $\Gamma_{v_i}$ is a hanging Fuchsian
+group and $\Gamma_e$ is maximal among virtually cyclic subgroups of
+$\Gamma_{v_i}$, or $\Gamma_{v_i}$ is an extended M\"obius strip group and
+$\Gamma_e \leq \Gamma_{v_i}$ is the peripheral subgroup of $\Gamma_{v_i}$.
+\end{defn}
+
+\begin{lem}\label{lem:nonuniversallyellipticedges} If $T$ is reduced (that
+is, no proper collapse of $T$ dominates $T$) then the edges of
+$T$ that are not universally elliptic are precisely the internal surface
+edges.\end{lem}
+
+\begin{proof} Let $T'$ be the tree obtained by collapsing each edge of
+$T$ that is not universally elliptic as in
+Lemma~\ref{lem:JSJfrommaximal}, so $T'$ is a JSJ tree and there is a
+collapse map from $T$ to $T'$. The edges of $T$ that are not
+universally elliptic are precisely those edges that are mapped to flexible
+vertices of $T'$ under the collapse map; by~\cite[Theorem
+6.2]{guirardellevitt16} all flexible vertices of $T'$ are hanging
+Fuchsian vertices. 
+
+Any splitting of a hanging Fuchsian group is dual to a family of curves on the
+associated orbifold, so any edge in such a splitting is an internal surface
+edge, so all edges that are not universally elliptic are internal surface
+edges.
+
+Conversely, let $e$ be an internal surface edge. Let $T'$ be the tree
+obtained by collapsing each edge in the orbit of $e$; let $v$ be the vertex of
+$T'$ in the image of $e$. Then $T$ is obtained from $T'$ by
+refining at $v$. The tree $T$ was assumed to be reduced and $v$ is a
+hanging Fuchsian vertex so this refinement is dual to an essential simple
+closed curve $\ell$ on the associated orbifold $Q$. Then $Q$ contains another
+essential simple closed curve $\ell'$ that is not homotopic to a curve disjoint
+from $\ell$. Refine $T'$ at $v$ dual to $\ell'$ to obtain a tree
+$T''$; then $\Gamma_e$ is not elliptic with respect to $T''$.
+\end{proof}
+
+We now have sufficient tools to prove the computability of a $\mathcal{VC}$-JSJ
+for a given hyperbolic group $G$. In~\cite{bowditch98}, Bowditch defines a
+canonical JSJ in the class of all $\mathcal{VC}$-JSJs of a given hyperbolic
+group. In the language of~\cite{guirardellevitt16} this is the decomposition
+corresponding to the \emph{tree of cylinders} of any other $\mathcal{VC}$-JSJ.
+
+\begin{defn} Let $T$ be a $\mathcal{VC}$-tree. Define the \emph{commensurability}
+equivalence relation $\sim$ on $\mathcal{VC}$ by letting $A \sim B$ if
+and only if $A$ and $B$ lie in the same maximal virtually cyclic subgroup of
+$\Gamma$. Also denote by $\sim$ the equivalence relation on the set of
+edges of $T$ defined by letting $e \sim e'$ if and only if $\Gamma_e \sim
+\Gamma_{e'}$. A \emph{cylinder} is a subset $Y\subset T$ that is the union of
+all edges in a $\sim$-equivalence class.\end{defn}
+
+\begin{defn} Let $T$ be a $\mathcal{VC}$-tree. The corresponding \emph{tree of
+  cylinders} $T_c$ is a bipartite tree with vertex set $V_1 \disjointunion
+  V_2$, where $V_1$ is the set of vertices of $T$ that lie in at least two
+  cylinders and $V_2$ is the set of cylinders in $T$. A vertex $v \in V_1$ is
+connected by an edge to $Y \in V_2$ if and only if $v \in Y$.\end{defn}
+
+\begin{proof}[Proof of Theorem~\ref{thm:VC-JSJcomputable}] First compute a
+maximal splitting of the group over virtually cyclic subgroups by
+Theorem~\ref{prop:maximalsplittingcomputable}. Let $T$ be the associated
+tree. By construction $T$ is reduced; in any case, $T$ can easily be made
+reduced using the processes of Lemma~\ref{lem:twoendedsubgroups}. For each
+edge $e$ connecting vertices $v_1$ and $v_2$ of the graph of groups
+$T/\Gamma$ determine whether $\Gamma_e$ is maximal in $\Gamma$ using the
+algorithm of Lemma~\ref{lem:twoendedsubgroups} and whether the two vertex
+groups $\Gamma_{v_1}$ and $\Gamma_{v_2}$ have circular boundary relative to
+their incident edge groups by Theorem~\ref{thm:S1boundarycomputable}. Check
+also whether each of $\Gamma_{v_1}$ and $\Gamma_{v_2}$ is virtually cyclic of
+$\mathcal{Z}$-type, and, if it is, whether or not $\Gamma_e$ has index 2{} in
+that group. One of these possibilities is the case if and only if $e$ is not
+universally elliptic by Lemma~\ref{lem:nonuniversallyellipticedges}; collapse
+all edges where this is the case.
+
+Bowditch's canonical decomposition is the graph of cylinders of the
+decomposition obtained in this way. The operation of replacing a decomposition
+with the decomposition associated to its tree of cylinders can be done
+algorithmically using~\ref{lem:twoendedsubgroups}. This is result the content
+of~\cite[Lemma 2.34]{dahmaniguirardel11}; note that while the result is stated
+for a $\mathcal{Z}$-tree, replacing this with a $\mathcal{VC}$-tree makes no
+difference to the proof.\end{proof}
+
+\subsection{$\mathcal{Z}$ edge groups}
+
+We now prove the second part of Theorem~\ref{thm:maintheorem}.
+
+\begin{thm} There is an algorithm that takes as input a presentation for a
+one-ended hyperbolic group and returns the graph of groups associated to a
+$\mathcal{Z}$-JSJ decomposition for that group.\end{thm}
+
+In~\cite{dahmaniguirardel11} it is shown that the $\mathcal{Z}$-JSJ
+decomposition is closely related to the $\mathcal{VC}$-JSJ: a $\mathcal{Z}$-JSJ
+tree can be obtained from a $\mathcal{VC}$-JSJ tree $T$ by first refining $T$
+by applying the so-called mirrors splitting to each hanging Fuchsian vertex group and
+then collapsing each edge with stabiliser of dihedral type. 
+The second of these processes can be done algorithmically using the part of the
+algorithm of Lemma~\ref{lem:twoendedsubgroups} that determines whether or not a
+given virtually cyclic group is of dihedral type.  Therefore we must now show
+that the mirrors splitting is computable.
+
+Recall the definition of the mirrors splitting of the fundamental group of a
+compact 2-dimensional orbifold $Q$ from~\cite{dahmaniguirardel11}. 
+
+\begin{defn} Let $N$ be
+a regular neighbourhood of the union of the mirrors and $D_\infty$-boundary
+components of $Q$ that does not contain any cone point of $Q$. If $Q - N$ is an
+annulus or a disc with at most one cone point then the \emph{mirrors splitting} of
+$\pi_1Q$ is defined to be trivial; otherwise it is the splitting obtained by
+cutting $Q$ along each component of $\boundary N$. \end{defn}
+
+If the mirrors splitting is non-trivial then the graph of groups associated to the splitting is a star; the group at the central
+vertex is the fundamental group of an orbifold with no mirrors and the group at
+each leaf is the fundamental group of an orbifold with no cone points and
+underlying surface an annulus, one of whose topological boundary components is
+a circular orbifold boundary component and the other a union of interval
+boundary components and at least one mirror. If $\Gamma$ is any hyperbolic
+group with a collection $\mathcal{H}$ of virtually cyclic subgroups such that
+$\boundary(\Gamma, \widehat{\mathcal{H}})$ is homeomorphic to a circle then the mirrors
+splitting of $\Gamma$ relative to $\mathcal{H}$ is defined to be the splitting
+induced by the mirrors splitting of the quotient $\Gamma$ by a maximal finite
+normal subgroup of $\Gamma$ as in Proposition~\ref{lem:grouptoorbifold}.
+
+\begin{lem} The mirrors splitting of a hyperbolic group $\Gamma$ with a set
+$\mathcal{H}$ of virtually cyclic subgroups such that $\boundary(\Gamma,
+\widehat{\mathcal{H}})$ is homeomorphic to a circle is computable.\end{lem}
+
+\begin{proof} Using Proposition~\ref{lem:grouptoorbifold} it is enough to show
+  that the mirrors splitting is computable in the case where $\Gamma$ is
+  bounded Fuchsian and $\mathcal{H}$ is the a collection of representatives of
+  peripheral subgroups of $\Gamma$. To do this we enumerate all mirrors
+  splittings: for each non-negative integer $k$ enumerate all fundamental
+  groups of compact orbifolds without mirrors and with at least $k$ boundary
+  components and all $k$-tuples of fundamental groups of orbifolds homeomorphic
+  to an annulus with no cone points and such that one topological boundary
+  component of the orbifold is a circular orbifold boundary component. In each
+  case form the graph of groups in which the underlying graph is a $k$-pointed
+  star, the group at the central vertex is the fundamental group of the
+  orbifold without mirrors, the group at each leaf is the fundamental group of
+  an orbifold homeomorphic to an annulus and the group at each edge is infinite
+  cyclic and is identified with the fundamental group of a circular orbifold
+  boundary component of each of the orbifolds associated to the end points of
+  that edge. Compute the fundamental group of each such graph of groups and
+  record also the peripheral structure consisting of conjugacy class
+  representatives of the fundamental groups of components of the orbifold
+  boundary of the orbifold.
+
+  Also enumerate all groups with trivial mirrors splitting, i.e.\ fundamental
+  groups of orbifolds homeomorphic as topological spaces to a disc with at most
+  one cone point, or homeomorphic to an annulus with no cone points and such
+  that one topological boundary component is a circular orbifold boundary
+  component.
+
+  In parallel enumerate all homomorphisms from the fundamental groups of these
+  graphs of groups to $\Gamma$ and all homomorphisms from $\Gamma$ to the
+  fundamental groups of these graphs of groups. Some such pair of homomorphisms
+  is an inverse pair that preserves the peripheral structure up to conjugacy.
+  On finding this pair the algorithm returns the associated mirrors splitting.
+\end{proof}
+
+\subsection{$\mathcal{Z}_\text{max}$ edge groups}
+
+In~\cite{dahmaniguirardel11} it is shown that the $\mathcal{Z}_\text{max}$-JSJ
+decomposition can be obtained from a $\mathcal{Z}$-JSJ decomposition by
+performing the so-called $\mathcal{Z}_\text{max}$-fold. We note that this can
+be done algorithmically, which completes the proof of the final part of
+Theorem~\ref{thm:maintheorem}, which we restate here as Theorem~\ref{thm:ZmaxJSJ}.
+
+\begin{thm}\label{thm:ZmaxJSJ} There is an algorithm that takes as input a presentation for a
+one-ended hyperbolic group and outputs the graph of groups associated to a
+$\mathcal{Z}_\text{max}$-JSJ decomposition for that group.\end{thm}
+
+\begin{lem} There is an algorithm that takes as input a graph of groups
+decomposition of a hyperbolic group $\Gamma$ over virtually cyclic subgroups
+and returns the graph of groups associated to the
+$\mathcal{Z}_\text{max}$-fold of the associated $\Gamma$-tree.\end{lem}
+
+\begin{proof} This can be done by iterating some simple folds described
+in~\cite{dahmaniguirardel11}. We describe this fold at the level of the tree
+$T$. Take some edge $e$ in $T$ such that the maximal subgroup $\hat\Gamma_e$
+of $\Gamma$ containing $\Gamma_e$ is a subgroup of $\Gamma_{o(e)}$ where $o(e)$ is
+the origin of $e$. Then take the quotient of $T$ by the $\Gamma$-equivariant
+equivalence relation generated by $e \sim \hat\Gamma_e \cdot e$. Note that this
+does not change the underlying graph of the associated graph of groups.
+
+At the level of the graph of groups this fold is achieved by taking an edge $e$
+in the graph such that $\hat \Gamma_e$ is a subgroup of $\Gamma_{o(e)}$,
+replacing the group at the edge $e$ by $\hat\Gamma_e$ and replacing the group
+at the terminal vertex $t(e)$ of $e$ by $\langle\hat\Gamma_e,
+\Gamma_{t(e)}\rangle$. Repeat this process until there is no edge $e$ such that
+$\Gamma_e \neq \hat\Gamma_e$. \end{proof}
+

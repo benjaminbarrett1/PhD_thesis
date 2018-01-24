@@ -1,0 +1,580 @@
+\section{The cusped space and cut pairs} \label{sec:cuspedspace}
+
+\subsection{The cusped space and the boundary} 
+
+In this section we recall some technical results about the geometry of
+relatively hyperbolic groups.  Fix a group $\Gamma$ with a finite generating
+set $S$ and a finite collection $\mathcal{H}$ of subgroups of $\Gamma$ such
+that $H \intersection S$ is a generating set for $H$ for each $H$ in
+$\mathcal{H}$. For now we may allow the groups in $\mathcal{H}$ to be
+arbitrary, although in our application they will be virtually cyclic.
+
+In~\cite{grovesmanning08} the cusped space $X$ associated to the triple
+$(\Gamma, S, \mathcal{H})$ is defined; we recall the definition here.
+See~\cite{grovesmanning08} for more details and properties of the cusped space.
+We use only the 1-skeleton of the cusped space so we omit the 2-cells from the
+definition.
+
+\begin{defn}\label{defn:combhoroball} For $C$ a 1-complex define the
+\emph{combinatorial horoball} $\widehat{C}$ based on $C$ to be the 1-complex with
+vertex set $C^{(0)} \times \{0 \union \naturals\}$ and three types of edges:
+\begin{enumerate}
+  \item One \emph{horizontal edge} from $(v, 0)$ to $(w, 0)$ for each edge from
+    $v$ to $w$ in $C$. (Note that we allow vertices to be connected by multiple edges.)
+  \item For $k \geq 1$ a \emph{horizontal edge} from $(v, k)$ to $(w, k)$
+    whenever $0 < d(v, w) \leq 2^k$.
+  \item A \emph{vertical edge} from $(v, k)$ to $(v, k+1)$ for each $v \in
+    C^{(0)}$ and each $k \in \integers_{\geq 0}$.
+\end{enumerate}
+We define a height function  $h \colon \widehat{C} \to \reals_{\geq 0}$ sending a
+vertex $(v, k)$ to $k$ and interpolating linearly along edges. \end{defn}
+
+\begin{defn}\label{defn:cuspedspace} If $\Gamma$, $S$ and $\mathcal{H}$ are as
+above then the \emph{cusped space} $X$ associated to this triple is defined
+as follows. For $H$ in $\mathcal{H}$ let $T_H$ be a left transversal of $H$
+in $\Gamma$. For $H$ in $\mathcal{H}$ and $t$ in $T_H$ let $C_{H, t}$ be the
+full subgraph of $\Cay(\Gamma, S)$ containing $tH$; note that this is
+isomorphic to $\Cay(H, H \intersection S)$. Then let $X$ be the union
+\begin{align*}
+  \Cay(\Gamma, S) \union \bigunion_{H\in\mathcal{H}, t \in T_H} \widehat{C_{H, t}}
+\end{align*}
+where we identify $C_{H, t} \subset \Cay(\Gamma, S)$ with the part of
+$\widehat{C_{H, t}}$ with height 0. Then the height function defined on each
+horoball extends to a height function $h \colon X \to \reals_{\geq 0}$. 
+
+For $k \geq 0$ the \emph{$k$-thick part} $X_k$ of $X$ is defined to be $h^{-1}[0, k]$.
+We say that a path $\gamma$ in $X$ is \emph{vertical} if $h \composed \gamma$
+is strictly monotonic and \emph{horizontal} if $h \composed \gamma$ is
+constant. \end{defn} 
+
+\begin{defn} A (quasi-)isometric embedding $\alpha$ from a subinterval of
+$\reals$ to $X$ is called a \emph{(quasi)-geodesic}. If that interval is
+closed and bounded then $\alpha$ is a \emph{segment}. If the interval is $[0,
+\infty)$ then $\alpha$ is a \emph{ray}. If the interval is all of $\reals$
+then $\alpha$ is \emph{bi-infinite}.
+
+$X$ is called a \emph{geodesic space} if for any $x$ and $y$ in $X$ there
+exists a geodesic segment $\alpha \colon [a, b]$ with $\alpha(a) = x$ and
+$\alpha(b) = y$.\end{defn}
+
+\begin{defn}\label{defn:hyperbolic} A geodesic metric space $X$ is
+\emph{$\delta$-hyperbolic} if every edge of any geodesic triangle in $X$ is
+contained in a $\delta$-neighbourhood of the union of the other two edges.
+\end{defn}
+
+\begin{defn}\label{defn:relativelyhyperbolic} $\Gamma$ is \emph{hyperbolic
+relative to $\mathcal{H}$} if the cusped space associated to $(\Gamma, S,
+\mathcal{H})$ is hyperbolic for some (equivalently for any) generating set
+$S$ in which $S \intersection H$ is a generating set for $H$ for each $H \in
+\mathcal{H}$. \end{defn}
+
+This definition of relative hyperbolicity is shown to be equivalent to several
+other standard definitions in~\cite{grovesmanning08}.
+
+We recall a lemma from~\cite{bowditch12} that characterises hyperbolicity of
+the pair $(\Gamma, \mathcal{H})$ when $\Gamma$ is itself a hyperbolic group.
+Recall that a collection $\mathcal{H}$ of subgroups of $\Gamma$ is \emph{almost
+malnormal} if, for $H_1$ and $H_2$ in $\mathcal{H}$ and $g$ in $\Gamma$, $H_1
+\intersection gH_2g^{-1}$ is finite unless $H_1 = H_2$ and $g \in H_1$.
+
+\begin{lem}\label{lem:qcalmostmalnormal}\cite[Theorem 7.11]{bowditch12} Let
+  $\Gamma$ be a non-elementary hyperbolic group and let $\mathcal{H}$ be a
+  finite set of subgroups of $\Gamma$. Then $\Gamma$ is hyperbolic relative to
+  $\mathcal{H}$ if and only if $\mathcal{H}$ is almost malnormal in $\Gamma$
+and each element of $\mathcal{H}$ is quasi-convex in $\Gamma$.\end{lem}
+
+In the cases of interest to us all groups in $\mathcal{H}$ are virtually
+cyclic. A virtually cyclic subgroup of a hyperbolic group is always
+quasi-convex, and is almost malnormal if and only if it is maximal among
+virtually cyclic subgroups of $\Gamma$. Putting this together with
+Lemma~\ref{lem:qcalmostmalnormal} we obtain the following:
+
+\begin{lem}\label{lem:vcycperipheral} If $\Gamma$ is hyperbolic and each group
+in $\mathcal{H}$ is maximal virtually cyclic then $\Gamma$ is hyperbolic
+relative to $\mathcal{H}$.\end{lem}
+
+Fix $X$ as in Definition~\ref{defn:cuspedspace} and assume that it is $\delta$-hyperbolic.
+We shall require the following two lemmas describing the geometry of $X$. The
+first is~\cite[Lemma 2.11]{dahmanigroves08a} and the second is the Morse lemma
+for a hyperbolic metric space.
+
+\begin{lem}\label{lem:closeray} Let $C = 3\delta$. For any $v$ in $X_0$ and $x$
+in $X$ there is a geodesic ray starting at $v$ that passes within a distance
+$C$ of $x$.\end{lem}
+
+\begin{lem}\label{lem:uniformlyclose} There exists a (computable) function
+$D(\lambda, \epsilon, \delta)$ such that whenever $\gamma$ is a geodesic and
+$\gamma'$ is a $(\lambda, \epsilon)$-quasi-geodesic with the same end points in
+$X \union \boundary X$ the Hausdorff distance from $\gamma$ to $\gamma'$ is at
+most $D$. \end{lem}
+
+Fixing $\delta$ so that $X$ is $\delta$-hyperbolic we fix the constant $C =
+3\delta$ and function $D = D(\lambda, \epsilon, \delta)$ as in Lemmas
+\ref{lem:closeray} and~\ref{lem:uniformlyclose} for the remainder of this and
+the following section.
+
+We shall need an algorithm to compute the constant $\delta$ with respect to
+which the cusped space is $\delta$-hyperbolic. This is dealt with by the
+following results.
+
+\begin{prop}\cite[Prop.\ 2.3]{dahmani08}
+\label{thm:linearisoperimetricinequality} There is an algorithm that takes as
+input a presentation for a group $\Gamma$, the generators in $\Gamma$ for a
+finite set of subgroups of $\Gamma$ with respect to which $\Gamma$ relatively
+hyperbolic, and a solution to the word problem in $\Gamma$ and returns the
+constant of a linear relative isoperimetric inequality satisfied by the given
+presentation of $\Gamma$.\end{prop}
+
+In the case of interest here, $\Gamma$ is hyperbolic. Hyperbolic groups have
+uniformly solvable word problem, so the requirement that the algorithm be given
+a solution to the word problem in $\Gamma$ is no restriction to its
+applicability.
+
+The linear relative isoperimetric inequality satisfied by the group is closely
+related to a linear combinatorial isoperimetric inequality satisfied by the
+coned-off Cayley complex. The definition of this space 
+is~\cite[Definition 2.47]{grovesmanning08}.
+
+In~\cite{grovesmanning08} the cusped 2-complex is defined; this is a simply
+connected 2-complex, the 1-skeleton of which is the cusped 1-complex defined
+in Definition~\ref{defn:cuspedspace}. The length of the attaching map of each
+2-cell in this complex is bounded above by the maximum of $5$ and the length of
+the longest relator in the given presentation for $\Gamma$.
+
+\begin{thm}\cite[Theorem 3.24]{grovesmanning08}\label{thm:cuspedtwocomplex}
+Suppose that the coned-off Cayley complex of $\Gamma$ with respect to $S$ and
+$\mathcal{H}$ satisfies a linear combinatorial isoperimetric inequality with
+constant $K$. Then the cusped two-complex $X$ associated to the triple
+satisfies a linear combinatorial isoperimetric inequality with constant $3K(2K
++ 1)$.\end{thm}
+
+The computation of $\delta$ from a presentation for $\Gamma$ and a set of
+generators for each group $H$ in $\mathcal{H}$ is therefore completed by the
+following proposition:
+
+\begin{prop}\cite[Prop.\ 2.23]{grovesmanning08}\label{prop:linearimplieshyperbolic}
+Suppose that a 2-complex $X$ is simply connected, that each attaching map has
+length at most $M$ and that $X$ satisfies a linear combinatorial
+isoperimetric inequality. Then the 1-skeleton $X^{(1)}$ of $X$ is
+$\delta$-hyperbolic for some $\delta$ and this $\delta$ is computable from
+$M$ and the constant of the isoperimetric inequality. \end{prop}
+
+\subsection{The Bowditch boundary}
+
+\begin{defn}\label{defn:gromovboundary} Let $X$ be a hyperbolic geodesic metric
+space. The \emph{Gromov boundary $\boundary X$} of $X$ is defined to be the
+quotient of the set of geodesic rays starting at some chosen base point in
+which two rays are identified if they are a finite Hausdorff distance apart.
+It is endowed the quotient of the compact-open topology.\end{defn}
+
+This definition is quasi-isometry invariant and independent of the chosen base
+point up to homeomorphism. 
+
+\begin{defn}\label{defn:bowditchboundary} Let $\Gamma$ be a group that is hyperbolic
+relative to a collection $\mathcal{H}$ of subgroups. The \emph{Bowditch
+boundary} $\boundary(\Gamma, \mathcal{H})$ is defined be to the Gromov boundary
+of the cusped space associated to $\Gamma$ and $\mathcal{H}$ with some
+generating set.\end{defn}
+
+This definition of the Bowditch boundary is shown to be equivalent to other
+definitions in~\cite{bowditch12}. If each group in $\mathcal{H}$ is maximal
+virtually cyclic then we have the following description of the Bowditch
+boundary from~\cite{manning15}:
+
+\begin{lem}\label{lem:bowditchfromgromov} If $\Gamma$ is hyperbolic and each
+group in $\mathcal{H}$ is maximal virtually cyclic then $\boundary(\Gamma,
+\mathcal{H})$ is the quotient of $\boundary(\Gamma, \emptyset)$ by the
+equivalence relation in which $x \sim y$ if and only if either $x = y$ or
+$\{x, y\} = g\cdot\Lambda H$ for some $g$ in $\Gamma$ and $H$ in $\mathcal{H}$.
+The topology on $\boundary (\Gamma, \mathcal{H})$ is the quotient of the
+topology on $\boundary(\Gamma, \emptyset)$.
+\end{lem}
+
+The boundary of a hyperbolic metric space has a natural quasi-conformal class
+of metrics.  Recall the definition of the Gromov product of a pair of points
+$p$ and $q$ in $X$ with respect to a base point $v$ in $X$:
+\begin{align*}
+\gromprod[v]{p}{q} = \frac{1}{2}(d(v, p) + d(v, q) - d(p, q)).
+\end{align*}
+This definition is extended to allow $p$ and $q$ to be in $X \union \boundary X$ by
+\begin{align*}
+\gromprod[v]{p}{q} = \sup\liminf_{i, j \to \infty}\gromprod[v]{p_i}{q_j}.
+\end{align*}
+Here the supremum is taken over pairs of sequences $(p_i)$ and $(q_j)$ in $X$
+converging to $p$ and $q$ respectively.
+
+By~\cite[III.H.3.21]{bridsonhaefliger99} $\boundary X$ admits a visual metric
+at any base point $v$; that is, a metric $d_v$ on $\boundary X$ satisfying
+\begin{align*}
+k_1 a^{-\gromprod[v]{p}{q}} \leq d_v(p, q) \leq k_2 a^{-\gromprod[v]{p}{q}}.
+\end{align*}
+Here $a$, $k_1$ and $k_2$ can be taken to be $2^{1/4\delta}$, $3-2\sqrt{2}$ and
+$1$ respectively.
+
+\subsection{The double-dagger condition}
+
+If the boundary of $X$ does not contain a cut point then its local
+connectivity is controlled by the so-called double-dagger condition. This was
+defined first in the absolute case in~\cite{bestvinamess91} and later in the
+relative case in~\cite{dahmanigroves08a}. We now record the definition of the
+condition and some important properties. Fix a base point $v$ in $X_0$.
+
+Let $M = 6(C + 45\delta) + 2\delta + 3$. For $\epsilon \geq 0$ we say that a
+pair of points $x$ and $y$ in $X$ satisfy $\star_\epsilon$ if $\vert d(v, x) -
+d(v, y)\vert \leq \epsilon$ and $d(x, y) \leq M$. 
+
+For $n \geq 0$ we say that a pair of points $x$ and $y$ satisfying
+$\star_\epsilon$ satisfy $\ddag(\epsilon, n)(x, y)$ if there exists a path of
+length at most $n$ from $x$ to $y$ that avoids the ball of radius $m - C -
+45\delta + 3\epsilon$ centred at $v$, where $m = \min\{d(v, x), d(v, y)\}$.
+After this section we will not need to allow $\epsilon$ to be non-zero; we
+will say that $X$ satisfies $\ddag_n$ if $\ddag(0, n)(x, y)$ holds for all $x$
+and $y$ in $X$ satisfying $\star_0$. However, the full definition is required
+in the proof of Proposition~\ref{prop:Xsatisfiesddag}.
+
+We require the following proposition, which is essentially Proposition 5.1
+of~\cite{dahmanigroves08a}.
+
+\begin{prop}\label{prop:Xsatisfiesddag} Suppose that $\boundary(\Gamma,
+\mathcal{H})$ is connected and without a cut point. Then there exists $n$
+such that $X$ satisfies $\ddag_n$. Furthermore, there is an algorithm that
+computes such an $n$ if $\boundary(\Gamma, \mathcal{H})$ is connected and
+without a cut point and that does not terminate if it is not connected.
+\end{prop}
+
+For clarity we recall the proof of this proposition
+from~\cite{dahmanigroves08a} here.
+
+\begin{proof} We begin by recalling some constants
+from~\cite{dahmanigroves08a}. In this paper these constants will only appear
+in this proof. Let $k = 2M$, let $K = 3(2^{2M+3}) + M + 3$ and for any $n$
+let $R(n) = 4(n + M) + 3k + 50\delta + 3$. For each $n \geq K$ in turn, check
+whether $\ddag(10\delta, n)(x, y)$ holds for all pairs of vertices $(x, y)$
+in $\Ball_{R(n)}(v) \intersection X_k$ satisfying $\star_{10\delta}$. 
+
+If $\boundary(\Gamma, \mathcal{H})$ is connected and does not contain a cut
+point then such an $n$ exists by~\cite[Lemma 4.2]{dahmanigroves08a}. It is
+commented that $\ddag(10\delta, n)(x, y)$ holds for all pairs of vertices $(x,
+y)$ in $\Ball_{R(n)}(v)$ satisfying $\star_{10\delta}$ with $x \notin X_k$ in the
+first paragraph of the proof of~\cite[Lemma 2.16]{dahmanigroves08a}.
+Then~\cite[Corollary 4.6]{dahmanigroves08a} says that $X$ satisfies $\ddag_n$; note
+that this corollary applies because the conclusion 
+of~\cite[Lemma 2.16]{dahmanigroves08a} holds in the case of virtually cyclic
+peripheral subgroups.
+
+If $\boundary(\Gamma, \mathcal{H})$ is disconnected then there is no $n$ such
+that the condition $\ddag_n$ holds by~\cite[Lemma~4.1]{dahmanigroves08a}.  \end{proof}
+
+\subsection{Cut points and pairs}\label{sec:annulus} 
+
+We now investigate cut points and pairs in $\boundary X$ under the assumption
+that $X$ satisfies $\ddag_n$; we assume that this condition holds for the
+remainder of this section. We relate the existence of such a point or pair to
+the connectedness of thickened cylinders around quasi-geodesics in $X$.
+
+Let $\gamma$ be a bi-infinite $(\lambda, \epsilon)$-quasi-geodesic in $X$ or a
+$(\lambda, \epsilon)$-quasi-geodesic ray passing through $X_0$ in $X$.
+Fix a point $v$ in $\gamma \intersection X_0$. Since $\gamma$ is a
+quasi-geodesic, its limit set, which we shall denote $\Lambda\gamma$, is either
+a pair of points $\gamma(\pm\infty)$ or a single point $\gamma(\infty)$
+depending on whether $\gamma$ is bi-infinite or a ray.
+
+Recall the definitions $C = 3\delta$ and $D = D(\lambda, \epsilon, \delta)$ as
+in Lemma~\ref{lem:uniformlyclose}. 
+
+We define a subset of $X$, the connectivity of which will be seen to
+reflect the connectivity of $\boundary X - \Lambda \gamma$.  For $R \geq 0$ let
+$N_R(\gamma)$ be the closed $R$-neighbourhood of $\gamma$ and for $0 \leq r
+\leq R \leq \infty$ let $N_{r, R}(\gamma)$ be $\{x \in X \colon r \leq d(x,
+\gamma) \leq R\}$. For $K \geq 0$ let $C_K(\gamma)$ be $\{x \in X \colon d(x,
+\gamma) = K\}$. Finally, for $0 \leq r \leq K \leq R \leq \infty$ let $A_{r, R,
+K}(\gamma)$ be the union of those connected components of $N_{r, R}(\gamma)$
+that meet $C_K(\gamma)$. Note that $A_{r, R, K}(\gamma)$ contains $N_{K,
+R}(\gamma)$.
+
+For a component $U$ of $A_{r, \infty, K}(\gamma)$ define its \emph{shadow}
+$\shadow U$ to be the set of points $p$ in $\boundary X$ such that for any
+geodesic ray $\alpha$ from $v$ to $p$, $\alpha(t)$ is in $U$ for $t$ sufficiently
+large. 
+
+\begin{lem}\label{lem:disjointcoverbyshadows} Let $r > D$. Then
+$\bigunion_U\shadow U = \boundary X - \Lambda\gamma$, where the union is
+taken over the set of connected components of $A_{r, \infty, K}(\gamma)$.
+Furthermore, $\shadow U \intersection \shadow V = \emptyset$ for distinct
+components $U$ and $V$.
+\end{lem}
+
+\begin{proof} The statement that shadows are disjoint is clear from the
+  definition. The assumption that $r > D$ ensures that when $U$ is a subset of
+  $A_{r, \infty, K}(\gamma)$, $\shadow U$ does not contain a point in
+  $\Lambda\gamma$ by Lemma~\ref{lem:uniformlyclose}. 
+
+  If $p$ is any point in $\boundary X - \Lambda\gamma$ then any geodesic ray
+  $\alpha$ from $v$ to $p$ diverges arbitrarily far from $\gamma$, so
+  $d(\alpha(t), \gamma) \geq r + D$ for $t$ at least some number $t_0$. Let $U$
+  be the component of $A_{r, \infty, K}(\gamma)$ that contains $\alpha(t)$ for
+  $t \geq t_0$.
+  If $\alpha'$ is another geodesic ray from $v$ to $p$ then for any $t$ there
+  exists $t'$ such that $d(\alpha'(t), \alpha(t')) \leq D$ and then $\mod{t -
+  t'}$ is guaranteed to be at most $D$. If $t \geq t_0 + D$ then $t' \geq t_0$,
+  so $\alpha'(t)$ is in the same component of $A_{r, \infty, K}(\gamma)$ as
+  $\alpha(t')$, which is in $U$. Therefore $\alpha'(t) \in U$ for $t \geq t_0 +
+  D$. It follows that $p \in \shadow U$.\end{proof}
+
+\begin{lem}\label{lem:nonemptyshadows} Let $U$ be a component of $A_{r, \infty,
+K}(\gamma)$. Then $\shadow U$ is non-empty as long as $K \geq r + D + \delta +
+C$ and $r > D$.  \end{lem}
+
+\begin{proof} Let $x \in C_K(\gamma) \intersection U$. Then by
+Lemma~\ref{lem:closeray} there exists a geodesic ray $\alpha$ from $v$ and $t
+\geq 0$ such that $d(\alpha(t), x) \leq C$. Any geodesic segment in $X$ from
+$x$ to $\alpha(t)$ is contained in $U$, so $\alpha(t) \in U$. Also
+$d(\alpha(t), \gamma) \geq r + D + \delta$; it follows from
+Lemma~\ref{lem:uniformlyclose}, hyperbolicity of $X$ and the assumption that
+$r > D$ that $d(\alpha(t'), \gamma) \geq r$ for $t' \geq t$, and therefore
+that $\alpha(t') \in U$ for $t' \geq t$. As in the proof of
+Lemma~\ref{lem:disjointcoverbyshadows} it follows from this and the fact that
+$r > D$ that $\alpha(\infty) \in \shadow U$.\end{proof}
+
+\begin{lem}\label{lem:shadowsclopen} If $U$ is a component of $A_{r, \infty,
+K}(\gamma)$, $\shadow U$ is closed and open in $\boundary X - \Lambda\gamma$ as
+long as $r > D$. \end{lem}
+
+\begin{proof} Let $p$ be a point in $\shadow U$ and let $p = \alpha(\infty)$
+where $\alpha$ is a geodesic ray from $v$. For $t \geq 0$ let
+$V_{t}(\alpha)$ be the set of end points of geodesic rays $\beta$ from $v$ such that
+$d(\beta(t), \alpha(t)) < 2\delta + 1$. The collection of such sets as $t$
+varies forms a fundamental system of neighbourhoods of $p \in \boundary X$. 
+
+Then there exists $t_0$ such that for $t \geq t_0$, $d(\alpha(t), \gamma) \geq
+r + 2D + 7\delta + 1$.  We claim that $V_{t_0}(\alpha) \subset \shadow U$
+for $t_0$ as defined in the previous paragraph. To see this, let $q \in
+V_{t_0}(\alpha)$ and let $\beta$ be a geodesic ray from $v$ to $q$, so
+$d(\beta(t_0), \alpha(t_0)) < 2\delta+1$.  Let $\beta'$ be another geodesic ray
+from $v$ with $\beta'(\infty) = q$, so $d(\beta'(t_0), \beta(t_0)) < 4\delta$.
+Suppose that there exists $t \geq t_0$ such that $\beta'(t) \notin U$. Then
+there exists $t' \geq t_0$ such that $d(\beta'(t'), \gamma) \leq r$; without
+loss of generality assume that $d(\beta'(t'), \gamma\restricted{[0, \infty)})
+\leq r$. Let $\gamma'$ be a geodesic ray from $v$ to $\gamma(\infty)$, so the
+Hausdorff between $\gamma\restricted{[0, \infty)}$ and $\gamma'$ is at most
+$D$. Then $d(\beta'(t'), \gamma') \leq r + D$ and $d(\beta'(t_0), \gamma')
+\leq r + D + \delta$. Putting these inequalities together, $d(\alpha(t_0),
+\gamma) \leq r + 2D + 7\delta + 1$, which is a contradiction. Hence
+$\beta(t) \in U$ for $t \geq t_0$, and so $q \in \shadow U$.
+
+Since $p$ was arbitrary in $\shadow U$, it follows that $\shadow U$ is open. As
+$U$ ranges over the connected components of $A_{r, \infty, K}(\gamma)$,
+$\shadow U$ ranges over a cover of $\boundary X - \Lambda\gamma$ by disjoint
+open subsets (since $r > D$), so each is also closed.\end{proof}
+
+The proof of the following lemma is based on the proof 
+of~\cite[Proposition 3.2]{bestvinamess91}.
+
+\begin{lem}\label{lem:shadowsconnected} If $U$ is a connected component of 
+$A_{r, \infty, K}(\gamma)$ then $\shadow U$ is contained in one connected
+component of $\boundary X - \Lambda \gamma$ as long as $r$ satisfies the
+following inequality.
+\begin{align*}
+  r > 2\log_a\left(\frac{k_2}{k_1}\frac{n-1}{1-a^{-1}}\right) + M + 12\delta + D.
+\end{align*}
+\end{lem}
+
+\begin{proof} Let $p$ and $q$ be points in $\shadow U$ and let $\alpha_1$ and
+$\alpha_2$ be geodesic rays from $v$ to $p$ and $q$ respectively. Then there
+exist $t_1$ and $t_2$ such that $\alpha_1(t_1)$ and $\alpha_2(t_2)$ are in
+$U$. Let $\phi\colon [0,\ell] \to X$ be a path in $U$ parametrised by arc
+length connecting the two points $\alpha_1(t_1)$ and $\alpha_2(t_2)$.
+
+For each integer $i$ in $[0,\ell]$ let $z_i$ be a point within a distance $C$
+of $\phi(i)$ so that there is a geodesic ray $\beta_i$ from $v$ with
+$\beta_i(m_i) = z_i$; we can assume that $\beta_0 = \alpha_1$ and $\beta_\ell =
+\alpha_2$.  Then, following the argument of~\cite[Prop.\ 3.2]{bestvinamess91},
+we show that $r_i(\infty)$ and $r_{i+1}(\infty)$ can be connected in $\boundary
+X - \Lambda\gamma$ for each $i$; for notational convenience we prove it for
+$i=0$.
+
+Using the condition $\ddag_n$, define geodesic rays $\beta_t$ for each
+$n$-adic rational $t$ in $[0, 1]$ inductively on the power $k$ of the
+denominator of $t$ to satisfy:
+\begin{align*} 
+  d\left(\beta_{j/n^k}(m_i + k), \beta_{j+1/n^k}(m_i + k)\right) \leq M 
+  \text{ for each $j$ with $0 \leq j \leq n^k-1$}.
+\end{align*}
+Note that the first step of the induction holds since $M$ is at least $2C+1$.
+The triangle inequality gives the following lower bound on the Gromov product
+of these points.
+\begin{align*}
+  \gromprod[v]{\beta_{j/n^k}(\infty)}{\beta_{j+1/n^k}(\infty)} & \geq
+\liminf_{n_1,n_2}\gromprod[v]{\beta_{j/n^k}(n_1)}{\beta_{j+1/n^k}(n_2)}\\
+& \geq \gromprod[v]{\beta_{j/n^k}(m_0 + k)}{\beta_{j+1/n^k}(m_0 + k)}\\
+& = m_0 + k - M/2
+\end{align*}
+Let $d_v$ be a visual metric on $\boundary X$ with base point $v$, visual
+parameter $a$ and multiplicative constants $k_1$ and $k_2$. We obtain:
+\begin{align*}
+  d_v\left(\beta_{j/n^k}(\infty), \beta_{j+1/n^k}(\infty)\right) \leq k_2a^{-m_0 - k + M/2}.\tag{*}
+\end{align*}
+
+Inductively applying the triangle inequality we arrive at the following inequality
+\begin{align*}
+  d_v\left(\beta_0(\infty), \beta_t(\infty)\right) \leq \frac{k_2(n-1)a^{-m_0 +
+  M/2}}{1-a^{-1}}\quad\text{for each $n$-adic rational $t \in [0, 1]$.}
+\end{align*}
+Define a path $\psi \colon [0,1] \to \boundary X$ with $\psi(t) =
+\beta_t(\infty)$ for each $n$-adic rational $t$ in $[0, 1]$; this extends
+continuously to a path from $\beta_0(\infty)$ to $\beta_1(\infty)$ by the
+uniform continuity of the map $t \to \beta_t(\gamma)$ defined on the $n$-adic
+rationals, which is established by equation~$(*)$. This path is
+contained in the ball of radius $k_2(n-1)a^{-m_0 + M/2}/(1-a^{-1})$ around
+$\beta_0(\infty)$.
+
+We now bound below the distance $d_v(\beta_0(\infty), \Lambda\gamma)$. Let
+$\gamma'$ be a geodesic ray from $v$ to $\gamma(\infty)$, so the Hausdorff
+distance between $\gamma$ and $\gamma'$ is at most $D$.
+By~\cite[III.H.3.17]{bridsonhaefliger99},
+\begin{align*}
+  \gromprod[v]{\beta_0(\infty)}{\gamma'(\infty)} \leq
+  \liminf_{n_1,n_2}\gromprod[v]{\beta_0(n_1)}{\gamma'(n_2)} + 2\delta.
+\end{align*}
+Let $n_1$ and $n_2$ each be at least $m_0$. Certainly $d(\beta_0(m_0), \gamma') >
+\delta$ since $r > \delta + D$, so there exists a point $p$ on $[\beta_0(n_1),
+\gamma'(n_2)]$ within a distance $\delta$ of $\beta_0(m_0)$. In fact, $d(\beta_0(m_0),
+\gamma) > 2\delta + D$, so $d(\beta_0, \gamma'(m_0)) > 2\delta$. Therefore there
+exists a point $q$ on $[\beta_0(n_1), \gamma'(n_2)]$ within a distance $\delta$ of
+$\gamma'(m_0)$. 
+
+Suppose that $q$ is closer to $\beta_0(n_1)$ than $p$. Then by considering the
+geodesic triangle with vertices $\beta_0(n_1)$, $\beta_0(m_0)$ and $p$ we see
+that $q$ is within distance $2\delta$ of $\beta_0$, and therefore the distance
+from $\gamma'(m_0)$ to $\beta_0(m_0)$ is at most $6\delta$. But we assumed that
+$r > 6\delta + D$, which gives a contradiction. This implies that
+$d(\beta_0(n_1), \gamma'(n_2))$ is equal to the sum of the distances
+$d(\beta_0(n_1), p)$, $d(p, q)$ and $d(q, \gamma'(n_2))$.
+
+Then we have the following inequality.
+\begin{align*} \gromprod[v]{\beta_0(n_1)}{\gamma'(n_2)} - \gromprod[v]{\beta_0(m_0)
+    }{\gamma'(m_0)} 
+    & = d(\beta_0(n_1), \beta_0(m_0)) - d(\beta_0(n_1), p) \\
+    & + d(\beta_0(m_0), \gamma'(m_0)) - d(p, q) \\
+    & + d(\gamma'(m_0), \gamma'(n_2)) - d(q, \gamma'(n_2))\\
+    & \leq \delta + 2\delta + \delta = 4\delta
+\end{align*}
+
+This implies a lower bound on the distance from $\beta_0(\infty)$ to
+$\gamma(\infty)$ with respect to the visual metric.
+\begin{align*}
+  d_v(\beta_0(\infty), \gamma(\infty)) \geq k_1a^{-m_0 + (r-D)/2 - 6\delta}.
+\end{align*}
+In the case that $\gamma$ is bi-infinite, $d_v(\beta_0(\infty),
+\gamma(-\infty))$ similarly satisfies the same bound.  Therefore, by the
+assumption on $r$ the path constructed from $\beta_0(\infty)$ to
+$\beta_1(\infty)$ avoids $\Lambda\gamma$.
+\end{proof}
+
+\begin{lem}\label{lem:replaceinftybyR} The inclusion map $A_{r, R, K}(\gamma)
+\hookrightarrow A_{r, \infty, K}(\gamma)$ induces a bijection between the sets
+of connected components of those subspaces of $X$ as long as $R \geq 4\delta + D +
+\max\{r + 4\delta + 1, K\}$.\end{lem}
+
+\begin{proof} Surjectivity is clearly guaranteed by the fact that $R \geq K$.
+For injectivity, let $x$ and $y$ be points in $C_K(\gamma)$ that lie in the
+same connected component of $A_{r, \infty, K}(\gamma)$. We show that the
+shortest path from $x$ to $y$ in $N_{r, \infty}(\gamma)$ stays within a
+distance $R$ of $\gamma$. Let $\phi\colon [0,\ell] \to X$ be such a
+shortest path parametrised by arc length. Suppose that $d(\phi(s),\gamma) >
+R$. Let $[t_0,t_1]$ be a maximal subinterval of $[0, \ell]$ containing $s$
+such that $d(\phi(t),\gamma) \geq r + 4\delta + 1$ for $t \in [t_0,t_1]$. 
+
+Then for $t \in [t_0,t_1]$, $\phi\restricted{[t-4\delta-1,t+4\delta+1]
+\intersection[t_0, t_1]}$ has image in $N_{r+4\delta+1, \infty}(\gamma)$.
+Therefore any geodesic segment from $\phi(\min\{t-4\delta-1, t_0\})$ to
+$\phi(\max\{t+4\delta+1, t_1\})$ is contained in $N_{r, \infty}(\gamma)$, so by
+minimality of the length of $\phi$, $\phi\restricted{[t-4\delta-1,t+4\delta+1]
+\intersection [t_0, t_1]}$ is a geodesic. This means that
+$\phi\restricted{[t_0,t_1]}$ is an $(8\delta+2)$-local geodesic. Therefore by
+\cite[III.H.1.13]{bridsonhaefliger99} it is contained in a
+$2\delta$-neighbourhood of any geodesic from $\phi(t_0)$ to $\phi(t_1)$.
+
+By maximality of $[t_0,t_1]$, either $d(\phi(t_0),\gamma) = r + 4\delta+1$ or
+$t_0=0$, so certainly $d(\phi(t_0),\gamma) \leq \max\{r+4\delta+1,K\}$, and
+similarly $d(\phi(t_1),\gamma)$ satisfies the same inequality. By
+$\delta$-hyperbolicity applied to the geodesic quadrilateral with vertices
+$\phi(t_0)$, $\phi(t_1)$ and the points $\gamma(s_0)$ and $\gamma(s_1)$ on
+$\gamma$ minimising the distances to $\phi(t_0)$ and $\phi(t_1)$, any geodesic
+from $\phi(t_0)$ to $\phi(t_1)$ is contained in a $2\delta + \max\{r + 4\delta
++ 1, K\}$ neighbourhood of a geodesic from $\gamma(s_0)$ to $\gamma(s_1)$, so
+is a subset of $N_{2\delta+\max\{r+4\delta+1, K\} + D}(\gamma)$. Hence
+$d(\phi(s),\gamma) \leq 4\delta + \max\{r+8\delta+2,K\} + D$, which is a
+contradiction.  \end{proof}
+
+From the results of this section we conclude the following:
+
+\begin{prop}\label{prop:summaryofannulusresults} The map that sends a component
+$U$ of $A_{r, R, K}(\gamma)$ to the shadow (with respect to some base point
+$v \in \gamma$) of the component of $A_{r, \infty, K}(\gamma)$ containing $U$
+is a well defined bijection between the set of connected components of $A_{r,
+R, K}(\gamma)$ and the set of connected components of $\boundary X -
+\Lambda\gamma$ as long as $r$, $R$ and $K$ are taken to simultaneously
+satisfy the conditions of lemmas~\ref{lem:disjointcoverbyshadows},
+\ref{lem:nonemptyshadows}, \ref{lem:shadowsclopen}, \ref{lem:shadowsconnected}
+and~\ref{lem:replaceinftybyR}.\qed\end{prop}
+
+\begin{rem}\label{rem:rKRcomputable} The conditions on $r$, $R$ and $K$ depend
+only on $\delta$, $n$, $\lambda$ and $\epsilon$ and suitable values can be
+computed from these data.\end{rem}
+
+We end this section with the following lemma, which shows that connectedness of
+$A_{r, R, K}(\gamma)$ can be detected locally.
+
+\begin{lem}\label{lem:Adisconnectedlocally} Suppose that $\gamma$ is a
+bi-infinite $(\lambda, \epsilon)$-quasi-geodesic and that neither point in
+$\Lambda\gamma$ is a cut point. Let $r$ and $R$ be chosen to satisfy
+lemmas~\ref{lem:shadowsconnected} and~\ref{lem:replaceinftybyR}. Let $T$ be
+at least $\log_a(2k_1/k_2) + 3D + 2\delta + K$. Then every component of $A_{r, R,
+K}(\gamma)$ meets $C_K(\gamma) \intersection \Ball_T(\gamma(t))$ for any $t$
+such that $\gamma(t)$ is in $X_0$.  \end{lem}
+
+\begin{proof} Fix the base point $v = \gamma(t)$.
+Let $U$ be a component of $A_{r, R, K}(\gamma)$ and let $U'$ be the component
+of $A_{r, \infty, K}(\gamma)$ containing $U$.
+Then it is sufficient to show that $U'$ meets $C_K(\gamma) \intersection
+\Ball_T(v)$ since $U' \intersection C_K(\gamma) = U \intersection C_K(\gamma)$
+by Lemma~\ref{lem:replaceinftybyR}. 
+
+Suppose that $U'$ does does not meet $C_K(\gamma) \intersection \Ball_T(v)$.
+Let $p$ be a point in $\shadow U$ and let $\alpha$ be a geodesic ray from $v$
+to $p$.
+Then $\alpha(s) \in U \intersection C_K(\gamma)$ for some $s$; by assumption
+$d(\alpha(s), v) \geq T$.
+
+Let $\gamma'$ be a geodesic connecting the points of $\Lambda\gamma$ so that
+the Hausdorff distance between $\gamma$ and $\gamma'$ is at most $D$.
+Parametrise $\gamma'$ so that $d(\gamma'(0), v) \leq D$.
+Then $d(\alpha(s), \gamma') \leq K + D$; let $d(\alpha(s), \gamma'(s')) \leq K
++ D$.
+This implies that $d(\gamma'(s'), v)\geq T - D - K$.
+We therefore have
+\begin{align*}
+  \gromprod[v]{\alpha(s)}{\gamma'(s')} \geq T - D - K.
+\end{align*}
+Assume that $s'\geq0$; this implies that
+\begin{align*}
+  \gromprod[v]{p}{\gamma'(\infty)} & \geq \liminf_{m, n \to \infty}\gromprod[v]{\alpha(m)}{\gamma'(n)} \\
+                                   & \geq \gromprod[v]{\alpha(s)}{\gamma'(s')} - D \\
+                                   & \geq T - 2D - K.
+\end{align*}
+So $d_v(p, \gamma'(\infty)) \leq k_2a^{-T + 2D + K}$. Similarly, if $s' \leq 0$, $d_v(p,
+\gamma'(-\infty)) \leq k_2a^{-T + 2D + K}$. Therefore $\shadow U'$
+is contained in a $k_2a^{-T + 2D + K}$ neighbourhood of $\Lambda\gamma$.  Also,
+for any $s$, the geodesic from $\gamma(t+s)$ to $\gamma(t-s)$ passes within a
+distance $D$ of $\gamma(t)$, so $\gromprod[v]{\gamma(t+s)}{\gamma(t-s)} \leq
+D$. Then $\gromprod[v]{\gamma(\infty)}{\gamma(-\infty)} \leq 2\delta + D$, and
+so $d_v(\gamma(\infty), \gamma(-\infty)) \geq k_1a^{-(2\delta + D)}$. It follows by
+the inequality satisfied by $T$ that the closed balls of radius $k_2a^{-T + 2D
++ K}$ around $\gamma(\infty)$ and $\gamma(-\infty)$ are disjoint. By
+Lemma~\ref{lem:shadowsconnected} $\shadow U'$ is connected, so is 
+contained in one of these two balls, say in the ball around $\gamma(\infty)$.
+But then $\shadow U$ is a non-empty proper subset of $\boundary X -
+\{\gamma(\infty)\}$ that is closed and open, so $\gamma(\infty)$ is a cut
+point, which is a contradiction.\end{proof}
+

@@ -1,0 +1,35 @@
+\begin{tikzpicture}[node distance = 2cm, auto]
+
+\tikzstyle{decision} = [diamond, draw,
+  text width=4.5em, text badly centered, node distance=3cm, inner sep=0pt]
+\tikzstyle{startblock} = [rectangle, draw, 
+  text width=5em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{acceptblock} = [rectangle, draw,
+  text width=5em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{rejectblock} = [rectangle, draw,
+  text width=5em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{line} = [draw, -latex']
+
+\node [startblock] (start) {Start};
+\node [decision, below of=start] (vcyclic) {Virtually cyclic?};
+\node [decision, right of=start] (ddag) {$\ddag(n, 0)$ for some $n$?};
+\node [decision, below of=ddag] (cutpoint) {Cut point?};
+\node [acceptblock, right of=ddag, node distance=6cm] (splitting) {Splitting};
+\node [decision, below of=cutpoint] (cutpair) {Cut pair?};
+\node [decision, right of=cutpair, node distance=6cm] (small) {Small orbifold?};
+\node [rejectblock, left of=cutpair, node distance=3cm] (nosplitting) {No splitting};
+
+\path [line] (start) -- (vcyclic);
+\path [line] (vcyclic) --  node {No} (ddag);
+\path [line] (vcyclic) --  node {Yes} (nosplitting);
+\path [line] (ddag) --  node {No} (splitting);
+\path [line] (ddag) --  node {Yes} (cutpoint);
+\path [line] (cutpoint) -- node {No} (cutpair);
+\path [line] (cutpoint) -- node {Yes} (splitting);
+\path [line] (cutpair) --  node {No} (nosplitting);
+\path [line] (cutpair) --  node {Yes} (small);
+\path [line] (small) --  node [near start] {No} (splitting);
+\path [line] (small.south) -- ++(0,-.3cm) node[pos=.3] {Yes} -- ++(-9cm,0) -- (nosplitting);
+
+\end{tikzpicture}
+
