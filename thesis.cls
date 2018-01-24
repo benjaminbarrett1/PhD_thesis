@@ -5,6 +5,12 @@
 
 % ----------------- CLASS OPTIONS -------------------
 \LoadClass{book}
+
+\newcommand\thesis@papersize{a4paper}
+\DeclareOption{a4paper}{\renewcommand\thesis@papersize{a4paper}}
+\DeclareOption{a5paper}{\renewcommand\thesis@papersize{a5paper}}
+\PassOptionsToClass{\thesis@papersize}{book}
+
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
 \ProcessOptions\relax
 
@@ -13,11 +19,29 @@
 \RequirePackage{amsmath,amssymb,amsthm}
 \RequirePackage{tikz}
 \RequirePackage{mathtools}
+\RequirePackage[paper=\thesis@papersize,scale=0.75,bindingoffset=5mm]{geometry}
 
 % ------------------ ENVIRONMENTS ------------------
-% Fill the environments I will need in here
+\newenvironment{dedication}
+{
+  \cleardoublepage
+  \pagestyle{plain}
+  \vspace{2in}
+}
+
+\newenvironment{acknowledgements}
+{
+  \cleardoublepage
+  \chapter*{Acknowledgements}
+  \pagestyle{plain}
+}
+
 \newenvironment{abstract}
-{}
+{
+  \cleardoublepage
+  \chapter*{Abstract}
+  \pagestyle{plain}
+}
 
 % ---------------------- FORMATTING ----------------
 % An interpretation of the requirement of 1.5x line spacing
