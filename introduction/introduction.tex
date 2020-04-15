@@ -1,0 +1,203 @@
+\chapter{Introduction}
+
+Geometric group theory has its roots in the idea that one can learn about a group from the geometric properties of its Cayley graph, or more generally the geometry of other spaces on which the group admits a nice action.
+Fundamental to this idea is the \v{S}varc-Milnor Lemma, which tells us that, given a group $G$ acting nicely on a metric space $X$, the large scale geometry of $X$ depends only on $G$, and so large scale properties of $X$ can be powerful invariants of the group $G$.
+This raises the following question.
+
+\begin{question}\label{question:large_scale_features}
+  On how large a scale does one need to look at a space to see its large scale features?
+  To what extent does the geometry of a ball of large but bounded radius in the Cayley graph of a group determine the large scale geometry of that group?
+\end{question}
+
+In this thesis we answer this question for certain large scale properties of groups satisfying an important curvature condition, called Gromov hyperbolicity.
+This property was introduced by Gromov~\cite{gromov87} as a coarse notion of negative curvature.
+Groups that act on these spaces are well behaved in very many ways, and share many nice properties with free groups, but the definition is not narrow: many groups of classical interest---such as fundamental groups of hyperbolic manifolds---are hyperbolic, as are most finitely presented groups.
+
+Here we are particularly interested in those geometric properties of a hyperbolic group that are derived from its Gromov boundary.
+See Section~\ref{section:gromov_boundary} for a definition of this space.
+This space can be thought as a limit of spheres in the Cayley graph of the group.
+Large spheres give good approximations to the boundary, and it is possible that, for a given question about the boundary, we might be able to say that some large sphere approximates the boundary sufficiently well to answer that question.
+
+\begin{question}\label{question:boundary}
+  Given a property $\calP$ that the boundary of a hyperbolic group $G$ might and might not possess, can we decide whether or not $\boundary G$ has $\calP$ by looking at a sphere in $G$ of some predetermined size?
+\end{question}
+
+Some important properties that the boundary of a hyperbolic group can possess are equivalent to abstract algebraic properties of the group, so that showing that such a  property of the boundary is determined by a ball in the Cayley graph of predetermined size is equivalent to showing that such a finite ball determines an algebraic property of the group.
+The connectivity properties of the boundary studied in this thesis are closely connected to the structure of splittings of the group as amalgamated products and HNN extensions.
+Disconnectedness of the boundary is equivalent by a theorem of Stallings~\cite{stallings68,stallings71} to the existence of a splitting of the group over a finite subgroup.
+In the absence of splittings over finite subgroups, decompositions of the group over its virtually cyclic subgroups are governed by the structure of cut pairs in its boundary.
+(A \emph{cut pair} in a connected topological space $M$ is a pair of points $p$ and $q$ such that $M - \{p, q\}$ is disconnected.)
+
+We shall also be interested in the property of having circular boundary.
+By the Convergence Group Theorem of Tukia, Gabai, Casson and Jungreis~\cite{tukia88,gabai92,cassonjungreis94}, a hyperbolic group has circular boundary if and only if it it maps with finite kernel onto the fundamental group of a closed hyperbolic orbifold of dimension two.
+
+Finally, by a theorem of Bestvina and Mess~\cite{bestvinamess91} the \v{C}ech cohomology of the boundary of a hyperbolic group is equal (modulo a shift in dimension) to the cohomology of that group with coefficients in the group ring.
+\v{C}ech cohomological properties are the final class of boundary properties studied in this thesis, now for a space closely related to the Gromov boundary of a hyperbolic group: Otal's decomposition space of a line pattern in a free group.
+
+Answers to Questions~\ref{question:large_scale_features} and~\ref{question:boundary} have implications for the computability theory of groups: if one can say in advance that a particular large scale geometric property would be visible at a certain scale then by looking at a ball in the Cayley graph of the group of that scale one can tell whether or not the group possesses that property.
+To do this one must be able to algorithmically construct arbitrarily large balls in the Cayley graphs of the groups under consideration.
+This is equivalent to requiring a solution to the word problem in the group.
+This requirement is no impediment to the results of this thesis, since the word problem is known to be solvable for hyperbolic groups.
+
+This thesis is structured as follows.
+We begin by reviewing some preliminary material which will be required later in the thesis: in Chapters~\ref{chapter:hyperbolic_groups} and~\ref{chapter:splittings_and_JSJs} we review some key properties of hyperbolic groups and splittings of groups respectively. 
+No part of either chapter is original, except for the proof of Proposition~\ref{proposition:double_dagger_thin_virtually_cyclic}.
+
+In Chapter~\ref{chapter:detecting_cut_pairs} we answer Question~\ref{question:boundary} for some connectivity properties of the boundary of a hyperbolic group.
+This answer has applications to computability results: in Chapter~\ref{chapter:computing_JSJs} we show how to apply the results of Chapter~\ref{chapter:detecting_cut_pairs} to prove the computability of certain canonical decompositions of hyperbolic groups.  
+Most results of these two chapters appear in~\cite{barrett18}.
+
+In Chapter~\ref{chapter:decomposition_spaces} we answer Question~\ref{question:large_scale_features} for cohomological properties of a space closely related to the Gromov boundary of a hyperbolic group: the decomposition space associated to a line pattern in a free group. 
+A line pattern is a collection of words in a free group; geometrically it can be thought of as a family of lines in the Cayley graph of the free group, which is a tree.
+The geometry of these lines is modelled locally by the Whitehead diagrams for the line pattern, and these diagrams take the role previously played by large balls in the Cayley graph.
+These results are taken from~\cite{barrett17}.
+As a corollary, we show that the \v{C}ech cohomology of the boundary of a hyperbolic graph of free groups with cyclic edge groups is computable.
+
+\section{Detecting connectedness properties of the boundary}
+
+In Chapter~\ref{chapter:detecting_cut_pairs} we answer some questions about topological properties of the boundary of a hyperbolic group.
+In answering these questions Bestvina and Mess's~\cite{bestvinamess91} double dagger condition $\ddag(n)$ is very useful.
+This is a geometric property of the Cayley graph of the group and is equivalent to a quantitative local connectedness property of the boundary.
+See Section~\ref{section:double_dagger} for a definition of the double dagger condition.
+The size of the sphere that one must look at to answer questions about connectivity properties of the boundary will depend on the value of the parameter $n$ with which the double dagger condition holds.
+
+The main geometric results of this thesis answer these types of questions.
+The following theorem will be proved in Chapter~\ref{chapter:detecting_cut_pairs}.
+
+\begin{theorem}\label{theorem:intro_topological_properties_features}
+  There are functions $N_1(\delta, n, k)$ and $N_2(\delta, n, k)$ such that, given a group $G$ with a generating set of size $k$ such that the Cayley graph with respect to that generating set is $\delta$-hyperbolic and satisfies $\ddag(n)$, we have the following equivalences.
+  \begin{enumerate}
+    \item There is a cut pair in $\boundary G$ if and only if the ball of radius $N_1$ in the Cayley graph of $G$ with respect to the given generating set contains a particular feature, which we shall call a coarsely separating geodesic segment.
+    \item Secondly, $\boundary G$ is homeomorphic to a circle if and only if the ball of radius $N_2$ in the Cayley graph of $G$ with respect to the given generating set contains a second feature, which we shall call a coarsely non-separating geodesic segment.
+  \end{enumerate}
+\end{theorem}
+
+\section{Computing splittings and JSJ decompositions}
+
+As a corollary to Theorem~\ref{theorem:intro_topological_properties_features}, we obtain the following computability results.
+
+\begin{theorem}\label{theorem:intro_detecting_topological_properties}
+  There is an algorithm that takes as input a presentation for a hyperbolic group $G$ and returns the answers to the following two questions.
+  \begin{enumerate}
+    \item Does $\boundary G$ contain a cut pair?
+    \item Is $\boundary G$ homeomorphic to a circle?
+  \end{enumerate}
+\end{theorem}
+
+After some precomputation to compute the constant $\delta$ with respect to which the Cayley graph is $\delta$-hyperbolic and the constant $n$ such that the Cayley graph satisfies $\ddag(n)$, the algorithm of Theorem~\ref{theorem:intro_detecting_topological_properties} only requires the computation of a ball in the Cayley graph of known size.
+Therefore (after precomputation of some constants associated to the group) we can give an explicit upper bound on the worst-case running time for these algorithms, although this upper bound is sufficiently high that these algorithms are infeasible in practice. 
+
+The topological properties of the boundary discussed in Theorem~\ref{theorem:intro_topological_properties_features} have important implications for the algebraic properties of the group.
+First, recall that the Convergence Group Theorem of Tukia, Gabai, Casson and Jungreis~\cite{tukia88,gabai92,cassonjungreis94} tells us that a hyperbolic group has circular boundary if and only if it maps with finite kernel onto the fundamental group of a closed hyperbolic orbifold of dimension two.
+Therefore, Theorem~\ref{theorem:intro_detecting_topological_properties} shows that there is an algorithm that determines whether or not a given hyperbolic group is a two dimensional orbifold group.
+In other words, the class of virtually fuchsian groups is recursive in the class of all hyperbolic groups.
+Secondly, cut pairs in the boundary of a hyperbolic group are related by a theorem of Bowditch~\cite{bowditch98} to splittings of the group over its virtually cyclic subgroups.
+
+When given a group, it is natural to try to cut it up into simpler pieces by splitting over its particularly easy to understand subgroups.
+By a \emph{splitting} of a group $G$ we mean a decomposition of $G$ obtained by repeatedly taking amalgamated free products and HNN extensions.
+Such a splitting is recorded as a \emph{graph of groups}: this is a graph with a group at each vertex and a group at each edge so that $G$ is obtained by gluing the vertex groups together along the edge groups.
+We will usually want to place restrictions on the edge groups: if $\calA$ is a class of subgroups of $G$ then a splitting of $G$ such that all edge groups are contained in $\calA$ is called a \emph{splitting of $G$ over $\calA$}.
+See Section~\ref{section:splittings} for precise definitions.
+
+In the first instance, one might try to split a given group over its finite subgroups.
+By a theorem of Dunwoody~\cite{dunwoody85} a finitely presented group admits a maximal splitting over finite subgroups, so that none of the vertex groups of the splitting admit further non-trivial splittings over finite subgroups. 
+In a maximal splitting over finite subgroups one sees all possible splittings of that group over finite subgroups.
+
+Furthermore, if the initial group is assumed to be hyperbolic then this maximal splitting can be computed from a presentation of the group.
+By Stallings's theorem a finitely generated group admits a non-trivial splitting if and only if it has more than one end.
+If the group is hyperbolic then it has more than one end if and only if its Gromov boundary is disconnected.
+Gerasimov~\cite{gerasimov} proved that there exists an algorithm that determines whether or not the boundary of a given hyperbolic group is connected. 
+This algorithm is unpublished; see also~\cite{dahmanigroves08a}. 
+Given a hyperbolic group with connected boundary, Gerasimov's algorithm detects this connectedness by computing a number $n$ such that the Cayley graph of the group satisfies $\ddag(n)$.
+Equipped with this algorithm and Stallings's theorem on ends of groups it is not difficult to compute a maximal decomposition of a given hyperbolic group over its finite subgroups. 
+With Gerasimov's result in hand, we may restrict to the case of one-ended hyperbolic groups and consider splittings over virtually (infinite) cyclic groups.
+
+When studying splittings over virtually cyclic groups one immediately encounters a difficulty that was not present for splittings over finite groups: splitting over some virtually cyclic subgroups can hide splittings over others, so a maximal splitting does not have to reveal all possible splittings of the group over virtually cyclic subgroups, as is the case for splittings over finite groups.
+A maximal splitting over virtually cyclic subgroups requires some choices to be made.
+This is unsatisfactory: in many applications a canonical decomposition associated to the group is vital.
+
+The solution to this problem is inspired by the characteristic submanifold decomposition of Jaco, Shalen and Johannson~\cite{jacoshalen79,johannson79}, in which the family of embedded tori along which a 3-manifold is cut is unique up to isotopy.
+Similar JSJ decompositions were introduced to group theory by Sela~\cite{sela97} to answer questions about rigidity and the isomorphism problem for torsion-free hyperbolic groups. 
+In~\cite{bowditch98} Bowditch developed a related type of decomposition for hyperbolic groups possibly with torsion. 
+This decomposition is built from the structure of cut pairs in the boundary of the group and is therefore an automorphism invariant of the group; this property of Bowditch's decomposition was used in Levitt's work~\cite{levitt05} on outer automorphism groups of one-ended hyperbolic groups. 
+For other constructions of JSJ decompositions of groups see~\cite{ripssela97,dunwoodysageev99,fujiwarapapsoglu06}. 
+
+More recently, Guirardel and Levitt~\cite{guirardellevitt17} have introduced a general framework for JSJ decompositions of groups.
+Their construction begins with a class $\calA$ of subgroups of the given group and defines a JSJ decomposition over that class of subgroups by formalising the idea that in a JSJ decomposition one should split along precisely those subgroups in $\calA$ that do not cross other splittings over elements in $\calA$, so that the decomposition splits the group as much as possible without hiding any of the splittings of the group.
+Guirardel and Levitt show that such a JSJ decomposition exists in considerable generality.
+Those parts of a JSJ decomposition that admit further splittings are called \emph{flexible}.
+Then a JSJ decomposition of the group over $\calA$, together with an understanding of the splittings over $\calA$ of all flexible subgroups, gives a full description of the structure of the splittings of that group over $\calA$.
+
+An important consequence of Bowditch's construction is that if $G$ is a one-ended hyperbolic group $G$ such that $\boundary G$ is not homeomorphic to a circle, $G$ admits a non-trivial splitting over a virtually cyclic subgroup if and only if its boundary contains a cut pair.
+Using this result and Theorem~\ref{theorem:intro_detecting_topological_properties} it is possible to determine algorithmically whether or not a given one-ended hyperbolic group admits a non-trivial splitting over a virtually cyclic subgroup.
+Using this we prove the following theorem.
+
+\begin{theorem}\label{theorem:computing_JSJ_decompositions} 
+ There is an algorithm that takes as input a presentation for a one-ended hyperbolic group $G$ and returns the graph of groups associated to the three following JSJ decompositions:
+ \begin{enumerate}
+  \item A JSJ decomposition over virtually cyclic subgroups of $G$, which can be taken to be Bowditch's canonical decomposition for $G$.
+  \item A JSJ decomposition over virtually cyclic subgroups of $G$ with infinite centre, which we shall call a $\mathcal{Z}$-JSJ.
+  \item A decomposition over maximal virtually cyclic subgroups of $G$ with infinite centre that is universally elliptic over (not necessarily maximal) virtually cyclic subgroups of $G$ and is maximal for domination in the class of such decompositions. 
+   We shall call this a $\mathcal{Z}_\text{max}$-JSJ.
+ \end{enumerate}
+\end{theorem}
+
+Many existing algorithms that compute related decompositions of groups make use of a variant due to Rips and Sela~\cite{ripssela95} of Makanin's algorithm~\cite{makanin82}.
+This is a procedure that determines whether or not a given system of equations in a hyperbolic group has a solution.
+It is difficult to relate such an approach to the geometry of the group; in contrast to these methods, the proof of Theorem~\ref{theorem:computing_JSJ_decompositions} is purely geometric.
+
+In fact, the algorithm of Theorem~\ref{theorem:computing_JSJ_decompositions} needs something a little stronger than Theorem~\ref{theorem:intro_topological_properties_features}. 
+Given a splitting of a one-ended hyperbolic group over virtually cyclic subgroups, we need to be able to tell whether or not the group can be decomposed further.
+It is not enough to be able to tell whether or not each vertex group admits a splitting over a virtually cyclic subgroup: we need the splitting to be consistent with the splittings we have already taken, so we need to know whether a vertex group admits a splitting over a virtually cyclic subgroup that does not cross the incident edge groups.
+This difficulty is solved by replacing the Gromov boundary with a closely related object: the Bowditch boundary of a given group relative to a collection of virtually cyclic subgroups.
+
+The main content of Theorem~\ref{theorem:computing_JSJ_decompositions} is the computability of Bowditch's decomposition; it is shown in~\cite{dahmaniguirardel11} to be closely related to the $\mathcal{Z}$-JSJ and $\mathcal{Z}_\text{max}$-JSJ and can converted into either algorithmically. 
+The $\mathcal{Z}_\text{max}$-JSJ is the decomposition shown to be computable by Dahmani and Guirardel~\cite{dahmaniguirardel11}.
+
+The $\mathcal{Z}$-JSJ also plays a result in Dahmani and Guirardel's work, although they comment that their methods cannot compute this decomposition, since such a decomposition does not necessarily give rise to infinitely many distinct outer automorphisms of the group. 
+For example, let $G$ be a rigid hyperbolic group (such as the fundamental group of a closed hyperbolic 3-manifold) and let $g$ be an element of $G$ that is not a proper power. 
+Let $k > 1$ and consider the group $G' = G \freeprod_{g=t^k} \langle t\rangle$ obtained by adjoining a $k$th root of $g$ to $G$. 
+In this case the $\mathcal{Z}_\text{max}$ decomposition computed by Dahmani and Guirardel is trivial while the $\calZ_\text{max}$-JSJ is not.
+
+Like Gerasimov's algorithm, our approach uses the geometry of large balls in the Cayley graph. 
+This is in contrast to existing algorithms computing JSJ decompositions over restricted families of virtually cyclic subgroups, most of which rely on Makanin's algorithm for solving equations in free groups.
+
+In~\cite{dahmaniguirardel11} Dahmani and Guirardel show that a canonical decomposition of a one-ended hyperbolic group over a particular family of virtually cyclic subgroups is computable; the family in question is the set of virtually cyclic subgroups with infinite centre that are maximal for inclusion among such subgroups. 
+Crucial to this method is an algorithm that determines whether or not the outer automorphism group of such a group is infinite. 
+If a group admits such a splitting then that splitting gives rise to an infinite set of distinct elements of the outer automorphism group that are analogous to Dehn twists in the mapping class group of a surface. 
+The converse of this statement is a theorem of Paulin~\cite{paulin91} that is refined by Dahmani and Guirardel.
+
+Dahmani and Guirardel comment that it is not known whether or not Bowditch's JSJ decomposition is computable. 
+Their approach is not suitable to this problem: only central elements of the edge groups in a splitting contribute Dehn twists to the automorphism group, so it is quite possible for a group to admit a splitting over an infinite dihedral group, say, while having only a finite outer automorphism group; in this case the decomposition computed by Dahmani and Guirardel is trivial while Bowditch's JSJ decomposition is not. 
+For examples of hyperbolic groups exhibiting this property see~\cite{millerneumannswarup96}. 
+
+In the absence of torsion, the JSJ decomposition of a hyperbolic group over its cyclic subgroups was shown to be computable by Dahmani and Touikan in~\cite{dahmanitouikan13}. 
+Their result is based on Touikan's algorithm~\cite{touikan09}, which determines whether or not a given one-ended hyperbolic group without 2-torsion splits acylindrically. 
+Touikan's methods are based on application of the Rips machine.
+
+It seems plausible that the techniques of this thesis might extend to the problem of detecting the presence of splittings of relatively hyperbolic groups with parabolic subgroups in some restricted class. 
+In particular, it is natural to try to solve this problem for groups that are hyperbolic relative to finitely generated virtually nilpotent subgroups. 
+Such groups arise as fundamental groups of complete finite volume Riemannian manifolds with pinched negative sectional curvature. 
+However, it is of fundamental importance to the argument presented in this paper that the cusped space associated to the group satisfies Bestvina and Mess's double dagger condition, and we do not know under what circumstances this condition holds for virtually nilpotent parabolic subgroups. 
+In~\cite{dahmanigroves08a} it is established that the double dagger condition holds if the parabolic subgroups are abelian, so it seems likely that the methods of this paper could be extended to the case of toral relatively hyperbolic groups. 
+(A group is toral relatively hyperbolic if it is torsion free and hyperbolic relative to a finite collection of abelian subgroups.) 
+However, the JSJ decomposition of a toral relatively hyperbolic group is shown to be computable in~\cite{dahmanitouikan13}, so we do not introduce additional technical complexity by trying to give a new proof of this result here.
+
+\section{Decomposition spaces}
+
+In the final chapter, we turn our attention to a more complicated topological property of the boundary of a hyperbolic metric space: its \vCech{} cohomology.
+By a theorem of Bestvina and Mess, for any ring $R$ there is an isomorphism of $G$-modules $\cH{}^k_\rmr(\boundary G, R) \isom \rmH{}^{k+1}(G, RG)$ between the reduced \vCech{} cohomology of $\boundary G$ and the group cohomology of $G$ with coefficients in the group ring $RG$.
+Epstein asked whether or not there is an algorithm that computes these cohomology groups.
+This question is listed as Question~1.18{} in Bestvina's problem list~\cite{bestvina}.
+
+In Chapter~\ref{chapter:decomposition_spaces} we prove the computability of the \vCech{} cohomology of a space related to the Gromov boundary: Otal's decomposition space.
+A line pattern in a free group $F$ is the set of translates of a finite collection of bi-infinite lines in the Cayley graph of $F$.
+It is determined by a finite collection of cyclic subgroups; if these cyclic subgroups are assumed to be maximal and non-conjugate then Otal's decomposition space is equal to the Bowditch boundary of $F$ relative to those cyclic subgroups.
+
+Using the computability of the \vCech{} cohomology of the decomposition space of a free group, we then show how to compute the \vCech{} cohomology of the Gromov boundary for a class of hyperbolic groups that can be built out of free groups: fundamental groups of graphs of groups with free vertex groups and cyclic edge groups.
+Therefore we answer Epstein's question in the affirmative for this class of groups.
+
+\begin{theorem}\label{theorem:intro_cech_cohomology_graph_of_groups}
+  There is an algorithm that takes as input a presentation for a hyperbolic group $G$ that is the fundamental group of a graph of free groups with cyclic edge groups and computes the \vCech{} cohomology of the Gromov boundary of $G$ as a $G$-module.
+\end{theorem}
+

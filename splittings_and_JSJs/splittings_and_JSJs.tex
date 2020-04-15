@@ -1,0 +1,788 @@
+\chapter{Splittings and JSJ decompositions}\label{chapter:splittings_and_JSJs}
+
+In this chapter we review some of the theory of splittings of groups.
+We begin with an overview of Bass-Serre theory, before moving onto the theory of JSJ decompositions.
+
+\section{Amalgams and HNNs}
+
+We begin by recalling the two basic operations from which our decompositions of groups will be built. 
+These operations are motivated geometrically. 
+
+First, let $X$ be a CW complex and suppose that $X = U_1 \union U_2$, where $U_1$ and $U_2$ are connected subcomplexes with $U_1 \intersection U_2$ connected.
+Then the Seifert-van Kampen Theorem tells us that this decomposition of $X$ into its subcomplexes induces a decomposition of $\pi_1 X$ as an amalgamated product:
+\begin{align*}
+  \pi_1X \isom \pi_1U_1 \amalgamated{\pi_1(U_1 \intersection U_2)} \pi_1U_2
+\end{align*}
+
+In this case, $U_1 \intersection U_2$ is \emph{separating}: cutting $X$ along $U_1 \intersection U_2$ separates it into disjoint pieces. 
+There is a second possibility that results in a different decomposition of the fundamental group.
+First recall the following definition.
+
+\begin{definition}
+  Let $H$ be a group with $A, B \leq H$.
+  Suppose that there exists an isomorphism $\alpha\from A \to B$.
+  Then the \emph{HNN extension of $H$ relative to $\alpha$} is defined to be the following group:
+  \begin{align*}
+    H \HNN\alpha = \presentation{H, t}{tat^{-1} = \alpha(a)\text{ for $a \in A$}}.
+  \end{align*}
+\end{definition}
+
+Now suppose that $X$ is a CW complex and $U$ is a connected subcomplex that is non-separating.
+In other words, there exists a CW complex $Y$ with disjoint subcomplexes $U_1$ and $U_2$ such that $U_1$ and $U_2$ are isomorphic, and the quotient of $Y$ obtained by identifying $U_1$ with $U_2$ is isomorphic to $X$, where this isomorphism identifies each of $U_1$ and $U_2$ with $U$.
+Then another application of the Seifert-van Kampen Theorem gives the following decomposition of $\pi_1X$:
+\begin{align*}
+  \pi_1X \isom \pi_1Y \HNN\alpha
+\end{align*}
+where $\alpha$ is the isomorphism $\pi_1U_1 \to \pi_1U_2$ determined by the identification of $U_1$ with $U_2$.
+
+We see that the two ways in which a CW complex can be cut (along separating and non-separating subcomplexes) correspond at the level of fundamental groups to amalgamated products and HNN extensions.
+
+\section{More general splittings}\label{section:splittings}
+
+In this section we develop the general theory of group decompositions that can be built from amalgamated products and HNN extensions.
+For a full account see~\cite{serre77}.
+
+\subsection{Graphs of groups}
+
+The decompositions of groups that can be obtained by repeatedly decomposing as amalgamated products and HNN extensions are described through the formalism of \emph{graphs of groups}.
+First, let us recall Serre's definition of an oriented graph.
+
+\begin{definition}\label{definition:serre_graph}
+  A \emph{graph} $Y$ is a pair of sets $V = V(Y)$ and $E = E(Y)$ equipped with a map $\initial \from E \to V$ and a fixed-point-free involution $E \to E$, which we denote by $e \mapsto \bar{e}$. 
+  We call elements of $V$ \emph{vertices} and elements of $E$ \emph{(oriented) edges}. 
+  We think of the map $\initial$ as sending an oriented edge to its initial vertex and the map $e \mapsto\bar{e}$ as sending an oriented edge to the same edge with the opposite orientation. 
+  We then define a map $\terminal \from E \to V$ by $\terminal(e) = \initial(\bar{e})$, sending an edge to its terminal vertex.
+
+  $Y$ is connected if for any vertices $v_1 \neq v_2$ in $V(Y)$, there exist edges $e_1, \dotsc, e_n$ such that $\initial(e_1) = v_1$, $\terminal(e_n) = v_2$ and $\initial(e_i) = \terminal(e_{i-1})$ for $i = 2, \dotsc, n$.
+\end{definition}
+
+We now recall the definition of a graph of groups, which is intended to record how a collection of groups should be glued together to obtain a larger group.
+
+\begin{definition}\label{definition:graph_of_groups}
+
+  A \emph{graph of groups} $\calY$ is a connected graph $Y$ together with the following data:
+  \begin{enumerate}
+    \item a group $\calY_v$ for each vertex $v \in V(Y)$;
+    \item a group $\calY_e$ for each edge $e \in E(Y)$ such that $\calY_e = \calY_{\bar{e}}$ for each edge $e$;
+    \item an injective homomorphism $\boundary^e_{-} \from \calY_e \to \calY_{\initial e}$ for each edge $e$.
+  \end{enumerate}
+  We then define injective homomorphisms $\boundary^e_{+} \from \calY_e \to \calY_{\terminal e}$ by $\boundary^e_{+} = \boundary^{\bar{e}}_{-}$.
+
+\end{definition}
+
+We still need to describe how to use the data recorded in a graph of groups to obtain a group by a process of attaching the vertex groups together.
+This can be done combinatorially (this is the approach taken by Serre~\cite{serre77}), but we instead follow the topological approach of Scott and Wall~\cite{scottwall80}.
+  
+\subsection{Graphs of spaces}
+
+We follow Scott and Wall~\cite{scottwall80} in defining graphs of spaces analogous to graphs of groups.
+
+\begin{definition}\label{definition:graph_of_spaces}
+
+  A \emph{graph of spaces} $\bbY$ is a connected graph $Y$ together with the following data:
+  \begin{enumerate}
+    \item a CW complex $\bbY_v$ for each vertex $v \in V(Y)$;
+    \item a CW complex $\bbY_e$ for each edge $e \in E(Y)$ such that $Y_e = Y_{\bar{e}}$ for each edge $e$;
+    \item a $\pi_1$-injective continuous map $\boundary^e_{-}\from \bbY_e \to \bbY_{\initial e}$ for each edge $e$.
+  \end{enumerate}
+  We then define $\pi_1$-injective continuous maps $\boundary^e_{+}\from \bbY_e \to \bbY_{\terminal e}$ by $\boundary^e_{+} = \boundary^{\bar{e}}_{-}$.
+
+\end{definition}
+
+It is now easy to describe a gluing process through which one can define a CW complex from a graph of spaces.
+
+\begin{definition}
+  Given a graph of spaces $\bbY$, define \emph{the space obtained by gluing} $X_\bbY$ to be the following CW complexes:
+
+  \begin{align}
+    X_\bbY = \left(\bigdisjointunion_{v \in V(Y)} \bbY_v \disjointunion \bigdisjointunion_{e \in E(Y)} (\bbY_e \times [0, 1])\right)/\equivrelation,
+  \end{align}
+  where for each $e \in E(Y)$ and each $y \in \bbY_e$, $(y, 0) \equivrelation \boundary^e_{-}(y)$.
+\end{definition}
+
+Using this construction we can now describe an analogous process for gluing together graphs of groups.
+Note that one can obtain a graph of groups from a graph of spaces $\bbY$ by defining $\calY_v = \pi_1\bbY_v$ and $\calY_e = \pi_1\bbY_e$ and defining edge homomorphisms using functoriality of $\pi_1$.
+On the other hand, one can go the other way by replacing each group in a graph of groups by a topological space with that fundamental group; for uniqueness and to ensure that the edge maps may be defined we do this by applying the functor $K({-},1)$.
+
+\begin{definition}
+  Given a graph of groups $\calY$, let $\bbY$ be the associated graph of spaces.
+  We then define the \emph{fundamental group} of $\calY$ by $\pi_1\calY = \pi_1 X_\bbY$.
+
+  If $G \isom \pi_1\calY$ then we call $\calY$, together with the isomorphism $\pi_1\calY \to G$, a \emph{splitting of $G$}. 
+  Let $\calA$ be a set of subgroups of $G$ closed under conjugation. 
+  If the isomorphism $\pi_1\calY \to G$ sends each edge group to an element of $\calA$ then we say that $\calY$ is a \emph{splitting of $G$ over $\calA$}.
+\end{definition}
+
+\begin{remark}\label{remark:vertex_subgroups}
+  Note that the image of a vertex group $\calY_v$ in the fundamental group $\pi_1 X_\bbY$ is only determined up to conjugacy: it is dependent on the choice of a path in $X_\bbY$ from the base point to the base point of $\bbY_v$.
+  Therefore we will only refer to this image when either a preferred conjugacy class representative has been chosen, or we are discussing a property of subgroups of $\pi_1 X_\bbY$ that is conjugacy invariant.
+\end{remark}
+
+\begin{remark}
+  The requirement in Definition~\ref{definition:graph_of_groups} that the edge homomorphisms in a graph of groups be injective (and, analogously in Definition~\ref{definition:graph_of_spaces}, that the edge maps in a graph of spaces be $\pi_1$-injective) seems artificial.
+  Certainly, it is not required in the constructions above.
+  We impose this restriction for two reasons: firstly so that we may obtain Bass and Serre's relationship between graphs of groups and actions on trees in Section~\ref{sec:actions_on_trees}, and secondly so that Lemma~\ref{lemma:britton} below is applicable.
+
+  In any case, this requirement is not particularly restrictive: if $\bbY$ is a ``graph of spaces'' in which the edge maps are not assumed to be $\pi_1$-injective, a graph of spaces with $\pi_1$-injective edge maps can be obtained by the following process.
+  For each edge $e$ and each loop $\gamma$ in $\bbY_e$ such that either $\boundary^e_{-} \composed \gamma$ or $\boundary^e_{+} \composed \gamma$ bounds a disk, attach a disk to $\bbY_e$ along $\gamma$ and attach disks to $\bbY_{\initial(e)}$ and $\bbY_{\terminal(e)}$ along $\boundary^e_{-} \composed \gamma$ and $\boundary^e_{+} \composed \gamma$.
+  Then extend $\boundary^e_{-}$ and $\boundary^e_{+}$ in the obvious way.
+  Note that this process does not change the fundamental group of the space obtained by gluing, $X_\bbY$.
+  This process might have created new loops in edge spaces that do not bound disks in the edge spaces, but do in the adjacent vertex spaces.
+  Repeat this process and take a direct limit to ensure that the edge maps are $\pi_1$-injective.
+
+  A similar process is possible for graphs of groups: this is most easily described by applying the process described for graphs of spaces to the graph of spaces associated to the given graph of groups.
+\end{remark}
+
+With the assumption that the edge maps are injective, the following lemma holds; this is a generalisation of Britton's lemma for HNN extensions.
+
+\begin{lemma}\cite[Corollary 1]{serre77}
+  \label{lemma:britton}
+  Let $\calY$ be a graph of groups.
+  Then for each vertex $v$ the map $\calY_v \to \pi_1\calY$ is injective.
+  The same holds for the edge groups.
+\end{lemma}
+
+Rather than trying to study all splittings of a given group $G$, we frequently take some particularly nice class $\calA$ of subgroups $G$ (for example, finite subgroups, or virtually cyclic subgroups) and restrict to studying splittings of $G$ over $\calA$.
+We will also sometimes be interested in studying a group \emph{relative to} a preferred subgroup or collection of subgroups.
+In this case we will be interested in splittings with the following property.
+
+\begin{definition}
+  Let $\calH$ be a collection of subgroups of $G$.
+  Then a splitting $\calY$ of $G$ is \emph{relative to $\calH$} if every element of $\calH$ is conjugate in $G$ to a subgroup of the image in $G$ of a vertex group $\calY_v$.
+\end{definition}
+
+\subsection{Domination and refinement}\label{section:domination_refinement}
+
+A given group may admit many splittings, some of which will encode more information about the structure of the group than others. 
+The following definitions formalise these relationships between splittings.
+Some of these definitions are more clearly stated in the language of group actions on trees, which will be discussed in the next section.
+For more details see~\cite{guirardellevitt17}; we adopt their terminology here.
+
+Throughout this thesis, all maps between graphs will send vertices to vertices and edges to edge paths.
+
+\begin{definition}
+  Let $\calY_1$ and $\calY_2$ be splittings of a group $G$ with underlying graphs $Y_1$ and $Y_2$.
+  We say that $\calY_1$ \emph{dominates} $\calY_2$ if for each $v \in V(Y_1)$ there exists $w \in V(Y_2)$ such that $(\calY_1)_v$ is conjugate in $G$ to a subgroup of $(\calY_2)_2$.
+\end{definition}
+
+Sometimes we will be interested in a particularly nice type of domination, called refinement.
+
+\begin{definition}
+  Let $\calY_1$ and $\calY_2$ be splittings of a group $G$ with underlying graphs $Y_1$ and $Y_2$.
+  We say that $\calY_1$ \emph{refines} $\calY_2$ if there is a \emph{collapse map} $p\from Y_1 \to Y_2$ (i.e.\ a map obtained by collapsing certain edges of $Y_1$ to points) such that the following conditions are satisfied.
+  \begin{enumerate}
+    \item For each $v \in V(Y_2)$, $(\calY_2)_v$ is the fundamental group of the graph of groups induced on $p^{-1}(v)$.
+    \item For each edge $e \in E(Y_2)$ with preimage $e' \in E(Y_1)$, $(\calY_2)_e$ may be identified with $(\calY_1)_{e'}$ such that the map $\boundary^{e}_{-}$ is conjugate in $(\calY_2)_{\initial(e)}$ to $\boundary^{e'}_{-}$, where we identify $(\calY_1)_{\initial(e')}$ with a subgroup of $(\calY_2)_{\initial(e)}$.
+  \end{enumerate} 
+\end{definition}
+
+\begin{remark}
+  A refinement is obtained by blowing up certain vertex groups as graphs of groups: a refinement of a graph of groups $\calY$ is equivalent to a choice of splitting of $\calY_v$ relative to $\{\boundary^e_{-}(\calY_e) \suchthat \initial(e) = v\}$ for each vertex $v$: see~\cite[Lemma 4.12]{guirardellevitt17}.
+  We quote Guirardel and Levitt's precise statement of this result later in the setting of group actions on trees.
+\end{remark}
+
+\begin{definition}
+  A splitting $\calY$ of a group $G$ is \emph{trivial} if there exists a vertex $v$ in the underlying graph of $\calY$ such that $\calY_v = G$.
+\end{definition}
+
+Note that any group admits a trivial splitting with one vertex, which is refined by any other splitting.
+
+Also note that any splitting is refined in a trivial manner by subdividing the edges in the splitting, or by adding redundant edges and vertices to the graph.
+We will sometimes wish to rule out such refinements, so we make the following definition. 
+
+\begin{definition}\label{definition:minimality}
+  Let $\calY$ be a graph of groups with underlying graph $Y$.
+  Then $\calY$ is \emph{minimal} if there is no proper subgraph $Y' \subset Y$ with the following properties, where $\calY'$ is the graph of groups with underlying graph $Y'$ and the same vertex and edge groups as $\calY$.
+  \begin{enumerate}
+    \item The inclusion $Y' \hookrightarrow Y$ is a homotopy equivalence.
+    \item For each edge $e \in Y - Y'$ oriented such that $\initial(e)$ is closer to $Y'$ than $\terminal(e)$, $\boundary^e_{+}$ is surjective.
+  \end{enumerate}
+
+  A vertex $v \in V(\calY)$ is a \emph{redundant vertex} if it is of degree 2 and for each edge $e$ of $Y$ with $o(e) = v$, $\boundary^e_{-}$ is an isomorphism.
+\end{definition}
+
+\section{Group actions on trees}\label{sec:actions_on_trees}
+
+In~\cite{serre77}, Serre demonstrated a relationship between the splittings of a group and the actions that group admits on trees.
+This gives an alternative viewpoint on splittings, which we will find useful later on.
+
+\begin{definition}
+  A \emph{tree} is a graph with no cycles.
+  A group $G$ is said to act on a tree $T$ \emph{without edge inversions} if, for any $g \in G$ and any edge $e \in E(T)$, $g\cdot e \neq \bar{e}$.
+  For a vertex $v \in V(T)$ we denote by $G_v$ the stabiliser of $v$, and for an edge $e \in E(T)$ we denote by $G_e$ the stabiliser of $e$.
+\end{definition}
+
+\begin{theorem}\cite{serre77}
+  Suppose that a group $G$ acts on a tree $T$ without edge inversions.
+  Then $G$ is isomorphic to the fundamental group of a graph of groups $\calY$ with underlying graph $G \leftquotient T$.
+  Let $v$ be a vertex of $T$ and let $[v]$ be its image in $G \leftquotient T$. 
+  Then under the identification of $\pi_1\calY$ with $G$ the group $\calY_{[v]}$ is conjugate to $G_v$.
+  Similarly, when $e$ is an edge of $T$ we have that $\calY_{[e]}$ is conjugate to $G_e$.
+
+  Conversely, if $G = \pi_1\calY$ where $\calY$ is a graph of groups then $G$ admits an action on a tree $T$ without edge inversions such that the stabiliser of each vertex of $T$ is conjugate to a vertex group in $\calY$ and the stabiliser of each edge of $T$ is conjugate to an edge group in $\calY$.
+
+  These operations give a one-to-one correspondence between the actions of a group on trees and the graph of groups decompositions of that group.
+\end{theorem}
+
+As a consequence of this theorem, we could have defined a splitting of a group $G$ over a class $\calA$ of subgroups of $G$ to be an action of $G$ on a tree $T$ without edge inversions such that for each edge $e \in E(T)$, $G_e \in \calA$.
+Note that the splitting is relative to a family $\calH$ of subgroups of $G$ if and only if each element of $\calH$ fixes a point in the action of $G$ on $T$; in this case the elements of $\calH$ are said to be \emph{elliptic}.
+Throughout this thesis we shall pass freely between these two notions of splittings.
+
+The following lemma reframes the concepts of Section~\ref{section:domination_refinement} in the language of actions on trees.
+
+\begin{lemma}\label{lemma:minimality_through_trees}
+  Let $G$ act on trees $T_1$ and $T_2$ without edge inversions. 
+  Then:
+  \begin{enumerate}
+    \item the splitting $T_1$ dominates $T_2$ if and only if there is a $G$-equivariant map $T_1 \to T_2$;
+    \item the splitting $T_1$ refines $T_2$ if and only if there is a $G$-equivariant collapse map $T_1 \to T_2$.
+  \end{enumerate}
+
+  Let $G$ act on a tree $T$ without edge inversions.
+  Then:
+  \begin{enumerate}
+    \item the splitting is trivial if and only if $G$ is elliptic;
+    \item the splitting is minimal if and only if $T$ contains no proper $G$-invariant subtree;
+    \item the splitting is without redundant vertices if, for any vertex $v$ in $T$ of degree two, there is an element of $G$ that swaps the two edges with initial vertex $v$.
+  \end{enumerate}
+\end{lemma}
+
+\begin{proof}
+  The conditions for domination and refinement are noted by Guirardel and Levitt in~\cite[Section 1.4.1--1.4.2]{guirardellevitt17}.
+
+  The condition for triviality is clear.
+
+  For minimality, note that if $T$ contains a proper $G$-invariant subtree $T'$ then $G \backslash T' \subset G \backslash T$ satisfies the conditions of Definition~\ref{definition:minimality}, since $T$ admits a $G$-equivariant deformation retract onto $T'$, and for any edge $e \in T - T'$, $G_e$ fixes the (unique) vertex of $T'$ closest to $e$.
+  Therefore the splitting is not minimal.
+
+  Conversely, suppose that the splitting is not minimal and let $\calY$ be the graph of groups associated to $T$, so there is a subgraph $Y' \subset Y$ satisfying the conditions of Definition~\ref{definition:minimality}.
+  Then $\pi_1\calY'$ is naturally isomorphic to $G$ and $\calY'$ dominates $\calY$.
+  Let $T'$ be the $G$-tree associated to $\calY'$.
+  Then there is a $G$-equivariant map $T' \to T$.
+  This map is not surjective, so its image is a proper $G$-invariant subtree of $T$.
+
+  The condition for redundant vertices is clear.
+\end{proof}
+
+The following lemma tells us how to build refinements of splittings by splitting the vertex groups relative to their incident edge groups.
+
+\begin{lemma}\cite[Lemma 4.12]{guirardellevitt17}\label{lemma:refinement_by_blowing_up}
+  Let $T$ be the tree associated to a splitting of $G$.
+  Let $v$ be a vertex of $G$.
+  Suppose that we have a splitting of $G_v$ relative to $\{G_e \suchthat \initial(e) = v\}$; let $S$ be the associated tree.
+  Then $T$ admits a refinement $p \from T' \to T$ such that $p^{-1}(v)$ is $G_v$-equivariantly isomorphic to $S$.
+\end{lemma}
+
+\section{Splittings over finite subgroups}
+
+In this section we recall some results about splittings of finitely presented groups over finite subgroups.
+In this setting each finitely presented group $G$ admits a maximal splitting that encodes all splittings of $G$ over finite subgroups.
+
+\begin{definition}
+  A group $G$ is \emph{accessible} if for any sequence $(\calY_i)_{i=1}^\infty$ of finite splittings of $G$ over its finite subgroups such that each $\calY_i$ is minimal and without redundant vertices, and such that $\calY_{i+1}$ refines $\calY_i$ for each $i$, there exists $I \in \naturals$ such that $\calY_i$ is equal to $\calY_{i+1}$ for all $i \geq I$.
+\end{definition}
+
+The first result on accessibility follows from the Grushko theorem~\cite{grushko40}: this shows that all finitely presented torsion-free groups are accessible.
+Dunwoody showed that the assumption on torsion is unnecessary:
+
+\begin{theorem}\cite{dunwoody85}
+  All finitely presented groups are accessible.
+\end{theorem}
+
+\begin{remark}
+  Note that not all groups are accessible.
+  Dunwoody constructed an example in~\cite{dunwoody93} of a finitely generated (but infinitely presented) inaccessible group.
+\end{remark}
+
+It follows that for any finitely presented group $G$ there exists a splitting over finite subgroups that is maximal for refinement; we shall call such a splitting a \emph{Dunwoody decomposition of $G$}.
+
+\begin{remark}
+  Note that this splitting dominates all finite splittings of $G$: let $T$ be the corresponding tree and let $S$ be the tree corresponding to some other splitting of $G$ over its finite subgroups.
+  Then for any edge $e$ of $T$, $G_e$ is elliptic with respect to the action on $S$, so for any vertex $v$ of $T$, $G_v$ must be elliptic with respect to the action on $S$, since otherwise the splitting over finite subgroups corresponding to $T$ can be non-trivially refined at $[v]$ using Lemma~\ref{lemma:refinement_by_blowing_up}.
+  So there exists a $G$-equivariant map from $T$ to $S$. 
+  \label{rem:maximalfinitesplitting}
+\end{remark}
+
+\begin{remark}\label{rem:nonuniqueness}
+  This maximal splitting is not unique: for example, if $G$ is a finitely generated free group then the set of its maximal splittings over the trivial subgroup is closely related to the Culler-Vogtmann Outer Space~\cite{cullervogtmann86}.
+  However, the vertex groups in a maximal splitting over finite subgroups are canonically determined: they are precisely the maximal zero-{} or one-ended subgroups of $G$.
+  Furthermore, if $T_1$ and $T_2$ are trees corresponding to two maximal splittings over finite subgroups then there exist $G$-equivariant maps $T_1 \to T_2$ and $T_2 \to T_1$.
+\end{remark}
+
+The first example of the splittings of a group being reflected in the large scale geometry of that group is then given by the following theorem of Stallings.
+
+\begin{theorem}\cite{stallings68,stallings71}
+  \label{theorem:stallings}
+  Let $G$ be a finitely generated group. 
+  Then $G$ has more than one end if and only if $G$ admits a non-trivial splitting over its finite subgroups.
+\end{theorem}
+
+If $G$ is accessible then a maximal decomposition has the property that each vertex group is zero-{} or one-ended.
+Recall that if $G$ is hyperbolic then the ends of $G$ are in bijection with the connected components of $\boundary G$, so in the setting of hyperbolic groups each vertex group in the Dunwoody decomposition has connected boundary.
+
+\section{JSJ decompositions}
+
+\begin{figure}
+  \begin{center}
+    \input{splittings_and_JSJs/surface.pdf_tex}
+  \end{center}
+  \caption{
+    Cutting this surface along the red curves yields a maximal splitting of the fundamental group over its cyclic subgroups.
+    However, this splitting does not dominate all others: in particular, it does not dominate the splitting obtained by cutting the surface along the blue curve.
+  }
+  \label{figure:surface_splitting}
+\end{figure}
+
+We now leave behind the problem of classifying splittings of a group over its finite subgroups: we suppose that the given group is one-ended and consider splittings over other families of subgroups.
+In this case, Dunwoody's accessibility theorem is replaced by a theorem of Bestvina and Feighn.
+Recall that a finitely generated group $H$ is \emph{small} if for any minimal non-trivial action of $H$ on a tree, $H$ maps either a ray or a bi-infinite geodesic into itself.
+In particular, any virtually cyclic group is small.
+
+\begin{theorem}\cite{bestvinafeighn91}\label{theorem:bestvina_feighn_accessibility}
+  Given a finitely presented group $G$, there exists a bound on the number of vertices in a minimal graph of groups decomposition of $G$ without redundant vertices with small edge groups.
+\end{theorem}
+
+We immediately encounter a difficulty that was not present in the case of splittings over finite groups: there is not necessarily a splitting with the property of Remark~\ref{rem:maximalfinitesplitting}.
+This non-existence of a splitting dominating all others is essentially due to the presence of surface pieces in the group: see Figure~\ref{figure:surface_splitting}.
+JSJ decompositions try to work around this difficulty, drawing inspiration from the following theorem.
+
+\begin{theorem}\cite{jacoshalen79,johannson79}
+  Let $M$ be an irreducible orientable closed 3-manifold.
+  Then there exists a collection\/ $\Sigma$ of disjointly embedded incompressible tori in $M$ such that each component of\/ $M - \Sigma$ is either atoroidal or Seifert fibred.
+  Furthermore, if\/ $\Sigma_1$ and\/ $\Sigma_2$ are minimal collections of tori with this property then $\Sigma_1$ is isotopic in $M$ to $\Sigma_2$.
+\end{theorem}
+
+Essentially, the theorem guarantees the existence and uniqueness of a collection $\Sigma$ of disjointly tori in $M$ so that cutting $M$ along $\Sigma$ leaves only pieces that cannot be cut further along tori (the atoroidal case) and pieces that can contain very many different intersecting tori (the Seifert fibred case.)
+Although it is then possible to decompose $M$ further by cutting the Seifert fibred pieces along embedded tori, we choose not to, since doing so would require the choice of a collection of \emph{disjoint} tori on which to cut, violating uniqueness of the decomposition.
+
+A JSJ decomposition of a group attempts to capture this uniqueness property.
+JSJ decompositions were introduced to group theory by Sela~\cite{sela97} to answer questions about rigidity and the isomorphism problem for torsion-free hyperbolic groups. 
+In~\cite{bowditch98} Bowditch developed a related type of decomposition for hyperbolic groups possibly with torsion; we return to study this decomposition in Section~\ref{section:bowditch_decomposition}.
+Bowditch's decomposition is built from the structure of local cut points in the boundary of the group and is therefore invariant under automorphisms of the group.
+For other constructions of JSJ decompositions of groups see~\cite{ripssela97,dunwoodysageev99,fujiwarapapsoglu06}.
+
+\subsection{Guirardel and Levitt}\label{section:guirardellevitt}
+
+In~\cite{guirardellevitt17} Guirardel and Levitt provide a general definition of the JSJ decomposition of a group.
+This definition unifies and simplifies many of the preexisting ideas on this subject and will be very useful later on, so we recall their definition here.
+We work in the language of group actions on trees.
+As before, let $G$ be a group and let $\calA$ be a collection of subgroups of $G$.
+
+\begin{definition}\cite{guirardellevitt17}
+  An \emph{$\calA$-tree} is a tree equipped with a $G$-action without edge inversions in which all edge stabilisers are in $\calA$, so $\calA$-trees correspond to splittings of $G$ over $\calA$.
+
+  A subgroup $H \leq G$ is \emph{universally elliptic} if it is elliptic with respect to any $\calA$-tree.
+  We denote by $\calAell$ the set of all universally elliptic elements of $\calA$.
+
+  A \emph{JSJ-tree of $G$ over $\calA$} is a $\calAell$-tree that dominates any other $\calAell$-tree. 
+  We call the splitting associated to such a tree a \emph{JSJ decomposition}.
+\end{definition}
+
+Guirardel and Levitt similarly define a relative JSJ decomposition.
+Here let $\calH$ be a finite collection of finitely generated subgroups of $G$.
+
+\begin{definition}\cite{guirardellevitt17}
+  An \emph{$(\calA,\calH)$-tree} is an $\calA$-tree in which every element of $\calH$ is elliptic.
+
+  A subgroup $H \leq G$ is \emph{universally elliptic relative to $\calH$} (or just universally elliptic if $\calH$ is understood) if it is elliptic with respect to any $(\calA,\calH)$-tree.
+  We denote by $\calAell$ the set of all universally elliptic elements of $\calA$ relative to $\calH$.
+
+  A \emph{JSJ-tree of $G$ over $\calA$ relative to $\calH$} is a $(\calAell,\calH)$-tree that dominates any other $(\calAell,\calH)$-tree. 
+\end{definition}
+
+\begin{theorem}\cite[Theorem 2.16 or Theorem 2.20]{guirardellevitt17}
+  If $G$ is finitely presented then a JSJ tree over $\calA$ (relative to $\calH$ if applicable) exists. 
+\end{theorem}
+
+If $\calY$ is a JSJ decomposition of $G$ then for each vertex $v$ in the underlying graph, there are two possibilities.
+In the first case, which is comparable to the atoroidal case of the classical JSJ decomposition of a 3-manifold, the decomposition $\calY$ cannot be refined at $v$. 
+Then $\calY_v$ does not admit a non-trivial decomposition relative to the incident edge groups by Lemma~\ref{lemma:refinement_by_blowing_up}.
+In this case we say that $v$ is \emph{rigid}.
+Alternatively, and analogously to the Seifert fibred case, there may be very many different ways to refine $\calY$ at $v$; in this case we say that $v$ is \emph{flexible}.
+
+In many cases, Guirardel and Levitt are able to describe the flexible vertices.
+Essentially, these all come from surfaces pieces in $G$, so Figure~\ref{figure:surface_splitting} is descriptive of flexible vertices in considerable generality.
+We do not need the full strength of this description in a general setting, although in Section~\ref{section:bowditch_decomposition} we will observe that this description of flexible vertex groups holds for Bowditch's decomposition.
+
+\subsection{Bowditch's canonical decomposition}\label{section:bowditch_decomposition}
+
+Before Guirardel and Levitt's general definition of JSJ decompositions, Bowditch defined a canonical decomposition of a one-ended hyperbolic group that coincides with a JSJ decomposition over virtually cyclic subgroups in the sense of Guirardel and Levitt.
+The canonicity of this decomposition follows from the way it is constructed: the decomposition is built from the structure of local cut points in the Gromov boundary of the group, and is therefore preserved by automorphisms of the group.
+The definition of this decomposition motivates our interest in detecting local cut points in the boundary of a hyperbolic group, which we discuss in Chapter~\ref{chapter:detecting_cut_pairs}.
+We use these results to prove the computability of Bowditch's JSJ decomposition in Chapter~\ref{chapter:computing_JSJs}.
+This computability theorem is the main result of this thesis.
+
+In this section we describe Bowditch's JSJ decomposition of a one-ended hyperbolic group.
+We begin by recalling Bowditch's terminology to describe the structure of local cut points.
+
+Let $\boundary G$ be the Gromov boundary of a one-ended hyperbolic group $G$; note then that $\boundary G$ is compact, connected, locally connected and has no cut point (i.e.\ no $x \in \boundary G$ such that $\boundary G - \{x\}$ is disconnected).
+Then, for $x$ in $\boundary G$, denote by $\val(x)$ the number of ends of $\boundary G - \{x\}$, the \emph{valency} of $x$.
+If a point $x$ in $\boundary G$ has valency at least 2 then we call $x$ a \emph{local cut point of $\boundary G$}.
+Let $M(n)$ be $\{x \in \boundary G \suchthat \val(x) = n\}$ and $M(n{+})$ be $\{x \in \boundary G \suchthat \val(x) \geq n\}$.
+For $x$ and $y$ in $\boundary G$, let $N(x, y)$ be the number of components of $\boundary G - \{x, y\}$; note that $N(x, y) \leq \max\{\val(x), \val(y)\}$.
+Define a relation $\equivrelation$ on $M(2)$ by letting $x \equivrelation y$ if and only if $x = y$ or $N(x, y) = 2$. 
+Define a second relation $\approx$ on $M(3{+})$ be letting $x \approx y$ if and only if $N(x, y) = \val(x) = \val(y)$.
+
+\begin{lemma}\cite[Lemma 3.1, Lemma 3.8, Proposition 5.13]{bowditch98}.
+  The relation $\equivrelation$ is an equivalence relation.
+  The relation $\approx$ partitions $M(3{+})$ into pairs. 
+\end{lemma}
+
+Let $T_1$ be the set of $\approx$-pairs and let $T_2$ be the set of $\equivrelation$-classes.
+Bowditch shows that $T_1 \disjointunion T_2$ can be embedded as a subset of the vertex set of a tree $T$ by adding a third class of vertices $T_3$. 
+Under this embedding the ``betweenness'' of elements of $T_1 \disjointunion T_2$ is preserved.
+Elements of $T_3$ are the subsets $F$ of $T_1 \disjointunion T_2$ satisfying the following two conditions. Firstly, for any $x,z$ in $F$ and $y$ in $T_1 \disjointunion T_2$, no pair of points in $y$ separates a point in $x$ from a point in $z$.
+Secondly, for any $x \notin F$, there exist $y,z$ in $F$ such that some pair of points in $y$ does separate a point in $x$ from a point in $z$.
+For more details of the construction of the tree $T$ from $T_1 \disjointunion T_2$, see~\cite[Section 2]{bowditch98}.
+
+As in Guirardel and Levitt's JSJ decompositions discussed in Section~\ref{section:guirardellevitt}, some vertices in Bowditch's decomposition correspond to surface pieces in $G$.
+To describe these vertices, Bowditch makes the following definition.
+
+\begin{definition}\label{definition:bounded_Fuchsian}
+  Recall that a \emph{bounded Fuchsian group} is a non-elementary group $Q$ that admits a properly discontinuous and convex cocompact action on the hyperbolic plane $\bbH^2$.
+  The \emph{peripheral subgroups} of a bounded Fuchsian group are the stabilisers of the components of the boundary of the minimal non-empty closed convex subset of $\bbH^2$ on which $Q$ acts. 
+\end{definition}
+
+\begin{definition}\label{definition:hanging_fuchsian}
+  A subgroup $H \leq G$ is \emph{hanging Fuchsian} if there exists a splitting of $G$ over virtually cyclic subgroups such that $H$ occurs as a vertex stabiliser, and $H$ admits an isomorphism with a bounded Fuchsian group such that the stabilisers of incident edges are mapped precisely to the peripheral subgroups of the bounded Fuchsian group.
+\end{definition}
+
+The following theorem summarises the properties of Bowditch's construction.
+
+\begin{theorem}\cite[Theorem 5.28]{bowditch98}\label{theorem:bowditch_JSJ}
+  Let $G$ be a one-ended hyperbolic group. 
+  Then $G$ acts minimally and without edge inversions on a tree $T$ such that all edge stabilisers are virtually cyclic.
+  The vertex set of $T$ is $T_1 \disjointunion T_2 \disjointunion T_3$, and these vertices have the following properties.
+  \begin{enumerate}
+    \item If $v \in T_1$ then its stabiliser $G_v$ is a maximal virtually cyclic subgroup of $G$.
+    \item If $v \in T_2$ then its stabiliser $G_v$ is a maximal hanging Fuchsian subgroup of $G$.
+    \item If $v \in T_3$ then its stabiliser is neither virtually cyclic nor hanging Fuchsian.
+  \end{enumerate}
+\end{theorem}
+
+\begin{remark} 
+  It is convenient to modify the vertex set $T_1$ by adding a degree 2 vertex at the midpoint of each edge in $T$ connecting a vertex in $T_2$ to a vertex in $T_3$.
+  Then $T$ becomes a bipartite tree with vertex set partitioned into $T_1$ and $T_2 \disjointunion T_3$.
+  It is this decomposition that we will refer to as \emph{Bowditch's JSJ decomposition.}
+\end{remark}
+
+Theorem~\ref{theorem:bowditch_JSJ} has the following important corollary.
+
+\begin{corollary}\cite[Theorem 6.2]{bowditch98}
+  \label{corollary:cut_pair_implies_splitting}
+  Let $G$ be a one-ended hyperbolic group. 
+  Suppose that $G$ is not cocompact Fuchsian. 
+  Then $G$ admits a non-trivial splitting over its virtually cyclic subgroups if and only if $\boundary G$ contains a local cut point.
+\end{corollary}
+
+\begin{remark}
+  The assumption that $G$ is not cocompact Fuchsian is essential.
+  If $G$ is cocompact Fuchsian then $\boundary G$ is homeomorphic to a circle, so certainly contains a local cut point.
+  However, not all cocompact Fuchsian groups admit non-trivial splittings over virtually cyclic subgroups: all torsion free cocompact Fuchsian groups do, but the hyperbolic triangle groups and their index 2 orientation preserving subgroups do not.
+  This exception to Corollary~\ref{corollary:cut_pair_implies_splitting} will cause us difficulties in computing JSJ decompositions, and is be discussed further in Section~\ref{section:fuchsian_groups}.
+\end{remark}
+
+\begin{remark}
+  Bowditch's JSJ decomposition is in fact a JSJ decomposition of $G$ in the sense of Guirardel and Levitt with $\calA$ equal to the set of virtually cyclic subgroups of $G$.
+  This result is stated in~\cite{guirardellevitt17}. For completeness, we give a full proof in Chapter~\ref{chapter:computing_JSJs}: see Proposition~\ref{proposition:bowditch_decomposition_is_a_JSJ}.
+  In the language of Guirardel and Levitt, vertices in $T_2$ will be seen to be flexible unless the quotient of $\bbH^2$ by the corresponding Fuchsian group is a particularly simple orbifold, such as a pair of pants, while vertices in $T_1 \union T_3$ are rigid.
+\end{remark}
+
+Geometrically, Bowditch's JSJ decomposition allows us to decompose a hyperbolic group into surface pieces and rigid pieces connected by cylinders.
+(In the presence of torsion the surface pieces are replaced by finite extensions of orbifold pieces and the cylinders are replaced by finite extensions products of closed one dimensional orbifolds with an interval.)
+Such a decomposition is shown in Figure~\ref{figure:JSJdecomposition}.
+
+\begin{figure}
+\begin{center}
+  \input{splittings_and_JSJs/JSJ.pdf_tex}
+\end{center}
+\caption{\label{figure:JSJdecomposition} 
+  The (graph of spaces corresponding to a) JSJ decomposition of a hyperbolic group. 
+  Vertices in $T_1$ can be seen as cylinders, vertices in $T_2$ as surfaces and vertices in $T_3$ as squares.}
+\end{figure}
+
+\subsection{Peripheral splittings}\label{section:peripheral_splittings}
+
+In~\cite{bowditch01,bowditch99b}, Bowditch defines a second decomposition built from the topology of the boundary of a group: the peripheral splitting of a relatively hyperbolic group.
+The boundary of a relatively hyperbolic group \emph{can} contain a cut point, and it is the structure of cut points in the boundary that determines the decomposition.
+
+\begin{definition} Let $G$ be a group and let $\calH$ be a collection of subgroups of $G$.
+  A \emph{peripheral splitting} of $G$ relative to $\calH$ is a representation of $G$ as the fundamental group of a graph of groups with bipartite underlying graph so that, up to conjugacy, the vertex groups of one colour are precisely the conjugates of elements of $\calH$.
+\end{definition}
+
+A peripheral splitting of $G$ relative to $\calH$ is a special kind of splitting of $G$ over subgroups of conjugates of elements of $\calH$ relative to $\calH$.
+It is clear that any peripheral splitting is indeed such a splitting and the following proposition provides a converse to this statement.
+
+\begin{proposition}\cite[Proposition 5.1]{bowditch01}
+  The group $G$ admits a non-trivial peripheral splitting relative to $\calH$ if and only if $G$ admits a non-trivial splitting over subgroups of elements of $\calH$ relative to $\calH$.
+\end{proposition}
+
+The relationship between peripheral splittings and the boundary of a relatively hyperbolic group is demonstrated by the following two theorems.
+
+\begin{theorem}\cite[Theorem 1.2]{bowditch01}
+  Let $G$ be a group and $\calH$ a finite set of finitely presented subgroups of $G$ such that $G$ is hyperbolic relative to $\calH$.
+  Suppose that $\boundary(G, \calH)$ is connected.
+  If $G$ admits a non-trivial peripheral splitting relative to $\calH$ then $\boundary(G, \calH)$ contains a cut point.
+\end{theorem}
+
+Putting together two theorems of Bowditch gives the following converse.
+
+\begin{theorem}\cite[Theorem 0.2]{bowditch99a}\cite[Theorem 1.2]{bowditch99b}
+  \label{theorem:cut_point_implies_splitting}
+    Let $G$ be a group and $\calH$ a finite set of finitely presented subgroups of $G$ such that $G$ is hyperbolic relative to $\calH$.
+    Suppose further that every element of $\calH$ is one-~or two-ended and no element of $\calH$ contains an infinite torsion subgroup.
+    If $\boundary(G, \calH)$ is connected and contains a cut point then $G$ admits a non-trivial peripheral splitting relative to $\calH$.
+\end{theorem}
+
+\subsection{Cut pairs in the relative setting}
+
+To prove the results of this thesis we will only need to understand the implications of cut pairs in the Bowditch boundary of a relatively hyperbolic group in the very special case in which all peripheral subgroups are virtually cyclic. 
+Elementary proofs of these results will be provided in Chapter~\ref{chapter:computing_JSJs}.
+However, some elements of Bowditch's Theorem~\ref{theorem:bowditch_JSJ} have recently been shown to have analogues in the relative case.
+For the sake of completeness, we include this result here.
+
+\begin{theorem}\cite{haulmark17}
+  Let $G$ be a group that his hyperbolic relative to a finite set $\calH$ of subgroups such that every element of $\calH$ is one-~or two-ended and no element of $\calH$ contains an infinite torsion subgroup.
+  If $\boundary(G, \calH)$ contains a non-parabolic local cut point (that is, a point $p$ that is not fixed by any conjugate of any element of $\calH$ such that $\boundary(G, \calH) - p$ has more than one end) then $G$ admits a splitting over a virtually cyclic subgroup.
+  Conversely, if $G$ admits a non-trivial splitting over a non-parabolic virtually cyclic subgroup then $\boundary(G, \calH)$ contains a non-parabolic local cut point.
+\end{theorem}
+
+\begin{remark}
+  Note that if $\{p, q\}$ is a cut pair and neither of $p$ and $q$ is a cut point then $p$ and $q$ are local cut points.
+\end{remark}
+
+\section{Detecting splittings over finite groups}
+
+In this section we give an overview of Dahmani and Groves's result~\cite{dahmanigroves08a} that there is an algorithm that computes a maximal splitting of a hyperbolic group over its finite subgroups. 
+This result will use Bestvina and Mess's double dagger condition: this is a geometric property of the Cayley graph of a hyperbolic group that turns out to be equivalent to the connectedness of the boundary of that group.
+This condition gives a quantitative local connectedness property for the boundary, which will be used in the proof of Proposition~\ref{proposition:shadows_connected}, a key step in our proof of Theorem~\ref{theorem:intro_topological_properties_features}.
+
+In fact, Dahmani and Groves work in the greater generality of a certain class of relatively hyperbolic groups.
+Although our application of their results is to Theorem~\ref{theorem:cut_pair_feature}, which concerns only hyperbolic groups, our methods require that we allow virtually cyclic peripheral subgroups, since the Bowditch boundary of the group relative to this family determines whether or not the group admits a splitting relative to this family. 
+
+\begin{theorem}\cite{dahmanigroves08a}
+  \label{theorem:dunwoody_decomposition_computable}
+  There is an algorithm that takes as input a presentation for a group $G$ and generators for a collection $\calH$ of abelian subgroups of $G$ such that $G$ is hyperbolic relative to $\calH$, and returns a Dunwoody decomposition of $G$.
+\end{theorem}
+
+Note that it is not difficult to find splittings of $G$ over finite subgroups algorithmically when they exist: using moves called Tietze transformations one may enumerate all presentations of $G$.
+Assuming that $G$ does admit a splitting, there is a presentation that clearly demonstrates that $G$ has the structure of an amalgamated product or HNN extension; it remains to check that the edge group in this splitting is finite.
+The existence of an algorithm that checks this is a standard result in the theory of hyperbolic groups.
+A similar approach will be applied to the problem of computing splittings over virtually cyclic subgroups in Chapter~\ref{chapter:computing_JSJs}.
+Following this argument, Dahmani and Groves obtain the following proposition.
+
+\begin{proposition}\cite[Proposition 5.2]{dahmanigroves08a}
+  There is an algorithm that takes as input a presentation for a group $G$ together with generators for a finite collection $\calH$ of abelian subgroups of $G$ such that $G$ is hyperbolic relative to $\calH$ and terminates if and only if that group admits a non-trivial splitting over a finite subgroup relative to those abelian subgroups.
+  (In other words, the property of admitting a non-trivial splitting over a finite subgroup is recursively enumerable among hyperbolic groups.)
+  In the case when it terminates, the algorithm returns the non-trivial relative splitting.
+\end{proposition}
+
+In light of this result, to prove Theorem~\ref{theorem:dunwoody_decomposition_computable} Dahmani and Groves required a way of certifying that the group does not admit a non-trivial splitting over a finite subgroup in cases when it does not.
+Recall Theorem~\ref{theorem:stallings}: this is equivalent to certifying that the boundary of the group is connected. 
+
+\subsection{The double dagger condition}\label{section:double_dagger}
+
+The so-called double dagger condition was introduced by Bestvina and Mess in~\cite{bestvinamess91} to study the local connectedness of the boundary of a hyperbolic group.
+The condition was later modified by Dahmani and Groves to guarantee its computability; we adopt their definition of the condition here.
+Let $X$ be the Cayley graph of a hyperbolic group $G$ with respect to a finite generating set, or, more generally, the cusped space associated to $(G, \calH, S)$ where $\calH$ is a finite collection of subgroups of $G$ such that $G$ is hyperbolic relative to $\calH$, and $S$ is a finite generating set for $G$ such that $S \intersection H$ generates $H$ for each $H \in \calH$.
+
+Fix a base point $1 \in X$ corresponding to the identity element of $G$ and fix an integer $\delta \geq 0$ such that $X$ is $\delta$-hyperbolic.
+
+\begin{lemma}\cite[Lemma 2.11]{dahmanigroves08a}\label{lemma:close_geodesic_ray}
+  For any $x$ in $X$, there is a geodesic ray starting at $1$ that passes within a distance $3\delta$ of $x$.
+\end{lemma}
+
+For the remainder of this section let $C = 3\delta$. 
+Also let $M = 6(C + 45\delta) + 2\delta + 3$.
+
+\begin{definition}\cite{dahmanigroves08a}
+  Let $\epsilon \geq 0$.
+  A pair of points $x$ and $y$ in $X$ satisfy $\star_\epsilon$ if $d(x,y) \leq M$ and $\mod{d(1, x) - d(1, y)} \leq \epsilon$.
+
+  Let $n \in \integers_{\geq 0}$. 
+  For a pair $(x, y)$ of points in $X$ satisfying $\star_\epsilon$ we say that the condition $\ddag(\epsilon, n)(x, y)$ holds if there is a path from $x$ to $y$ in $X$ of length at most $n$ that avoids the open ball $B_1(m - C - 45\delta + 3\epsilon)$, where $m = \min\{d(1, x), d(1, y)\}$.
+
+  We shall say that $X$ satisfies $\ddag(n)$ if for any pair of points $x$ and $y$ in $X$ satisfying $\star_0$, the condition $\ddag(0, n)(x, y)$ holds. 
+\end{definition}
+
+\begin{figure}[h]
+  \begin{center}
+    \input{splittings_and_JSJs/doubledagger.pdf_tex}
+  \end{center}
+  \caption{ The points $x$ and $y$, which we assume to satisfy $\star_\epsilon$, can be joined by a (blue) path of length at most $n$ outside the (red) open ball of radius $m - C - 45\delta + 3\epsilon$ around $1$, so $\ddag(\epsilon, n)(x, y)$ is satisfied.}
+  \label{fig:doubledagger}
+\end{figure}
+
+\begin{remark}
+  Note that the parameter $n$ in $\ddag(n)$ differs from the corresponding definition of the double dagger definition of Bestvina and Mess~\cite{bestvinamess91}; the definition given here is more convenient for our purposes.
+\end{remark}
+
+The following lemma relates the double dagger condition to the connectedness of $\boundary X$.
+
+\begin{proposition}\cite[Proposition 3.2]{bestvinamess91}
+  \label{proposition:ddag_implies_connected}
+  Suppose that $X$ satisfies $\ddag(n)$ for some $n$.
+  Then $\boundary X$ is path-connected and locally path-connected.
+\end{proposition}
+
+This proposition is proved by noting that the double dagger condition allows one to ``push'' paths in $X$ out onto $\boundary X$.
+This construction will be used in Chapter~\ref{chapter:detecting_cut_pairs} and is key to relating the existence of cut pairs in the boundary to the geometry of the cusped space.
+See the proof of Proposition~\ref{proposition:shadows_connected} for a detailed example of how to use the double dagger condition in this manner.
+
+A converse to Proposition~\ref{proposition:ddag_implies_connected} was proved by Bestvina and Mess~\cite[Proposition 3.3]{bestvinamess91} in the absolute case (that is, $\calH = \emptyset$) under the assumption that $\boundary X$ does not contain a cut point. 
+Recall from Section~\ref{section:gromov_boundary} that this assumption is now known to hold for all hyperbolic groups. 
+More generally, Dahmani and Groves~\cite{dahmanigroves08a} show that this converse holds for relatively hyperbolic groups as long as we place some restrictions on the peripheral subgroups, still with the assumption that $\boundary X$ does not contain a cut point.
+Dahmani and Groves provide a complete proof of this converse in the case that $\calH$ consists of abelian subgroups of rank at least 2 of $G$ and comment on how to extend their arguments to abelian subgroups of rank 1.
+Most of their methods apply equally well when the elements of $\calH$ are virtually cyclic but not necessarily abelian, and it is this case that will interest us in Section~\ref{chapter:detecting_cut_pairs}, so we now collate the results of~\cite{dahmanigroves08a} and fill in the gaps in the virtually cyclic case.
+We divide into cases according to whether $x$ and $y$ are in the thick or the thin part of $X$.
+
+The following proposition deals with the thick part of $X$, and holds without assumption on the nature of the peripheral subgroups.
+
+\begin{proposition}\cite[Lemma 4.2]{dahmanigroves08a}
+  \label{proposition:double_dagger_thick}
+  Let $k \in \integers_{\geq0}$.
+  If $\boundary X$ is connected and does not contain a cut point then there exists $n \in \integers_{\geq 0}$ such that $\ddag(10\delta, n)(x, y)$ holds for all $x$ and $y$ in $X_k$ satisfying $\star_{10\delta}$.
+\end{proposition}
+
+Note that although this proposition was originally stated for $k = 2M$, the proof given in~\cite{dahmanigroves08a} works for any value of $k$.
+
+The following proposition deals with cusps corresponding to abelian parabolic subgroups of $G$. 
+
+\begin{proposition}\cite[Lemma 2.16]{dahmanigroves08a}
+  \label{proposition:double_dagger_thin_rank_2}
+  Let $K = 3(2^{2M + 3}) + M + 3$. 
+  Let $H \in \calH$ be abelian of rank at least 2 and let $t \in T_H$ be an element of the left transversal of $H$ in $G$.
+  Then consider the horoball $\Hor(\Gamma_{H,t}) \subset X$.
+  Let $\Hor(\Gamma_{H,t})_k$ be the set of points in the horoball of height at least $k$.
+  Let $x$ and $y$ be points in $\Hor(\Gamma_{H,t})_k$ satisfying $\star_{20\delta}$.
+  Then $x$ and $y$ are connected by a path in $X$ of length at most $K$ that does not meet the open ball $B_1(\min\{d(1, x), d(1, y)\})$.
+\end{proposition}
+
+As noted in the proof of~\cite[Lemma 2.16]{dahmanigroves08a}, a similar result holds for rank 1 abelian peripheral subgroups. 
+The authors of that paper indicate that this follows from the fact that the corresponding horoballs are quasi-isometric to horoballs in $\bbH^2$.
+We now give a precise statement and and an alternative proof of this result, generalised to allow all virtually cyclic parabolics.
+
+\begin{proposition}
+  \label{proposition:double_dagger_thin_virtually_cyclic}
+  Let $L = 48\cdot2^{2M} + 5M + 20$.
+  Let $H \in \calH$ be virtually cyclic and let $t \in T_H$ be an element of the left transversal of $H$ in $G$.
+  Fix $\delta_H$ such that $\Gamma_{H,t}$ is $\delta_H$-hyperbolic with respect to the path metric on $\Gamma_{H,t} \subset X$.
+  Let $k \geq \min\{\log_2(2\delta_H+1),\delta\}$.
+  Let $x_1$ and $x_2$ be points in $\Hor(\Gamma_{H,t})_k$ such that $d(x_1, x_2) \leq M$ and $d(1,x_i) \geq m$ for each $i$.
+  Then there is a path from $x_1$ to $x_2$ in $\Hor(\Gamma_{H,t})_k$ of length at most $L$ that does not meet $B_1(m - 20\delta - 7)$.
+\end{proposition}
+
+\begin{proof}
+  First note that $\Gamma_{H,t} \times \{0\} \subset \Hor(\Gamma_{H,t})$ contains a bi-infinite geodesic $\alpha \times \{0\}$ with respect to the path metric. 
+  Furthermore, $t \mapsto \alpha(2^ht)$ defines the integer points of a geodesic in $\Gamma_{H,t} \times \{h\}$ with respect to the path metric.
+  Also, since $\Gamma_{H,t} \times \{0\}$ is $\delta_H$-hyperbolic, $\alpha$ is $(2\delta+1)$-quasi-surjective, and therefore every point in $\Gamma_{H,t} \times \{h\}$ is within a distance 1 of a point on $\alpha \times \{h\}$ as long as $h \geq \log_2(2\delta+1)$.
+  It follows that, at the cost of changing some constants by 2, we may assume that $t \mapsto \alpha(t) \times \{0\} \subset \Gamma_{H,t} \times \{0\}$ is an isometry from $\reals$.
+
+  We therefore assume that this is the case and that $x_1$ and $x_2$ are points in $\Hor(\Gamma_{H,t})_k$ such that $d(x_1, x_2) \leq M + 2$ and $d(1, x_i) \geq m-2$ for each $i$.
+  We must show that $x_1$ and $x_2$ are connected by a path in $\Hor(\Gamma_{H,t})_k$ of length at most $L - 2$ that does not meet the open ball $B_1(m - 20\delta -7)$.
+  To construct this path we must first understand the intersection $B_1(m - 20\delta - 7) \intersection \Hor(\Gamma_{H,t})_k$.
+  Let $v \in \Hor(\Gamma_{H,t})_k$ be a point closest to $1$ in $\Hor(\Gamma_{H,t})_k$ and let $y$ be an arbitrary point in $B_1(m - 20\delta - 7) \intersection \Hor(\Gamma_{H,t})_k$.
+  Then we apply the formulation of hyperbolicity given in Definition~\ref{definition:thin_triangles}: the geodesic triangle $\Delta(1, v, y)$ is $4\delta$-thin by Lemma~\ref{lemma:thin_vs_slim}.
+  Take points $i_1$, $i_v$ and $i_y$ on edges $[v,y]$, $[1,y]$ and $[1,v]$ respectively such that $\{i_1, i_v, i_y\}$ has diameter at most $4\delta$.
+  Then we have the following inequality.
+  \begin{align*}
+    d(1,y) = d(1,i_v) + d(i_v, y) & \geq d(1, i_y) - 4\delta + d(i_1, y) - 4\delta \\
+                                  & = d(1, v) + d(v, y) - 8\delta - d(i_y, v) - d(v, i_1).
+  \end{align*}
+  Furthermore, $\Hor(\Gamma_{H,t})_k$ is convex as long as $k > \delta$ by~\cite[Lemma 3.26]{grovesmanning08}, so $[v,y] \subset \Hor(\Gamma_{H,t})_k$ and therefore $d(i_y, v) \leq d(i_z, i_1) \leq 4\delta$.
+  Also, $d(v, i_1) \leq d(v, i_z) + d(i_z, i_1) \leq 8\delta$.
+  It follows from these inequalities that we have the following inclusion.
+  \begin{align*}
+    \left(B_1(m - 20\delta - 7) \intersection \Hor(\Gamma_{H,t})_k\right) \subset \left(B_v (m - d(1,v) - 7) \intersection \Hor(\Gamma_{H,t})_k\right).
+  \end{align*}
+  Note that since $\Hor(\Gamma_{H,t})_k$ is convex in $X$ the second intersection is equal to the ball in $\Hor(\Gamma_{H,t})_k$ with centre $v$ and radius $m - d(1,v) - 7$ with respect to the path metric.
+
+  We now describe this set in terms of coordinates in $\Hor(\Gamma_{H,t})_k$.
+  By reparametrising $\alpha$ we may assume that $v = (\alpha(0), k)$.
+  Consider a geodesic segment from $v$ to a point $(\alpha(t), h) \in \Hor(\Gamma_{H,t})_k$ of length at most $m - d(1,v) - 7$.
+  Immediately we see that $k \leq h \leq k + m - d(1,v) - 7$.
+  We may assume that this geodesic initially ascends vertically, then travels horizontally a distance of at most 3, then descends vertically. 
+  The maximum height of any point on this geodesic is at most $(k + h + m - d(1,v) - 7)/2$, so $t$ is bounded above:
+  \begin{align*}
+    \left|t\right| &\leq 3\cdot2^{(k + h - 7 + m - d(1,v))/2}.
+  \end{align*}
+  It follows that $B_1(m - 20\delta - 5) \intersection \Hor(\Gamma_{H,t})_k$ is contained in the following set, which we shall call $B$.
+  \begin{align*}
+    B = \left\{ (\alpha(t), h) \vert k \leq h \leq k + m - d(1,v) - 5, \left|t\right| \leq 3\cdot2^{(k + h - 7 + m - d(1,v))/2}\right\}
+  \end{align*}
+
+  We now show that we have not enlarged the ball too much: we show that $x_1$ and $x_2$ are not in $B$.
+  Let $x_i = (\alpha(t_i), h_i)$.
+  It follows from the triangle inequality and the assumption that $d(1, x_i) \geq m - 2$ that $d(v, x_i) \geq m - d(1,v) - 2$.
+  There is a geodesic from $v$ to $x_i$ comprising an ascending vertical segment, followed by a horizontal segment of length at most 3, followed by a descending vertical segment.
+  If the descending segment is trivial then $h_i > k + m - d(1,v) - 4$, so $x_i \notin B$.
+  Otherwise the horizontal segment has length at least 2, and the height of the apex of this path is at least $(k + h_i - 3 + m - d(1,v) - 2)/2$, so $|t_i| > 2^{(k + h_i - 5 + m - d(1,v))/2}$.
+  It again follows that $x_i \notin B$.
+
+  We shall construct the path from $x_1$ to $x_2$ to avoid $B$.
+  We divide into cases according to the configuration of $x_1$ and $x_2$ with respect to $B$.
+  First deal with the case in which $t_1$ and $t_2$ have opposite signs; in this case we show that both $x_1$ and $x_2$ must be higher than or almost as high as the highest point in $B$.
+  In this case, for each $i$ we have $d(x_i, \{\alpha(0)\} \times [k, \infty) ) \leq M+3$ and $d(v, x_i) \geq m - d(1, v) - 2$.
+  By considering a geodesic from $v$ to $x_i$ it follows that $h_i \geq k + m - d(1,v) - 2M - 8$.
+  Therefore if either $x_1$ or $x_2$ lies underneath $B$ then this can be rectified by moving that point along a path following $\alpha$ of length at most $24\cdot2^{2M}$ that avoids $B$.
+  Still avoiding $B$, if either point has height less than the maximum height of $B$ then this can be rectified by moving that point upwards by a distance of at most $2M + 5$.
+  The two points can then be connected by a geodesic of length at most $6 + (M + 2)$.
+  The lowest point of this geodesic is higher than the highest point of $B$, so the geodesic does not intersect with $B$.
+  Therefore $x_1$ can be joined to $x_2$ by a path avoiding $B$ of length at most $48\cdot2^{2M} + 5M + 18 \leq L - 2$.
+
+  Now assume that $t_1$ and $t_2$ have the same sign, say $0 \leq t_1 \leq t_2$.
+  Note that $t_2 - t_1 \leq 2^{M + 2+ h_1}$ and $|h_2 - h_1| \leq M + 2$.
+  If $x_1$ and $x_2$ both have height less that the highest point in $B$ then it follows that $x_1$ can be connected to $x_2$ by a path of length at most $2^{M+2} + M+2 \leq L-2$ avoiding $B$; this path consists of a horizontal segment from $x_1$ until $x_1$ lies directly over or directly under $x_2$, followed by a vertical segment.
+
+  If $x_1$ and $x_2$ are both at least as high as the highest point in $B$ then it follows that the geodesic from $x_1$ to $x_2$ avoids $B$; this has length at most $M+2 \leq L-2$.
+
+  In the remaining case, say that $x_1$ has height less than that of the highest point in $B$ and $x_2$ has height at least that of the highest point in $B$.
+  Then $h_1 \geq k + m - d(1,v) - 4 - M - 2$, so if $x_1$ lies underneath $B$ then this can be rectified by moving $x_1$ along a path following $\alpha$ of length at most $3\cdot 2^{M+2}$ that avoids $B$.
+  Append to this path an ascending vertical path ending at height equal to the that of the highest point in $B$; this path has length at most $M+2$.
+  The end point of this path is within a distance $M + 5$ of $x_2$, so $x_1$ and $x_2$ can be joined by a path of length at most $3\cdot 2^{M+2} + 2M + 7 \leq L - 2$.
+\end{proof} 
+
+Putting together Propositions \ref{proposition:double_dagger_thick}, \ref{proposition:double_dagger_thin_rank_2} and~\ref{proposition:double_dagger_thin_virtually_cyclic}, we obtain the following.
+
+\begin{proposition}\label{proposition:double_dagger_condition_satisfied}
+  Suppose that every element of $\calH$ is virtually cyclic or abelian.
+  Suppose also that $\boundary X$ is connected and does not contain a cut point.
+  Then there exists $n$ such that $\ddag(10\delta, n)(x,y)$ holds for all $x$ and $y$ in $X$.
+\end{proposition}
+
+\subsection{The computability of \texorpdfstring{$\ddag$}{the double dagger condition}}
+
+In Section~\ref{section:double_dagger} we recalled the definition of the double dagger condition on the cusped space of a relatively hyperbolic group; this is a quantitative local connectedness condition for the boundary of that group.
+In order to apply this condition in algorithms we require a method to compute the parameters with which the condition holds.
+
+We now recall results of Dahmani and Groves~\cite{dahmanigroves08a} that accomplish this goal.
+To incorporate the possibility of virtually cyclic parabolic subgroups we must modify the constants of these results: Dahmani and Groves treat separately the parts of $X$ that lie in $X_{2M}$ and the parts that lie in $\Hor(\Gamma_{H,t})_{M}$ for some peripheral subgroup $H \in \calH$ and $t$ in the left transversal $T_H$.
+In the presence of virtually cyclic subgroups we still treat the thick and thin parts of $X$ separately, but we must allow the cut-off between these two regimes to depend on the distortion of the virtually cyclic parabolic subgroups as in Proposition~\ref{proposition:double_dagger_thin_virtually_cyclic}.
+In spite of this minor modification the proofs of the following results can be taken from~\cite{dahmanigroves08a} almost verbatim.
+
+\begin{proposition}\cite[Lemma 4.4]{dahmanigroves08a} \label{proposition:check_finite_ball}
+  Let $k \in \integers_{\geq 0}$ and let $R(n) = 4(n+M) + 7k + 50\delta + 3$. 
+  Suppose that $n$ is given such that $\ddag(10\delta,n)(x,y)$ holds for all pairs of vertices $x$ and $y$ satisfying $\star_{10\delta}$ in $B_1(R(n))$.
+  Then $\ddag(0,n)(x,y)$ holds for all pairs of vertices $x$ and $y$ satisfying $\star_0$ in $X_k$.
+\end{proposition}
+
+\begin{theorem}\cite[Proposition 5.1]{dahmanigroves08a}
+  \label{theorem:double_dagger_computable}
+  There is an algorithm that takes as input a presentation for a group $G$ and finite generating sets for a finite collection $\calH$ of abelian and virtually cyclic subgroups of $G$ such that $G$ is hyperbolic relative to $\calH$ and terminates if and only if $\ddag(n)$ holds for some $n \in \integers_{\geq 0}$. 
+  If the algorithm terminates it returns this value of $n$.
+\end{theorem}
+
+The following proof is modified from~\cite{dahmanigroves08a}.
+
+\begin{proof}
+  First compute $\delta$ so that the cusped space is $\delta$-hyperbolic and $\deltaH$ so that $\Cay(H, S \intersection H)$ is hyperbolic for each $H \in \calH$.
+  Algorithms to accomplish this will be discussed in Section~\ref{section:computing_the_constants}.
+
+  Take $k \geq 2M$ and $\geq \log(2\delta_H) + M$ for every virtually cyclic group $H \in \calH$.
+  Initially set $n$ to be the maximum of the constants $K$ and $L$ defined in Propositions \ref{proposition:double_dagger_thin_rank_2} and~\ref{proposition:double_dagger_thin_virtually_cyclic}.
+  Then check whether or not $\ddag(10\delta,n)(x,y)$ holds for all pairs of points $x$ and $y$ satisfying $\star_{10\delta}$ in $B_1(R(n))$.
+  If it does then $\ddag(n)$ holds by Propositions~\ref{proposition:double_dagger_thin_rank_2}, \ref{proposition:double_dagger_thin_virtually_cyclic} and~\ref{proposition:check_finite_ball}.
+  The algorithm now terminates and returns $n$.
+  If the condition does not hold for some pair of points then increment $n$ by 1 and repeat this process.
+\end{proof}
+

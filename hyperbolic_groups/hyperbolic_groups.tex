@@ -1,0 +1,637 @@
+\chapter{Group actions on hyperbolic spaces}
+\label{chapter:hyperbolic_groups}
+
+In this chapter, we summarise some aspects of the theory of group actions on hyperbolic metric spaces.
+We begin by describing \emph{hyperbolic groups}: these are the groups that admit the nicest possible action on a hyperbolic space, and are the main subject of this thesis.
+We shall then loosen our restriction on the types of action that we consider to those actions satisfying a geometric finiteness condition. 
+The groups that admit such an action are called \emph{relatively hyperbolic}.
+
+Most of the ideas outlined in this chapter are originally due to Gromov~\cite{gromov87}.
+For additional details see~\cite{coornaertdelzantpapadopoulos90,ghysdelaharpe90,bridsonhaefliger99}.
+
+\section{Word hyperbolicity}
+
+\subsection{The word metric and the \v{S}varc-Milnor Lemma}
+
+Begin by fixing a group $G$ with a finite generating set $S$. 
+Let $\Cay(G,S)$ be the Cayley graph of $G$ with respect to $S$; this can be made into a metric space by isometrically identifying each edge of $\Cay(G,S)$ with a copy of the interval $[0,1]$ and endowing $\Cay(G,S)$ with the path metric.
+The induced metric on the vertex set $G \subset \Cay(G,S)$ is called the \emph{word metric} and is denoted $d_S$.
+Then $d_S(g,h) = \min\{n \suchthat h = gs_1^{\pm 1}\ldots s_n^{\pm 1}, s_i \in S\}$.
+Crucially, note that if $S'$ is another finite generating set for $G$ then the metrics $d_S$ and $d_{S'}$ are closely related: they are Lipschitz equivalent with constant equal to the maximum length of any element of $S$ or $S'$ when written in the alphabet $S'$ or $S$ respectively.
+
+We now extend this independence of generating set to the metric on the Cayley graph, and further to the geometry of a large class of metric spaces on which $G$ acts, so that geometric properties of metric spaces admitting $G$-actions becomes an intrinsic property $G$ itself.
+To do this we loosen our idea of metric equivalence from Lipschitz equivalence to ``Lipschitz equivalence up to an additive error''.
+
+\begin{definition}
+  Let $(X,d_X)$ and $(Y,d_Y)$ be metric spaces, and let $f \from X \to Y$ be a map.
+  (Note that $f$ is not assumed to be continuous.)
+  Then $f$ is a \emph{$\lambda$-quasi-isometric embedding} for $\lambda \geq 1$ if
+  \begin{align}
+    \frac{1}{\lambda} d_X(x_1, x_2) - \lambda \leq d_Y(f(x_1), f(x_2)) \leq \lambda d_X(x_1, x_2) + \lambda.
+  \end{align}
+  
+  Furthermore, $f$ is \emph{$\lambda$-quasi-surjective} if for every $y \in Y$, $d_Y(y, f(X)) \leq \lambda$.
+
+  Finally, $f$ is a \emph{quasi-isometry} (and $X$ and $Y$ are \emph{quasi-isometric}) if it is a $\lambda$-quasi-surjective $\lambda$-quasi-isometric embedding for some $\lambda$.
+\end{definition}
+
+\begin{lemma}
+  Quasi-isometry is an equivalence relation on metric spaces.
+\end{lemma}
+
+Immediately we see that $(G,d_S)$ is quasi-isometric (with $\lambda = 1/2$) to the Cayley graph $\Cay(G,S)$; it follows that $\Cay(G,S)$ and $\Cay(G,S')$ are quasi-isometric for any finite generating sets $S$ and $S'$ for $G$.
+Indeed, we shall soon see that much more is true: any two sufficiently nice metric spaces on which $G$ acts sufficiently nicely must be quasi-isometric.
+
+Spaces that are quasi-isometric look similar on a sufficiently large scale, and we expect large scale metric properties of a space to be invariant under quasi-isometry.
+
+\begin{definition}
+  Let $(X,d_X)$ be a metric space.
+  Then $X$ is \emph{proper} if all closed balls in $X$ are compact, or, equivalently, if $X$ is complete and locally compact.
+
+  We call $X$ a \emph{geodesic space} if for any pair of points $x_1$ and $x_2$ in $X$, there is an isometric embedding $\gamma \from [0, d_X(x_1, x_2)] \to X$ with $\gamma(0) = x_1$ and $\gamma(d_X(x_1, x_2)) = x_2$.
+  In this case we call $\gamma$ a \emph{geodesic segment}. 
+  An isometric embedding $\gamma \from [0, \infty) \to X$ is called a \emph{geodesic ray} and an isometric embedding $\gamma \from (-\infty, \infty) \to X$ is called a \emph{bi-infinite geodesic}.
+\end{definition}
+
+\begin{definition}\label{definition:geometric_actions}
+  An action of a group $G$ on a topological space $X$ is called \emph{cocompact} if $G\backslash X$ is compact.
+  An action is \emph{properly discontinuous} if for any compact subset $K \subset X$, the set $\{g \in G \suchthat g\cdot K \intersection K \neq \emptyset\}$ is finite.
+  If $X$ is a metric space, then an action of $G$ on $X$ by isometries is \emph{geometric} if it is cocompact and properly discontinuous.
+\end{definition}
+
+Then $\Cay(G, S)$ is a proper geodesic space and the action of $G$ on $\Cay(G, S)$ by left multiplication is geometric.
+
+\begin{remark}
+  Note that geodesics are not required to be unique when they exist.
+  However, we shall often ignore this issue and denote by $[x_1,x_2]$ the image of some geodesic segment from $x_1$ to $x_2$.
+\end{remark}
+
+\begin{theorem}[The \v{S}varc-Milnor Lemma]
+  \label{theorem:svarc_milnor}
+  Let a group $G$ act geometrically on a proper geodesic space $(X,d_X)$. 
+  Then $G$ has a finite generating set $S$ and for any $v \in X$ the orbit map $g \mapsto g\cdot v$ from $(G, d_S)$ to $(X, d_X)$ is a quasi-isometry.
+\end{theorem}
+
+It follows that any two proper geodesic spaces on which $G$ acts geometrically are quasi-isometric, and the large scale geometric properties of any such space are properties intrinsic to $G$ itself.
+
+\subsection{Hyperbolic geometry}
+
+We now define a large scale negative curvature property called \emph{(Gromov) hyperbolicity}.
+
+\begin{definition}\cite{gromov87}\label{definition:slim_triangles}
+  Let $(X, d_X)$ be a metric space.
+  A \emph{geodesic triangle} in $X$ is a triangle in $X$, the edges of which are geodesics.
+  We shall sometimes denote by $\Delta(x_1, x_2, x_3)$ some geodesic triangle with vertices $x_1$, $x_2$ and $x_3$.
+
+  For $\delta \geq 0$, a geodesic triangle is said to be \emph{$\delta$-slim} if each of its three edges is contained in the union of its other two edges.
+  See Figure~\ref{figure:delta_slim}.
+
+  The space $X$ is \emph{$\delta$-hyperbolic} (or just \emph{hyperbolic} if the constant $\delta$ is not important) if every geodesic triangle in $X$ is $\delta$-slim.
+\end{definition}
+
+\begin{figure}
+  \begin{center}
+    \input{hyperbolic_groups/slim_triangle.pdf_tex}
+  \end{center}
+  \caption{A $\delta$-slim triangle.}
+  \label{figure:delta_slim}
+\end{figure}
+
+\begin{example}
+  \begin{enumerate}
+    \item All metric trees are $0$-hyperbolic: geodesic triangles in trees are tripods, and each of the edges of a triangle is contained in the union of the other two.
+    \item For any $n$, the hyperbolic space $\bbH^n$ is $\log(1 + \sqrt{2})$-hyperbolic.
+  \end{enumerate}
+\end{example}
+
+This property of metric spaces is quasi-isometry invariant.
+This fact follows from the Morse property of geodesics in a hyperbolic metric space.
+See Theorem~\ref{theorem:morse_property} below.
+
+\begin{lemma}\label{lemma:hyperbolicity_is_QI_invariant}
+  Let $(X, d_X)$ and $(Y, d_Y)$ be metric spaces and suppose that $Y$ is $\delta$-hyperbolic.
+  Suppose also that $f \from X \to Y$ is a $\lambda$-quasi-isometric embedding.
+  Then $X$ is $\delta'$ hyperbolic, where $\delta'$ depends only on $\delta$ and $\lambda$.
+\end{lemma}
+
+\subsubsection{Alternative formulations of hyperbolicity}
+
+There are very many equivalent definitions of hyperbolicity. 
+In this section we recall two that will be used later on. 
+The first is a condition on triangles similar to that of Definition~\ref{definition:slim_triangles}.
+
+\begin{definition}\label{definition:thin_triangles}
+  Let $X$ be a geodesic metric space and let $x$, $y$ and $z$ be points in $X$.
+  We say that the triangle $\Delta(x, y, z)$ is \emph{$\delta$-thin} if there exist points $i_x$, $i_y$ and $i_z$ on edges $[y,z]$, $[z,x]$ and $[x,y]$ respectively such that $\{i_x, i_y, i_z\}$ has diameter at most $\delta$.
+  See Figure~\ref{figure:delta_thin}.
+\end{definition}
+
+\begin{figure}
+  \begin{center}
+    \input{hyperbolic_groups/thin_triangle.pdf_tex}
+  \end{center}
+  \caption{A $\delta$-thin triangle}
+  \label{figure:delta_thin}
+\end{figure}
+
+Since the three points $i_x$, $i_y$ and $i_z$ all lie close to all three edges of $\Delta(x, y, z)$, any one of them can be thought of as a ``coarse incentre'' for the triangle.
+Then a triangle is $\delta$-thin if its ``coarse inradius'' is at most $\delta$. 
+
+\begin{lemma}\label{lemma:thin_vs_slim}
+  Let $X$ be a geodesic metric space.
+  If every geodesic triangle in $X$ is $\delta$-slim then every geodesic triangle is $4\delta$-thin.
+  If every geodesic triangle is $\delta$-thin then every geodesic triangle is $\delta$-slim.
+\end{lemma}
+
+This lemma shows that we could equivalently have defined a hyperbolic metric space to be a geodesic space in which all triangles are uniformly thin.
+
+Secondly, we give a formulation of hyperbolicity in terms of a quantity called the Gromov product.
+This quantity will be used in Section~\ref{section:visual_metric} to define the visual metric on the boundary of a hyperbolic space.
+
+\begin{definition}\label{definition:gromov_product}
+  Let $X$ be a metric space containing a base point $v$ and let $x$ and $y$ be points in $X$.
+  Then the \emph{Gromov product} of $x$ and $y$ with respect to $v$ is
+  \begin{align}
+    \gromprod[v]{x}{y} = \frac{1}{2}(d(v, x) + d(v, y) - d(x, y))
+  \end{align}
+\end{definition}
+
+For intuition on this quantity, note that if $X$ is a tree then $\gromprod[v]{x}{y}$ is the distance from $v$ to the (unique) geodesic $[x,y]$.
+
+\begin{definition}\label{definition:hyperbolic_spaces2}
+  Let $X$ be a metric space and let $v$ be a base point in $X$.
+  Then $X$ is \emph{$\delta$-hyperbolic} if for any $x$, $y$ and $z$ in $X$ the following inequality holds.
+  \begin{align}
+    \gromprod[v]{x}{y} \geq \min\{\gromprod[v]{x}{z}, \gromprod[v]{z}{y}\} - \delta
+  \end{align}
+\end{definition}
+
+\begin{proposition}
+  A geodesic metric space is hyperbolic in the sense of Definition~\ref{definition:slim_triangles} if and only if it is hyperbolic in the sense of Definition~\ref{definition:hyperbolic_spaces2}, although the constant $\delta$ might be different.
+\end{proposition}
+
+Note that Definition~\ref{definition:hyperbolic_spaces2} is applicable even when $X$ is not assumed to be a geodesic space, although we will not make use of this greater generality in this thesis.
+
+\subsubsection{The Morse property}
+
+Geodesics in hyperbolic metric spaces satisfy a useful rigidity property.
+
+\begin{definition}
+  Let $X$ be a metric space and let $I \subset \reals$ be an interval.
+  Let $\gamma \colon I \to X$ be a (possibly discontinuous) map.
+  Then we call $\gamma$ a \emph{$\lambda$-quasi-geodesic} for $\lambda \geq 1$ if it is a $\lambda$-quasi-isometric embedding.
+  We call $\gamma$ a \emph{$k$-local-geodesic} for $k > 0$ if the restriction to $\gamma$ to any subinterval of $I$ of length at most $k$ is a geodesic.
+\end{definition}
+
+In a hyperbolic space both of these weakenings of the definition of a geodesic do not substantially enlarge the class of paths under consideration.
+
+\begin{theorem}[The Morse property for geodesics]\cite[Theorem III.H.1.7]{bridsonhaefliger99}
+  \label{theorem:morse_property}
+  Let $X$ be a $\delta$-hyperbolic metric space and let $\lambda \geq 1$.
+  Then there exists a constant $R(\delta,\lambda)$ depending only on $\delta$ and $\lambda$ such that for any $\lambda$-quasi-geodesic $\gamma$ there is a geodesic $\gamma'$ such that the Hausdorff distance $d_{\Haus}(\gamma, \gamma')$ between $\gamma$ and $\gamma'$ is at most $R$.
+  Furthermore, $\gamma$ can be taken to have the same end points as $\gamma'$.
+\end{theorem}
+
+\begin{theorem}\label{theorem:local_geodesics}\cite[Theorem III.H.1.13]{bridsonhaefliger99}
+  Let $X$ be a $\delta$-hyperbolic metric space and let $k > 8\delta$.
+  Suppose that $\gamma \colon [0,l] \to X$ is a $k$-local-geodesic.
+  Then $\gamma$ is a $\max\{2\delta, (k+4\delta)/(k-4\delta)\}$-quasi-geodesic and the Hausdorff distance $d_{\Haus}(\gamma, [\gamma(0), \gamma(l)])$ is at most $3\delta$.
+\end{theorem}
+
+\subsection{Hyperbolic groups}
+
+As a consequence of the quasi-isometry invariance of hyperbolicity (Lemma~\ref{lemma:hyperbolicity_is_QI_invariant}), together with the \v{S}varc-Milnor lemma (Theorem~\ref{theorem:svarc_milnor}), hyperbolicity is a group-theoretic property.
+
+\begin{definition}\cite{gromov87}
+  A group $G$ is \emph{(Gromov) hyperbolic} if some (equivalently any) proper geodesic metric space on which $G$ acts geometrically is hyperbolic.
+\end{definition}
+
+\begin{example}
+  \begin{enumerate}
+    \item Any finitely generated free group is hyperbolic: such a group acts geometrically on a tree, which is a $0$-hyperbolic space.
+    \item If $M$ is a closed hyperbolic $n$-manifold then $\pi_1M$ acts geometrically on $\bbH^n$, so $M$ is hyperbolic.
+    \item More generally, the fundamental group of a compact Riemannian manifold with strictly negative sectional curvature is hyperbolic.
+    \item Let $\presentation{S}{R}$ be a finite presentation such that for any $r \in R$ all cyclic conjugates of $r$ and $r^{-1}$ are contained in $R$.
+      If there exist $r_1 \neq r_2$ in $R$ such that the words $r_1$ and $r_2$ share a common prefix $a$ then we call $a$ a \emph{piece}.
+      If $\lambda > 0$ is such that for any $r \in R$ with prefix $a$ such that $a$ is a piece we have the inequality $\mod{a} < \lambda\mod{r}$ then we say that the presentation satisfies the \emph{small cancellation condition $C'(\lambda)$}.
+      Then any group admitting a $C'(1/6)$ presentation is hyperbolic.
+      For more details see~\cite{lyndonschupp77}.
+    \item As well as the above groups of classical interest, there is a sense in which most finitely presented groups are hyperbolic.
+      This idea is formalised by the notion of a \emph{random group}; see~\cite{gromov03}.
+      In particular, a random group in either the few relator model or the density model at density $< 1/2$ is infinite hyperbolic~\cite{gromov87,gromov92}.
+  \end{enumerate}
+\end{example}
+
+\subsubsection{Subgroups of hyperbolic groups} 
+
+Subgroups of hyperbolic groups can in general be complicated.
+However, those subgroups whose geometry is in some way consistent with the geometry of the larger group are far better behaved.
+Here we introduce Gromov's notion of \emph{quasi-convexity}~\cite{gromov87}.
+For a more detailed introduction to the subgroup structure of hyperbolic groups see~\cite{bridsonhaefliger99}.
+
+\begin{definition}
+  Let $X$ be a geodesic metric space.
+  A subset $A \subset X$ is \emph{$C$-quasi-convex} (or just \emph{quasi-convex}) if any geodesic in $X$ joining two points in $A$ is contained in a $C$-neighbourhood of $A$.
+\end{definition}
+
+\begin{lemma}\cite[III.H.3.5--III.H.3.6]{bridsonhaefliger99}\label{lemma:quasi_convex_QI_embedded}
+  Let $G$ be a hyperbolic group and let $H \leq G$.
+  If $H$ is a quasi-convex subset of\/ $\Cay(G,S)$ for some (equivalently any) finite generating set for $G$ then $H$ is finitely generated and $H \mapsinto G$ is a quasi-isometric embedding with respect to the word metrics.
+
+  Conversely, if $H$ is finitely generated and $H \mapsinto G$ is a quasi-isometric embedding with respect to the word metrics then $H$ is a quasi-convex subset of the Cayley graph of $G$.
+\end{lemma}
+
+From Lemma~\ref{lemma:quasi_convex_QI_embedded} and Lemma~\ref{lemma:hyperbolicity_is_QI_invariant} we obtain the following corollary.
+
+\begin{corollary}
+  A quasi-convex subgroup of a hyperbolic group is hyperbolic.
+\end{corollary}
+
+Note the following proposition.
+
+\begin{proposition}\cite{gromov87}
+  Any virtually cyclic subgroup of a hyperbolic group is quasi-convex.
+\end{proposition}
+
+Virtually cyclic subgroups play an additional important role in the subgroup structure of hyperbolic groups, as the following theorem shows.
+
+\begin{theorem}\cite{gromov87}
+  Let $G$ be a hyperbolic group. Then any subgroup of $G$ is either virtually cyclic or contains a free subgroup of rank 2.
+\end{theorem}
+
+We call virtually cyclic subgroups of a hyperbolic group \emph{elementary}.
+
+\section{The Gromov boundary}\label{section:gromov_boundary}
+
+The space of ends of a graph measures its ``connected components at infinity.''
+
+\begin{definition}
+  Let $\Gamma$ be a locally finite graph.
+  We define the \emph{space of ends} of $\Gamma$ to be the following inverse limit of finite discrete topological spaces.
+  \begin{align}
+    \Ends(\Gamma) = \inverselimit_K \pi_0(\Gamma - K)
+  \end{align}
+  Here the limit is taken over finite subgraphs of $\Gamma$ partially ordered by inclusion.
+\end{definition}
+
+By applying this construction to the Cayley graph of a finitely generated group with respect to a finite generating set we obtain the space of ends of the group: this space is independent of the choice of finite generating set, so we let $\Ends(G) = \Ends(\Cay(G, S))$ for some finite generating set $S$.
+
+In the case of hyperbolic groups we can give the ends additional structure: we can make each end into a topological space in a natural way.
+By viewing $\bbH^n$ in the Poincar\'e ball model, we immediately see that it admits a compactification by a ``sphere at infinity''.
+Hyperbolic spaces admit an analogous compactification by a boundary.
+This boundary is a large scale property of the space.
+It is quasi-isometry invariant, and can therefore be thought of as a group invariant.
+See~\cite{kapovichbenakli02} for a more complete overview of the subject.
+
+\subsection{Definition and topology}
+
+\begin{definition}\cite{gromov87}\label{definition:gromov_boundary} 
+  Let $X$ be a hyperbolic metric space.
+  Then the \emph{Gromov boundary of $X$} is defined to be the following quotient.
+  \begin{align}
+    \boundary X = \left.\{\text{\rm geodesic rays}\}\middle/\sim\right.
+  \end{align}
+  where $\gamma_1 \sim \gamma_2$ if the Hausdorff distance from $\gamma_1$ to $\gamma_2$ is finite.
+  For a geodesic ray $\gamma$ we denote by $\gamma(\infty)$ the equivalence class of $\gamma$ in $\boundary_vX$.
+  The boundary $\boundary X$ is endowed with the quotient of the topology of uniform convergence.
+\end{definition}
+
+It is clear that any group of isometries of a hyperbolic metric space acts naturally on the boundary of that space.
+
+\begin{remark}\label{remark:boundary_through_quasi_geodesics}
+  In view of Theorem~\ref{theorem:morse_property}, in Definition~\ref{definition:gromov_boundary} we could equivalently have defined $\boundary X$ to be a set of equivalence classes of quasi-geodesics.
+\end{remark}
+
+\begin{proposition}\label{proposition:boundary_base_point}
+  Let $X$ be a hyperbolic metric space and let $v \in X$.
+  Then the natural inclusion
+  \begin{align}
+    \left.\{\text{\rm geodesic rays $\gamma$} \suchthat \gamma(0) = v\}\middle/\sim \to \boundary X\right.
+  \end{align}
+  is a homeomorphism.
+  Here $\gamma_1 \sim \gamma_2$ if the Hausdorff distance from $\gamma_1$ to $\gamma_2$ is finite and the topology is the quotient of the topology of uniform convergence, as in Definition~\ref{definition:gromov_boundary}.
+\end{proposition}
+
+Proposition~\ref{proposition:boundary_base_point} gives an alternative definition for the boundary of a hyperbolic space, which will usually be more convenient for our purposes.
+
+\begin{remark}
+  The equivalence relation on rays in Proposition~\ref{proposition:boundary_base_point} may be replaced by uniformly bounded distance. 
+  Let $X$ be $\delta$-hyperbolic, then for geodesic rays $\gamma_1$ and $\gamma_2$ with $\gamma_1(\infty) = \gamma_2(\infty)$, the geodesic triangle $\Delta(1, \gamma_1(t), \gamma_2(t))$ is $\delta$-slim for all $t$, from which it follows that $d(\gamma_1(t), \gamma_2(t)) < 2\delta$ for all $t$.
+\end{remark}
+
+We claim that the boundary $\boundary X$ compactifies a hyperbolic metric space $X$.
+We now give two descriptions the topology on the union $X \union \boundary X$, first in terms of convergence of sequences and then in terms of fundamental neighbourhoods.
+
+\begin{definition}
+  \label{definition:compactification_topology1}
+  Let $X$ be a hyperbolic metric space and let $x \in X \union \boundary X$.
+  Let $(x_i)$ be a sequence of points in $X \union \boundary X$; we define a topology on $X \union \boundary X$ by giving a condition to determine whether or not $x_i$ converges to $x$.
+  \begin{enumerate}
+    \item If $x \in X$ then $\lim x_i = x$ if and only if $x_i \in X$ for $i$ sufficiently large and the sequence then converges to $x$ with respect to the metric on $X$.
+    \item If $x \in \boundary X$ then we say that $\lim x_i = x$ if and only if there exists for each $i$ either a geodesic segment $\gamma_i$ with endpoints $v$ and $x_i$ (in the case when $x_i \in X$) or a geodesic ray $\gamma_i$ with $\gamma_i(0) = v$ and $\gamma_i(\infty) = x_i$ (in the case when $x_i \in \boundary X$) such that every subsequence of $\gamma_i$ admits a subsequence that converges uniformly on compact subsets to a geodesic ray $\gamma$ with $\gamma(\infty) = x$.
+  \end{enumerate}
+\end{definition}
+
+Alternatively, we can explicitly describe a fundamental system of neighbourhoods for points in $X \union \boundary X$.
+
+\begin{definition}
+  \label{definition:compactification_topology2}
+  Fix $k > 2\delta$.
+  Then consider the following set of subsets of $X \union \boundary X$.
+  \begin{enumerate}
+    \item For each point $x \in X$ and each $r > 0$, the open ball in $X$ with centre $x$ and radius $r$. 
+    \item For each point $\gamma(\infty) \in \boundary X$ and each $n \geq 0$, the set $V_n(\gamma)$ of equivalence classes of geodesic rays and end points of geodesic segments $\gamma'$ of length at least $n$ such that $\gamma'(0) = v$ and $d(\gamma'(n), \gamma(n)) < k$.
+  \end{enumerate}
+  This set of subsets of $X \union \boundary X$ is a fundamental system of (not necessarily open) subsets of $X \union \boundary X$, and therefore defines a topology.
+\end{definition}
+
+\begin{proposition}\label{proposition:equivalent_boundary_topologies}\cite[III.H.3.6]{bridsonhaefliger99}
+  The topologies on $X \union \boundary X$ given in Definitions~\ref{definition:compactification_topology1} and~\ref{definition:compactification_topology2} are equal.
+  This topology is independent of base point.
+  The inclusion $X \hookrightarrow X \union \boundary X$ is a homeomorphism onto its image and $X \subset X \union \boundary X$ is open.
+  Finally, $X \union \boundary X$ is compact.
+\end{proposition}
+
+\begin{proposition}\label{proposition:boundaries_quasi_isometry_invariant}
+  Let $f \colon X \to Y$ be a quasi-isometric embedding of hyperbolic metric spaces.
+  Then the map $f_\boundary \colon \boundary X \to \boundary Y$ defined by $f_\boundary(\gamma(\infty)) = (f \composed \gamma)(\infty)$ is well defined and continuous.
+  (Note that $f \composed \gamma$ is a quasi-geodesic. See Remark~\ref{remark:boundary_through_quasi_geodesics}.)
+  If $f$ is a quasi-isometry then $f_\boundary$ is a homeomorphism.
+\end{proposition}
+
+In view of Proposition~\ref{proposition:boundaries_quasi_isometry_invariant} and Theorem~\ref{theorem:svarc_milnor} we may make the following definition: the boundary of a space on which a hyperbolic group acts is an intrinsic property of the group.
+
+\begin{definition}
+  Let $G$ be a hyperbolic group and let $X$ be proper geodesic metric space on which $G$ acts geometrically.
+  Then we define $\boundary G = \boundary X$.
+\end{definition}
+
+It is easy to prove the following proposition relating the boundary of a hyperbolic group to its ends.
+
+\begin{proposition}
+  Let $S$ be a finite generating set for a hyperbolic group $G$.
+  Then the map that sends a the equivalence class of a geodesic ray to the end of $\Cay(G,S)$ containing that ray gives a continuous surjection $\boundary G \to \Ends(G)$ and the preimage of any point is a connected component of $\boundary G$. 
+  In particular, the number of ends of $G$ is equal to the number of connected components of $\boundary G$.
+\end{proposition}
+
+\begin{example}
+  \label{example:boundaries}
+  \begin{enumerate}
+    \item Let $F$ be a free group of rank $n$. 
+      Then $F$ acts geometrically on a $2n$-regular tree, so $\boundary F$ is a Cantor set.
+    \item If $M$ is a closed hyperbolic $n$-manifold then $\pi_1M$ acts geometrically on $\bbH^n$, so $\boundary\pi_1M = \boundary \bbH^n \isom S^{n-1}$.
+    \item More generally, if $M$ is a compact Riemannian manifold with strictly negative sectional curvature then $\boundary\pi_1M \isom S^{n-1}$.
+    \item In contrast to these groups with spherical boundary, most boundaries of hyperbolic groups are quite complicated topological spaces: Champetier showed~\cite{champetier95} that most small cancellation groups are hyperbolic and have boundary homeomorphic to a Menger curve.
+  \end{enumerate}
+\end{example}
+
+For an arbitrary group acting on a hyperbolic space we define the following set.
+
+\begin{definition}
+  Let $G$ be a group acting by isometries on a hyperbolic metric space $X$.
+  Let $x \in X$.
+  Then the \emph{limit set $\Lambda G$} of $G$ is defined as follows.
+  \begin{align}
+    \Lambda G = \{p \in \boundary X \suchthat p = \lim_{n\to\infty} g_n\cdot x\text{ for some sequence $(g_n)$ in $G$}\}
+  \end{align}
+  It is easy to see that this set is independent of the choice of $x$.
+\end{definition}
+
+The limit set is particularly well behaved when $G$ is a quasi-convex subgroup of a group acting geometrically on $X$.
+
+\begin{theorem}\cite{ghysdelaharpe90}
+  Let $G$ be a hyperbolic group with generating set $S$ and let $H$ be a quasi-convex subgroup of $G$.
+  Then the inclusion $H \mapsinto \Cay(G, S)$ extends to a topological embedding $\boundary H \mapsinto \boundary G$ and the image of this embedding is $\Lambda H$.
+\end{theorem}
+
+\subsection{The visual metric}\label{section:visual_metric}
+
+The boundary of a hyperbolic space has much additional structure beyond its topology.
+In particular, it admits a natural family of metrics called visual metrics.
+These measure something like the angle between geodesics from a fixed base point.
+
+To begin, recall the equivalent formulation of hyperbolicity through Gromov products~\ref{definition:hyperbolic_spaces2}: fixing a base point $v \in X$, $X$ is hyperbolic if and only if there exists $\delta'$ such that $\gromprod[v]{x}{y} \geq \min\{\gromprod[v]{x}{z}, \gromprod[v]{z}{y}\} - \delta'$ for any points $x$, $y$ and $z$ in $X$.
+It follows that for $a > 1$, the quantity $a^{-\gromprod[v]{x}{y}}$ is bounded above by a quantity comparable to the maximum of $a^{-\gromprod[v]{x}{z}}$ and $a^{-\gromprod[v]{z}{y}}$.
+Therefore one might hope to use $a^{-\gromprod[v]{x}{y}}$ as a measure of the angle between $x$ and $y$ with respect to the base point $v$, at least when $x$ and $y$ are both far from $v$.
+Some modification is required, but such a metric can be built.
+
+First we must extend the definition of the Gromov product to points on $\boundary X$.
+
+\begin{definition}
+  Let $x$ and $y$ be points in $\boundary X$ and let $v$ be a base point in $X$.
+  Then we define the Gromov product of $x$ and $y$ with respect to base point $v$ as follows.
+  \begin{align}
+    \gromprod[v]{x}{y} = \sup\liminf_{i,j \to \infty}\gromprod[v]{x_i}{y_j}.
+  \end{align}
+  Here the supremum is taken over sequences $(x_i)$ and $(y_i)$ in $X$ converging to $x$ and $y$ respectively.
+\end{definition}
+
+In calculations the following inequality is often useful.
+
+\begin{lemma}\cite[Remarque 8.9]{ghysdelaharpe90}\label{lemma:gromov_product_inequality}
+  If $X$ is $\delta$-hyperbolic and $(x_i)$ and $(y_i)$ are sequences in $X$ converging to $x$ and $y$ respectively then
+  \begin{align}
+    \liminf_{i,j \to \infty}\gromprod[v]{x_i}{y_j} \leq \gromprod[v]{x}{y} \leq \liminf_{i,j \to \infty}\gromprod[v]{x_i}{y_j} + 2\delta.
+  \end{align}
+\end{lemma}
+
+\begin{proposition}\label{proposition:visual_metric}\cite[Section 7.3]{ghysdelaharpe90}
+  Let $X$ be a hyperbolic metric space.
+  Then there exists parameter $a > 1$ and $0 < k_1 \leq k_2$ and a metric $d_\rmv$ on $\boundary X$ inducing the topology of Definition~\ref{definition:gromov_boundary} and satisfying the following inequality.
+  \begin{align}
+    k_1 a^{-\gromprod[v]{x}{y}} \leq d_\rmv(x,y) \leq k_2 a^{-\gromprod[v]{x}{y}}.
+  \end{align} 
+  Such a metric is called a \emph{visual metric} on $\boundary X$ and $a$ is the \emph{visual parameter} of the metric.
+\end{proposition}
+
+\begin{remark}
+  A visual metric on the boundary of a hyperbolic space is not unique, and there is usually no canonical choice.
+  Nor is there a canonical choice of visual parameter.
+  There is, however, a canonical class of metrics, called a \emph{quasi-conformal structure} on $\boundary X$~\cite{pansu89}.
+\end{remark}
+
+\subsection{Local connectedness}\label{section:local_connectedness_of_gromov_boundary}
+
+Boundaries of hyperbolic groups are compact metric spaces, but as we saw in Example~\ref{example:boundaries}, they can be topologically complicated: for example, they are not generally homotopy equivalent to CW complexes.
+However, they do possess useful connectivity properties, which we will use later.
+Here we are particularly interested in the case in which $\boundary G$ is connected.
+
+\begin{definition}
+  A \emph{continuum} is a compact connected metric space.
+  A \emph{Peano continuum} is a continuum that is locally connected at each point. That is, it admits a topological basis consisting only of connected sets.
+\end{definition}
+
+\begin{theorem}\label{theorem:peano_continuum}
+  Let $G$ be a hyperbolic group.
+  If $\boundary G$ is connected then $\boundary G$ is a Peano continuum.
+\end{theorem}
+
+The substance of Theorem~\ref{theorem:peano_continuum} is that the boundary is locally connected.
+This deep result was first proved by Bestvina and Mess under the assumption that the boundary does not contain a cut point.
+(Recall that a cut point in a connected topological space is a point whose complement is disconnected.)
+
+\begin{proposition}\cite{bestvinamess91}
+  Let $G$ be a hyperbolic group.
+  If $\boundary G$ is connected and does not contain a cut point then it is locally connected.
+\end{proposition}
+
+We shall return to this result in Section~\ref{section:double_dagger}
+
+The problem of whether or not the boundary of a hyperbolic group can contain a cut point remained open for several years, before being finally settled in full generality by Swarup. 
+
+\begin{theorem}\cite{swarup96}
+  Let $G$ be a hyperbolic group such that $\boundary G$ is connected. 
+  Then $\boundary G$ does not contain a cut point.
+\end{theorem}
+
+This theorem was originally proved by Bowditch~\cite{bowditch98b} under the additional assumption that $G$ is strongly accessible.
+Swarup demonstrated in~\cite{swarup96} how to extend these arguments to the general case.
+
+\section{Relative hyperbolicity}
+
+Many of the appealing properties of closed hyperbolic manifolds 3-manifolds are shared by complete hyperbolic manifolds with cusps.
+Motivated by this, relatively hyperbolic groups are defined to be groups that admit actions on hyperbolic spaces that are not necessarily cocompact, but satisfy a weaker ``geometric finiteness'' condition.
+The theory of relatively hyperbolic groups was introduced by Gromov~\cite{gromov87}.
+Gromov's concept was later expanded on by Bowditch~\cite{bowditch12} and Farb~\cite{farb98}.
+Farb's definition is weaker than Bowditch's, and today Bowditch's more restrictive definition is more common.
+Groups that are relatively hyperbolic in the weaker sense of Farb may be termed \emph{weakly relatively hyperbolic}.
+In this thesis we adopt the stricter definition.
+
+\subsection{A dynamical characterisation}\label{section:dynamical_characterisation}
+
+There are now many equivalent formulations of relative hyperbolicity.
+Bowditch~\cite{bowditch98b} gives a dynamical characterisation, which we adopt as a definition.
+This characterisation makes the connection with geometrically finite Kleinian groups particularly clear and has its origin in work of Beardon and Maskit~\cite{beardonmaskit74} on limit sets of Kleinian groups.
+
+Given a Kleinian group $G \leq \PSL(2, \bbC)$, define the \emph{limit set $\Lambda G \subset S^2$} of $G$ to be the set of accumulation points in $S^2 = \boundary \bbH^3$ of an orbit in $\bbH^3$ of $G$.
+Unless $G$ is finite or virtually cyclic, this is the unique non-empty minimal $G$-invariant closed subset of $S^2$.
+Beardon and Maskit give a characterisation of geometric finiteness in terms of the action of $G$ on $\Lambda G$: $G$ is geometrically finite if every point in $\Lambda G$ is either a \emph{conical limit point} (roughly, a point approximated sufficiently well by translates of a point in $\bbH^3$, such as a fixed point of a loxodromic element of $G$) or a \emph{bounded parabolic point} (a point $x$ stabilised by a purely parabolic subgroup of $G$ such that the quotient of $\Lambda G - \{x\}$ by that subgroup is compact.)
+This result gives a plausible generalisation of the notion of geometric finiteness to group actions on other hyperbolic spaces, at least as long as we can generalise the definitions of conical limit points and bounded parabolic points.
+
+\begin{definition}
+  Let $G$ be a group acting by homeomorphisms on a compact metric space $M$.
+  Then a point $x \in M$ is:
+  \begin{enumerate}
+    \item a \emph{conical limit point} if there exist $p$ and $q$ in $M$ and a sequence $(g_i)$ in $G$ such that $g_i\cdot x \to p$ and $g_i\cdot y \to q$ for every $y \in M - \{x\}$.
+    \item a \emph{bounded parabolic point} if the action of $\Stab_G(x)$ on $M - \{x\}$ is cocompact.
+  \end{enumerate}
+\end{definition}
+
+\begin{definition}\label{definition:relatively_hyperbolic} 
+  Let $G$ be a group and let $\calH$ be a finite collection of finitely generated subgroups of $G$.
+  Suppose that $G$ acts properly discontinuously and by isometries on a proper hyperbolic metric space $X$ such that $\boundary X$ does not contain a closed non-empty $G$-invariant proper subset and every point in $\boundary X$ is either a conical limit point or a bounded parabolic point.
+  Assume further that the stabiliser of each bounded parabolic point is conjugate to an element of $\calH$ and that every element of $\calH$ arises in this way.
+  Then \emph{$G$ is hyperbolic relative to $\calH$}.
+
+  We call elements of $\calH$ \emph{peripheral subgroups}.
+  A subgroup that stabilises a parabolic fixed point is called a \emph{parabolic subgroup}, so the maximal parabolic subgroups are precisely the conjugates of the peripheral subgroups.
+\end{definition}
+
+From the discussion at the beginning of this section we see that this definition generalises that of a geometrically finite Kleinian group.
+It also generalises the definition of a hyperbolic group: a group is hyperbolic if and only if it is hyperbolic relative to $\emptyset$.
+
+\begin{remark}
+  Without the assumption of cocompactness the \v{S}varc-Milnor lemma (Theorem~\ref{theorem:svarc_milnor}) does not apply, and the quasi-isometry type of the space $X$ in Definition~\ref{definition:relatively_hyperbolic} is not determined by the pair $(G, \calH)$.
+\end{remark}
+
+\begin{remark}
+  It is possible to phrase this definition purely in terms of the action of $G$ on a compact metric space without the assumption that this action arises as the boundary of a properly discontinuous action on a hyperbolic metric space.
+  If one assumes that the action satisfies the technical condition of being a convergence group action, then the equivalence of these formulations of relative hyperbolicity is a theorem of Bowditch~\cite{bowditch98c} in the case when $\calH = \emptyset$ and of Yaman~\cite{yaman04} in the general case.
+\end{remark}
+
+As mentioned at the beginning of this section, Definition~\ref{definition:relatively_hyperbolic} is stronger than Farb's definition. 
+It is equivalent to Farb's condition ``relatively hyperbolic with bounded coset penetration''; for details see~\cite{bowditch98b}.
+
+When $G$ is hyperbolic and $\calH$ is a finite collection of finitely generated subgroups of $G$, Bowditch~\cite{bowditch12} gives is a simple condition to decide whether or not $G$ is hyperbolic relative to $\calH$.
+Recall that a collection $\calH$ of subgroups of $G$ is \emph{almost malnormal} if, for $H_1$ and $H_2$ in $\calH$ and $g$ in $G$, $H_1 \intersection gH_2g^{-1}$ is finite unless $H_1 = H_2$ and $g \in H_1$.
+
+\begin{theorem}\label{theorem:quasiconvex_almost_malnormal}\cite[Theorem 7.11]{bowditch12} 
+  Let $G$ be a non-elementary hyperbolic group and let $\calH$ be a finite set of subgroups of $G$. 
+  Then $G$ is hyperbolic relative to $\calH$ if and only if $\calH$ is almost malnormal in $G$ and each element of $\calH$ is quasi-convex in $G$.
+\end{theorem}
+
+\subsection{The cusped space}
+
+A hyperbolic group comes with an easily described geometric model: its Cayley graph with respect to any finite generating set. 
+Definition~\ref{definition:relatively_hyperbolic} does not immediately give a corresponding model for a relatively hyperbolic group.
+We now introduce the Groves-Manning cusped space~\cite{grovesmanning08} as a geometric model for a relatively hyperbolic group.
+This space is a graph that will take the role of the Cayley graph of a hyperbolic group.
+Like the Cayley graph of a hyperbolic group, this is a hyperbolic metric space.
+It is obtained by gluing to the Cayley graph a hyperbolic space along each coset of a peripheral subgroup.
+These hyperbolic spaces are called combinatorial horoballs and they are designed to look like horoballs in $\bbH^n$.
+This construction is analogous to the thick-thin decomposition of a hyperbolic manifold: the Cayley graph is the thick part of the cusped space, and the group acts cocompactly on this set, while the cusps are the thin part.
+
+To begin, we define the combinatorial horoball; for more details of this construction see~\cite{grovesmanning08}.
+
+\begin{definition}
+  Let $C$ be a graph.
+  Then the \emph{combinatorial horoball based on $C$} is the graph $\Hor(C)$ with the following description.
+  
+  The vertex set of $\Hor(C)$ is $C^{(0)} \times \integers_{\geq 0}$.
+
+  Each edge of $\Hor(C)$ takes one of the following three forms.
+  \begin{enumerate}
+    \item One \emph{horizontal edge} from $(v, 0)$ to $(w, 0)$ for each edge from $v$ to $w$ in $C$. (Note that we allow vertices to be connected by multiple edges.)
+    \item One \emph{horizontal edge} from $(v, k)$ to $(w, k)$ whenever $v$ and $w$ are connected in $C$ by an edge path of length at most $2^k$.
+    \item One \emph{vertical edge} from $(v, k)$ to $(v, k+1)$ for each $v \in C^{(0)}$ and $k \in \integers_{\geq 0}$.
+  \end{enumerate}
+
+  We define a \emph{height function} $h \colon \Hor(C) \to \reals_{\geq 0}$ sending a vertex $(v, k)$ to $k$ and extending to an affine function on each edge of $\Hor(C)$.
+  Denote by $\Hor(C)_k$ the set $h^{-1}[k,\infty)$, which we shall call the \emph{$k$-thin-part} of the horoball based on $C$.
+\end{definition}
+
+\begin{definition}\label{definition:cusped_space}
+  Let $G$ be a group, let $\calH$ be a finite set of finitely generated subgroups of $G$ and let $S$ be a finite generating set for $G$ such that $S \intersection H$ is a generating set for $H$ for each $H \in \calH$.
+  For each $H \in \calH$ let $T_H$ be a left transversal of $H$ in $G$.
+  (Recall that a left transversal of a subgroup $H$ of $G$ is a choice of one element of each left coset of $H$ in $G$.)
+  For each $H \in \calH$ and each $t \in T_H$ let $\Gamma_{H, t}$ be the full subgraph of $\Cay(G, S)$ with vertex set $tH$; note that this is isomorphic to $\Cay(H,S \intersection H)$.
+  Then we define the \emph{cusped space} of the triple $(G, \calH, S)$.
+  \begin{align}
+    X(G, \calH, S) = \Cay(G, S) \union \bigunion_{H \in \calH, t \in T_H} \Hor(\Gamma_{H, t}).
+  \end{align}
+  Here the part of $\Hor(\Gamma_{H, t})$ at height zero is identified with $\Gamma_{H, t} \subset \Cay(G,S)$.
+  The \emph{height function} $h$ defined on each horoball extends to $X$: it takes the value $0$ on $\Cay(G,S)$.
+
+  Denote by $X_k$ the set $h^{-1}[0,k]$, which we shall call the \emph{$k$-thick part}.
+\end{definition}
+
+Note that $G$ acts on the cusped space $X$ properly discontinuously and by isometries.
+
+\begin{theorem}\cite[Theorem 3.25]{grovesmanning08}
+  Let $G$ be a group, let $\calH$ be a finite set of finitely generated subgroups of $G$ and let $S$ be a finite generating set for $G$ such that $S \intersection H$ is a generating set for $H$ for each $H \in \calH$.
+  Then $G$ is hyperbolic relative to $\calH$ if and only if the cusped space of the triple $(G, \calH, S)$ is a hyperbolic metric space.
+\end{theorem}
+
+\subsection{The Bowditch boundary}\label{section:bowditch_boundary}
+
+As noted above, a pair $(G, \calH)$ where $G$ is hyperbolic relative to $\calH$ does not determine a canonical quasi-isometry class of spaces on which $G$ admits a  geometrically finite action.
+However, the cusped space is unique up to quasi-isometry: if $S_1$ and $S_2$ are finite generating sets for $G$ such that $S_i \intersection H$ generates $H$ for each $H \in \calH$ then $X(G, \calH, S_i)$ is quasi-isometric to $X(G, \calH, S_i')$.
+Therefore, following Bowditch~\cite{bowditch98b}, we make the following definition.
+(Note that the cusped space satisfies the conditions on spaces studied in \cite[Section 6]{bowditch98b}.)
+
+\begin{definition}\label{definition:bowditch_boundary}
+  Let $G$ be hyperbolic relative to $\calH$.
+  Then we define the \emph{(Bowditch) boundary of $(G, \calH)$} to be the boundary of the hyperbolic metric space $X(G, \calH, S)$ for some finite generating set $S$ for $G$ such that $S \intersection H$ generates $H$ for each $H$ in $\calH$.
+\end{definition}
+
+In fact, the boundary of a space on which a relatively hyperbolic group acts as in Definition~\ref{definition:relatively_hyperbolic} is unique up to homeomorphism even though the space itself is not unique up to quasi-isometry. 
+Note the following theorem of Bowditch.
+
+\begin{theorem}\cite{bowditch98b}
+  Suppose that $G$ is hyperbolic relative to a collection $\calH$ of subgroups of $G$.
+  Let $X$ be a proper hyperbolic metric space on which $G$ acts properly discontinuously and by isometries such that $\boundary X$ does not contain a closed non-empty $G$-invariant proper subset and every point in $\boundary X$ is either a conical limit point or a bounded parabolic point.
+  Suppose further that $\boundary X$ contains no proper non-empty closed $G$-invariant subset.
+  Then $\boundary (G,\calH) \isom \boundary X$.
+\end{theorem}
+
+Unlike in the case of hyperbolic groups, the boundary of a relatively hyperbolic group may contain a cut point.
+The implication of cut points in the boundary will be discussed in Section~\ref{section:peripheral_splittings}.
+
+In the situation discussed at the end of Section~\ref{section:dynamical_characterisation} in which $G$ is hyperbolic, there is a simple description of the boundary of $\boundary(G,\calH)$ in terms of $\boundary G$ due to Tran~\cite{tran13}.
+
+\begin{theorem}\label{theorem:bowditch_from_gromov}
+  Let $G$ be a hyperbolic group and let $\calH$ be a finite collection of finitely generated subgroups of $G$ so that $G$ is hyperbolic relative to $\calH$.
+  (Equivalently, each element of $\calH$ is quasi-convex and $\calH$ is almost malnormal.)
+  Then $\boundary(G, \calH) \isom \boundary G/\sim$, where $x \sim y$ if and only if $x = y$ or $\{x, y\} \subset g\Lambda H$ for some $g \in G$ and $H \in \calH$.
+\end{theorem}
+

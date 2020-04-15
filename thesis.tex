@@ -1,8 +1,16 @@
 % Benjamin Barrett's PhD thesis - 2018.
 
-\documentclass[a4paper,11pt]{thesis}
+\documentclass[print,fourier,a4paper,12pt]{PhDthesis}
+
+\degreetitle{Doctor of Philosophy}
+\dept{Department of Pure Mathematics and Mathematical Statistics}
+\college{Trinity College}
+\university{University of Cambridge}
+\supervisorlinewidth{0.35\textwidth}
+\crest{\includegraphics[width=0.2\textwidth]{crests/University_Crest}}
 
 \input{preamble}
+
 
 \title{Detecting topological properties of boundaries of hyperbolic groups}
 \author{Benjamin Barrett}
@@ -15,20 +23,25 @@
 \maketitle
 
 % Preface pages
-\include{Dedication/dedication}
+%\include{Dedication/dedication} Include this later???
+\include{Abstract/abstract}
 \include{Declaration/declaration}
 \include{Acknowledgement/acknowledgement}
-\include{Abstract/abstract}
 
 \tableofcontents
 
 % Body chapters
 \mainmatter
-\include{Chapter1/chapter1} % Introduction?
-\include{Chapter2/chapter2} % Preliminaries?
-\include{Chapter3/chapter3} % Cech decomposition?
-\include{Chapter4/chapter4} % JSJs?
-\include{Chapter5/chapter5} % Computing JSJs?
+
+%\numberwithin{dummy}{chapter}
+\include{introduction/introduction} 
+
+\numberwithin{dummy}{section}
+\include{hyperbolic_groups/hyperbolic_groups} 
+\include{splittings_and_JSJs/splittings_and_JSJs}
+\include{detecting_cut_pairs/detecting_cut_pairs} 
+\include{computing_JSJs/computing_JSJs} 
+\include{cohomology/cohomology}
 
 % Bibliography
 \bibliographystyle{alpha}
@@ -36,4 +49,5 @@
 \bibliography{References/references} % Path to the references.bib file
 
 \end{document}
+
 

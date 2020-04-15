@@ -1,0 +1,764 @@
+\chapter{Cut points and cut pairs}\label{chapter:detecting_cut_pairs}
+
+Our goal in this chapter is to relate the existence of cut points and cut pairs in the boundary of a hyperbolic group (or a relatively hyperbolic group with virtually cyclic peripheral subgroups) to the geometry of some large ball in the Cayley graph or cusped space associated go that group.
+The novel material in this chapter is taken from~\cite[Section 1--2]{barrett18}.
+Refer to Chapter~\ref{chapter:hyperbolic_groups} for definitions and key properties of the objects used in this chapter.
+
+We begin the chapter by relating the connectedness of the complement of a pair of points (or a single point) in the boundary to the connectedness of a cylindrical region around a geodesic connecting those points (respectively a geodesic ray ending at that point.)
+Importantly, this result is quantitative: we give explicit bounds on the size of the cylinder.
+This is the goal of Section~\ref{section:geodesics}.
+
+Then, in Section~\ref{section:geodesics_in_thin_part} we study the geometry of this cylindrical region when the geodesic penetrates deep into a horoball in the cusped space.
+Since we assume that the peripheral subgroups are virtually cyclic, the geometry of the cusps is particularly easy to understand.
+
+Finally, in Section~\ref{section:pumping_lemma} we shall apply an argument based on the pumping lemma to show that the existence of a cut point or cut pair in the boundary of a group is determined by the geometry of a finite ball in the cusped space of known size.
+Supposing that there is a cut pair in the boundary, we show that the geodesic $\gamma$ connecting the points in a cut pair may be assumed to be periodic and with bounded period: we take a short subsegment $\gamma\restricted{[a, b]}$ of that geodesic such that both the geodesic and the components of the thickened cylinder are identical in small neighbourhoods of $a$ and $b$ and form a new (local) geodesic that also connects the two points in a (possibly different) cut pair by concatenating infinitely many copies of $\gamma\restricted{[a, b]}$. 
+A similar method is used in~\cite{cashenmacura11} to control cut pairs in the decomposition space associated to a line pattern in a free group. 
+By characterising circles as Peano continua in which every pair of points is a cut pair, we do the same for the property of having circular boundary: we show that the boundary of a relatively hyperbolic group is homeomorphic to a circle if and only if the cusped space contains a periodic local geodesic with bounded period such that the limit set of that geodesic is not a cut pair.
+This completes the proof of Theorem~\ref{theorem:intro_topological_properties_features} and is a key step in the proofs of Theorems~\ref{theorem:intro_detecting_topological_properties} and~\ref{theorem:computing_JSJ_decompositions}.
+
+\section{Cylinders, cut points and cut pairs} \label{section:geodesics}
+
+\subsection{Spaces and constants} 
+
+Let $G$ be a group and let $\calH$ be a finite set of virtually cyclic subgroups of $G$.
+We work under the assumption that $G$ is hyperbolic relative to $\calH$.
+A virtually cyclic subgroup of a hyperbolic group is always quasi-convex, and is almost malnormal if and only if it is maximal among virtually cyclic subgroups of $G$. 
+Then applying Theorem~\ref{theorem:quasiconvex_almost_malnormal} gives the following lemma.
+
+\begin{lemma}\label{lem:vcycperipheral} 
+  Suppose that $G$ is hyperbolic and that $\calH$ is a finite set of virtually cyclic subgroups of $G$.
+  Suppose further that each group in $\calH$ is maximal virtually cyclic and no two elements of $\calH$ are conjugate.
+  Then $G$ is hyperbolic relative to $\calH$.
+\end{lemma}
+
+Let $S$ be a finite generating set for $G$ such that $S \intersection H$ is a generating set for $H$ for each $H \in \calH$.
+Then let $X = X(G, \calH, S)$ be the cusped space associated to the triple $(G, \calH, S)$ as in Definition~\ref{definition:cusped_space}.
+Note that this is a hyperbolic metric space.
+Let $1 \in X$ be the vertex corresponding to the identity element of $G$.
+
+We make the additional assumption that $X$ satisfies a double dagger condition.
+Note that by Proposition~\ref{proposition:double_dagger_condition_satisfied} this is guaranteed if the boundary $\boundary(G, \calH)$ is connected and does not contain a cut point, and by Proposition~\ref{proposition:ddag_implies_connected} this implies that $\boundary(G, \calH)$ is connected.
+We now fix some constants for the remainder of this chapter.
+
+\begin{enumerate}
+  \item Fix $\delta$ such that $X$ is $\delta$-hyperbolic.
+  \item Let $C = 3\delta$ as in Lemma~\ref{lemma:close_geodesic_ray}.
+  \item Let $D$ be chosen so that for any $(8\delta + 1)$-local-geodesic $\gamma$ and any geodesic $\gamma'$ with the same endpoints in $X \union \boundary X$ as $\gamma$, the Hausdorff distance between $\gamma$ and $\gamma'$ is at most $D$. (See Theorem~\ref{theorem:local_geodesics}.)
+  \item Let $M = 6(C + 45\delta) + 2\delta + 3$ and let $n$ be such that $X$ satisfies $\ddag(n)$.
+  \item Let $d_\rmv$ be a visual metric on $\boundary G$ and fix $a$, $k_1$ and $k_2$ such that it satisfies the following inequality. (See Proposition~\ref{proposition:visual_metric}.)
+    \begin{align}
+    k_1 a^{-\gromprod[1]{p}{q}} \leq d_\rmv(p, q) \leq k_2 a^{-\gromprod[1]{p}{q}}.
+    \end{align}
+    In fact, $a$, $k_1$ and $k_2$ can be taken to be $2^{1/4\delta}$, $3-2\sqrt{2}$ and $1$ respectively.
+\end{enumerate}
+
+\subsection{Cylinders in the cusped space}\label{section:cylinders_and_the_boundary} 
+
+We now relate the existence of cut points and cut pairs in the boundary $\boundary(G, \calH)$ to the connectedness of thickened cylinders around local geodesics in $X$.
+Let $\gamma$ be an $(8\delta+1)$-local-geodesic in $X$ with either one or both end points in $\boundary X$. 
+(In other words, $\gamma$ is either a local geodesic ray or a bi-infinite local geodesic.)
+Note that the end points of $\gamma$ at infinity are well defined by Remark~\ref{remark:boundary_through_quasi_geodesics}.
+We shall denote by $\Lambda\gamma$ the limit set of $\gamma$ in $\boundary X$, which is either one or two points.
+By translating by an element of $G$ we may assume that the point $1 \in X$ is $\gamma(0)$.
+
+We define a subset of $X$, the connectivity of which will be seen to reflect the connectivity of $\boundary X - \Lambda \gamma$. 
+
+\begin{definition}
+  For $R \geq 0$ let $N_R(\gamma)$ be the closed $R$-neighbourhood of $\gamma$ and for $0 \leq r \leq R \leq \infty$ let $N_{r, R}(\gamma)$ be $\{x \in X \colon r \leq d(x, \gamma) \leq R\}$. 
+  For $K \geq 0$ let $C_K(\gamma)$ be $\{x \in X \colon d(x, \gamma) = K\}$. 
+  Finally, for $0 \leq r \leq K \leq R \leq \infty$ let $\Cyl_{r, R, K}(\gamma)$ be the union of those connected components of $N_{r, R}(\gamma)$ that meet $C_K(\gamma)$. 
+  Note that $\Cyl_{r, R, K}(\gamma)$ contains $N_{K, R}(\gamma)$.
+  See Figure~\ref{figure:cylinder} for an illustration of such a subset of $X$.
+\end{definition}
+
+\begin{figure}
+  \begin{center}
+    \input{detecting_cut_pairs/cylinder.pdf_tex}
+  \end{center}
+  \caption{
+    \label{figure:cylinder}
+    The three connected components of $N_{r, \infty}(\gamma)$ are shaded red, blue and green.
+    The small green component does not correspond to a component of $\boundary X - \Lambda\gamma$ and is discarded when $N_{r, \infty}(\gamma)$ is replaced by $\Cyl_{r, \infty, K}(\gamma)$.
+    The union of the red and blue components is $\Cyl_{r, \infty, K}(\gamma)$.
+  }
+\end{figure}
+
+\begin{definition}\label{definition:shadows}
+  For a component $U$ of $\Cyl_{r, \infty, K}(\gamma)$ define its \emph{shadow} $\shadow U$ to be the set of points $p$ in $\boundary X$ such that for any geodesic ray $\alpha$ from $1$ to $p$, $\alpha(t)$ is in $U$ for $t$ sufficiently large. 
+\end{definition}
+
+The condition of Definition~\ref{definition:shadows} that all geodesic rays with a particular end point are eventually contained in a component $U$ of $\Cyl_{r, \infty, K}$ is equivalent to a seemingly weaker condition.
+
+\begin{lemma}\label{lemma:equivalent_shadow_definition}
+  Let $\alpha$ be a geodesic ray with $\alpha(0) = 1$.
+  Suppose that $t\geq 0$ and $d(\alpha(t), \gamma) \geq 3\delta + \max\{r, D\}$.
+  Let $U$ be the component of $N_{r,\infty}(\gamma)$ containing $\alpha(t)$.
+  Then $U$ meets $C_K(\gamma)$ for any $K \geq r$ and $\alpha(\infty)$ is contained in $\shadow U$.
+\end{lemma}
+
+\begin{proof}
+  Let $\alpha'$ be another geodesic ray with $\alpha'(0) = 1$ and $\alpha'(\infty) = \alpha(\infty)$.
+  Let $s$ be greater than $t + d_\mathrm{Haus}(\alpha,\alpha')$. 
+  Then the triangle $\Delta(1, \alpha(s), \alpha(s'))$, two edges of which are subsegments of $\alpha$ and $\alpha'$, is $\delta$-slim. 
+  It follows that $d(\alpha'(t), \alpha) \leq \delta$, and then $d(\alpha'(t), \alpha(t)) \leq 2\delta$, so $d(\alpha'(t), \gamma) \geq \delta + \max\{r, D\}$ and $\alpha'(t) \in U$.
+
+  We now show that $\alpha'(s) \in U$ for $s \geq t$.
+  If not then there exists $s \geq t$ such that $d(\alpha(s), \gamma) < r$; let $d(\alpha(s), \gamma(s')) < r$.
+  Then the triangle $\Delta(1, \alpha'(s), \gamma(s'))$ is $\delta$-slim, so $\alpha'(t)$ is within a distance $\delta$ of $[1, \gamma(s')] \union [\gamma(s'), \alpha(s)]$.
+  But $[1, \gamma(s')]$ is contained in a $D$-neighbourhood of $\gamma$, while $[\gamma(s'), \alpha(s)]$ is contained in an $r$-neighbourhood of $\gamma$, so this is impossible.
+
+  Therefore $\alpha'(s) \in U$ for $s \geq t$ for any geodesic ray $\alpha'$ with $\alpha'(0) = 1$ and $\alpha'(\infty) = \alpha(\infty)$.
+  In particular, this is true for $\alpha' = \alpha$ and $\alpha$ diverges arbitrarily far from $\gamma$, so $U$ meet $C_K(\gamma)$.
+  Furthermore, $\alpha(\infty) \in \shadow(U)$.
+\end{proof}
+
+\begin{lemma}\label{lemma:disjoint_cover_by_shadows} Let $r > D$ and let $K \geq r$. Then $\boundary X$ is covered by shadows:
+  \begin{align}
+    \bigunion_U\shadow U = \boundary X - \Lambda\gamma,
+  \end{align}
+  where the union is taken over the set of connected components of\/ $\Cyl_{r, \infty, K}(\gamma)$. 
+  Furthermore, $\shadow U \intersection \shadow V = \emptyset$ for distinct components $U$ and $V$ of\/ $\Cyl_{r, \infty, K}(\gamma)$.
+\end{lemma}
+
+\begin{proof} 
+  The statement that shadows are disjoint is clear from the definition of the shadow. 
+  The assumption that $r > D$ ensures that when $U$ is a component of $\Cyl_{r, \infty, K}(\gamma)$, $\shadow U$ does not contain a point in $\Lambda\gamma$, since any geodesic ray from $1$ to a point in $\Lambda\gamma$ is contained in a $D$-neighbourhood of $\gamma$.
+
+  If $p$ is any point in $\boundary X - \Lambda\gamma$ then any geodesic ray $\alpha$ from $1$ to $p$ diverges arbitrarily far from $\gamma$, so $d(\alpha(t), \gamma) \geq 3\delta + \max\{r, D\}$ for some $t \geq 0$. 
+  Let $U$ be the component of $N_{r, \infty}(\gamma)$ that contains $\alpha(t)$.
+  Then $U$ is a component of $\Cyl_{r, \infty, K}(\gamma)$ and $p \in \shadow U$ by Lemma~\ref{lemma:equivalent_shadow_definition}.
+\end{proof}
+
+\begin{lemma}\label{lemma:non_empty_shadows} 
+  Let $U$ be a component of $\Cyl_{r, \infty, K}(\gamma)$. Then $\shadow U$ is non-empty as long as $K \geq C + 3\delta + \max\{r, D\}$.
+\end{lemma}
+
+\begin{proof} 
+  Let $x \in C_K(\gamma) \intersection U$. 
+  Then by Lemma~\ref{lemma:close_geodesic_ray} there exists a geodesic ray $\alpha$ with $\alpha(0) = 1$ and $t \geq 0$ such that $d(\alpha(t), x) \leq C$. 
+  Then $\alpha(t) \in U$ and $d(\alpha(t), \gamma) \geq 3\delta + \max\{r, D\}$, so $\alpha(\infty) \in \shadow U$ by Lemma~\ref{lemma:equivalent_shadow_definition}.
+\end{proof}
+
+\begin{lemma}\label{lemma:shadows_clopen} 
+  Let $r > D$, let $K \geq r$ and let $U$ be a component of $\Cyl_{r, \infty, K}(\gamma)$.
+  Then $\shadow U$ is closed and open in $\boundary X - \Lambda\gamma$.
+\end{lemma}
+
+\begin{proof} 
+  Let $p$ be a point in $\shadow U$ and let $p = \alpha(\infty)$ where $\alpha$ is a geodesic ray with $\alpha(0) = 1$.
+  For $t \geq 0$ let $V_{t}(\alpha)$ be the set of end points of geodesic rays $\beta$ from $1$ such that $d(\beta(t), \alpha(t)) < 2\delta + 1$. 
+  From Proposition~\ref{proposition:equivalent_boundary_topologies}, the collection $\{V_t(\alpha) \suchthat t \in \naturals\}$ of such sets forms a fundamental system of neighbourhoods of $p \in \boundary X$. 
+
+  Then there exists $t_0$ such that for $t \geq t_0$, $d(\alpha(t), \gamma) \geq 5\delta + 1 + \max\{r, D\}$, and therefore $\alpha(t_0) \in U$ by Lemma~\ref{lemma:equivalent_shadow_definition}.
+  We claim that $V_{t_0}(\alpha) \subset \shadow U$.
+  Let $\beta$ be a geodesic ray with $\beta(0) = 1$ and $d(\beta(t_0), \alpha(t_0)) \leq 2\delta + 1$.
+  Then $\beta(t_0) \in U$ and $d(\beta(t_0), \gamma) \geq 3\delta + \max\{r, D\}$, so $\beta(\infty) \in \shadow U$ by Lemma~\ref{lemma:equivalent_shadow_definition}.
+
+  Since $p$ was arbitrary in $\shadow U$, it follows that $\shadow U$ is open. 
+  As $U$ ranges over the connected components of $\Cyl_{r, \infty, K}(\gamma)$, $\shadow U$ ranges over a cover of $\boundary X - \Lambda\gamma$ by disjoint open subsets by Lemma~\ref{lemma:disjoint_cover_by_shadows} since $r > D$, so each is also closed.
+\end{proof}
+
+To complete our proof of the fact that connectedness of $\boundary X - \Lambda\gamma$ is equivalent to connectedness of $\Cyl_{r, \infty, K}(\gamma)$ for appropriate values of $r$ and $K$ we prove the following proposition, in which we show that the double dagger condition can be used to push paths in a component $U$ of $\Cyl_{r, \infty, K}(\gamma)$ onto $\shadow U$.
+The proof of this Proposition is similar to on the proof of~\cite[Proposition 3.2]{bestvinamess91}.
+
+\begin{proposition}\label{proposition:shadows_connected} 
+  Assume that $r$ satisfies the following inequality.
+  \begin{align}
+    r > 2\log_a\left(\frac{k_2}{k_1}\frac{n-1}{1-a^{-1}}\right) + M + 12\delta + D.
+  \end{align}
+  If $U$ is a connected component of $\Cyl_{r, \infty, K}(\gamma)$ then $\shadow U$ is contained in one connected component of $\boundary X - \Lambda \gamma$.
+\end{proposition}
+
+\begin{proof} 
+  Let $p$ and $q$ be points in $\shadow U$ and let $\alpha_1$ and $\alpha_2$ be geodesic rays from $1$ to $p$ and $q$ respectively. 
+  Then there exist $t_1$ and $t_2$ such that $\alpha_1(t_1)$ and $\alpha_2(t_2)$ are in $U$. 
+  Let $\phi\colon [0,\ell] \to X$ be a path in $U$ parametrised by arc length connecting the two points $\alpha_1(t_1)$ and $\alpha_2(t_2)$.
+
+  For each integer $i$ in $[0,\ell]$ let $z_i$ be a point within a distance $C$ of $\phi(i)$ so that there is a geodesic ray $\beta_i$ from $1$ with $\beta_i(m_i) = z_i$. 
+  We can assume that $\beta_0 = \alpha_1$ and $\beta_\ell = \alpha_2$.  
+  Then, following the argument of~\cite[Proposition 3.2]{bestvinamess91}, we show that $\beta_i(\infty)$ and $\beta_{i+1}(\infty)$ can be connected in $\boundary X - \Lambda\gamma$ for each $i$. 
+  For notational convenience we prove it for $i=0$.
+
+  Note first that $d(\beta_0(m_0), \beta_1(m_1)) \leq 2C + 1$, which implies that $\mod{m_0 - m_1} \leq 2C+1$, and therefore $d(\beta_0(m_0), \beta_1(m_0)) \leq 4C + 2 \leq M$.
+  Then, using the condition $\ddag(n)$, choose a sequence of points $w_0 = \beta_0(m_0),w_1,\dotsc,w_n=\beta_1(m_0)$ such that $d(w_j,w_{j+1}) \leq 1$ and $d(1, w_j) \geq m_0 - C - 45\delta$ for each $j$.
+  Choose geodesic rays $\beta_{1/n},\beta_{2/n},\dotsc,\beta_{n-1/n}$ such that $d(w_j, \beta_{j/n}) \leq C$.
+
+  We claim that $d(\beta_{j/n}(m_0 + 1), \beta_{j+1/n}(m_0 + 1)) \leq M$.
+  To see this, choose $s_j$ such that $d(\beta_{j/n}(s_j), w_j) \leq C$, so $d(\beta_{j/n}(s_j), \beta_{j+1/n}(s_{j+1})) \leq 2C + 1$.
+  If $s_j \geq m_0 + 1$ then, since the triangle $\Delta(1, \beta_{j/n}(s_j), \beta_{j+1/n}(s_{j+1}))$ is $\delta$-slim, $d(\beta_{j/n}(m_0 + 1), \beta_{j+1/n}) \leq \delta + 2C + 1$, so $d(\beta_{j/n}(m_0 + 1), \beta_{j+1/n}(m_0 +1)) \leq 2(\delta + 2C + 1) \leq M$.
+  Alternatively, if $s_j \leq m_0 + 1$, then $\mod{s_j - (m_0 + 1)} \leq 2C + 45\delta + 1$, so by the triangle inequality $d(\beta_{j/n}(m_0 + 1), \beta_{j+1/n}(m_0 + 1)) \leq 2C + 1 + 2(2C + 45\delta + 1) \leq M$.
+
+  Now proceed by induction: using the condition $\ddag(n)$ as above, define geodesic rays $\beta_t$ for each $n$-adic rational $t$ in $[0, 1]$ inductively on the power $k$ of the denominator of $t$ to satisfy the following inequality for each $j$ with $0 \leq j \leq n^k-1$.
+  \begin{align} 
+    d\left(\beta_{j/n^k}(m_i + k), \beta_{j+1/n^k}(m_i + k)\right) \leq M.
+  \end{align}
+
+  The triangle inequality gives the following lower bound on the Gromov product of these points.
+  \begin{align}
+    \gromprod[1]{\beta_{j/n^k}(\infty)}{\beta_{j+1/n^k}(\infty)} & \geq \liminf_{n_1,n_2}\gromprod[1]{\beta_{j/n^k}(n_1)}{\beta_{j+1/n^k}(n_2)}\\
+                                                                 & \geq \gromprod[1]{\beta_{j/n^k}(m_0 + k)}{\beta_{j+1/n^k}(m_0 + k)}\\
+                                                                 & = m_0 + k - M/2
+  \end{align}
+  Recall that we defined a visual metric $d_\rmv$ on $\boundary X$ with base point $1$, visual parameter $a$ and multiplicative constants $k_1$ and $k_2$. 
+  We obtain:
+  \begin{align}\label{align:visual_metric_inequality}
+    d_\rmv\left(\beta_{j/n^k}(\infty), \beta_{j+1/n^k}(\infty)\right) \leq k_2a^{-m_0 - k + M/2}.
+  \end{align}
+
+  Inductively applying the triangle inequality, we arrive at the following inequality for each $n$-adic rational $t \in [0,1]$.
+  \begin{align}
+    d_\rmv\left(\beta_0(\infty), \beta_t(\infty)\right) \leq \frac{k_2(n-1)a^{-m_0 + M/2}}{1-a^{-1}}
+  \end{align}
+  Define a path $\psi \colon [0,1] \to \boundary X$ with $\psi(t) = \beta_t(\infty)$ for each $n$-adic rational $t$ in $[0, 1]$. 
+
+  This extends continuously to a path from $\beta_0(\infty)$ to $\beta_1(\infty)$ by the uniform continuity of the map $t \to \beta_t(\gamma)$ defined on the $n$-adic rationals, which is established by applying the triangle inequality and Equation~\ref{align:visual_metric_inequality} repeatedly.
+  This path is contained in the ball of radius $k_2(n-1)a^{-m_0 + M/2}/(1-a^{-1})$ around $\beta_0(\infty)$.
+
+  We now bound below the distance $d_\rmv(\beta_0(\infty), \Lambda\gamma)$. 
+  Let $\gamma'$ be a geodesic ray from $1$ to $\gamma(\infty)$, so the Hausdorff distance between $\gamma$ and $\gamma'$ is at most $D$.  
+  By Lemma~\ref{lemma:gromov_product_inequality}, we have the following inequality.
+  \begin{align}
+    \gromprod[1]{\beta_0(\infty)}{\gamma'(\infty)} \leq \liminf_{n_1,n_2}\gromprod[1]{\beta_0(n_1)}{\gamma'(n_2)} + 2\delta.
+  \end{align}
+  Let $n_1$ and $n_2$ each be at least $m_0$. 
+  Certainly $d(\beta_0(m_0), \gamma') > \delta$ since $r > \delta + D$, so there exists a point $p$ on $[\beta_0(n_1), \gamma'(n_2)]$ within a distance $\delta$ of $\beta_0(m_0)$. 
+  In fact, $d(\beta_0(m_0), \gamma) > 2\delta + D$, so $d(\beta_0, \gamma'(m_0)) > 2\delta$. 
+  Therefore there exists a point $q$ on $[\beta_0(n_1), \gamma'(n_2)]$ within a distance $\delta$ of $\gamma'(m_0)$. 
+
+  Suppose that $q$ is closer to $\beta_0(n_1)$ than $p$. 
+  Then by considering the geodesic triangle with vertices $\beta_0(n_1)$, $\beta_0(m_0)$ and $p$ we see that $q$ is within distance $2\delta$ of $\beta_0$. 
+  Therefore the distance from $\gamma'(m_0)$ to $\beta_0(m_0)$ is at most $6\delta$. 
+  But we assumed that $r > 6\delta + D$, which gives a contradiction. 
+  This implies that $d(\beta_0(n_1), \gamma'(n_2))$ is equal to the sum of the distances $d(\beta_0(n_1), p)$, $d(p, q)$ and $d(q, \gamma'(n_2))$.
+
+  Then we have the following inequality.
+  \begin{align} \gromprod[1]{\beta_0(n_1)}{\gamma'(n_2)} - \gromprod[1]{\beta_0(m_0)
+      }{\gamma'(m_0)} 
+      & = d(\beta_0(n_1), \beta_0(m_0)) - d(\beta_0(n_1), p) \\
+      & + d(\beta_0(m_0), \gamma'(m_0)) - d(p, q) \\
+      & + d(\gamma'(m_0), \gamma'(n_2)) - d(q, \gamma'(n_2))\\
+      & \leq \delta + 2\delta + \delta = 4\delta
+  \end{align}
+
+  This implies a lower bound on the distance from $\beta_0(\infty)$ to $\gamma(\infty)$ with respect to the visual metric.
+  \begin{align}
+    d_\rmv(\beta_0(\infty), \gamma(\infty)) \geq k_1a^{-m_0 + (r-D)/2 - 6\delta}.
+  \end{align}
+  In the case that $\gamma$ is bi-infinite, $d_\rmv(\beta_0(\infty), \gamma(-\infty))$ similarly satisfies the same bound.  
+  Therefore, by the assumption on $r$ the path constructed from $\beta_0(\infty)$ to $\beta_1(\infty)$ avoids $\Lambda\gamma$.
+\end{proof}
+
+This completes the proof of the assertion that the connectedness of $\Cyl_{r, \infty, K}(\gamma)$ determines the connectedness of $\boundary X - \Lambda \gamma$.
+We now show that this connectedness can be detected without looking too far from $\gamma$: we show that for $R$ at least some predetermined constant, $\Cyl_{r, R, K}(\gamma)$ has the same number of components as $\Cyl_{r, \infty, K}(\gamma)$.
+
+\begin{proposition}\label{proposition:replace_infinity_by_R} 
+  Let $R \geq 2\delta + 2D + \max\{r + 4\delta + 1, K\}$.
+  Then the inclusion map $\Cyl_{r, R, K}(\gamma) \hookrightarrow \Cyl_{r, \infty, K}(\gamma)$ induces a bijection between the sets of connected components of those subspaces of $X$.
+\end{proposition}
+
+\begin{proof} 
+  Surjectivity is clearly guaranteed by the fact that $R \geq K$. 
+  For injectivity, let $x$ and $y$ be points in $C_K(\gamma)$ that lie in the same connected component of $\Cyl_{r, \infty, K}(\gamma)$. 
+  We show that the shortest path from $x$ to $y$ in $N_{r, \infty}(\gamma)$ stays within a distance $R$ of $\gamma$. 
+  This argument is illustrated in Figure~\ref{figure:replace_infinity_by_R}.
+  Let $\phi\colon [0,\ell] \to X$ be such a shortest path parametrised by arc length. 
+  Suppose that $d(\phi(s),\gamma) > R$. 
+  Let $[t_0,t_1]$ be a maximal subinterval of $[0, \ell]$ containing $s$ such that $d(\phi(t),\gamma) \geq r + 4\delta + 1$ for $t \in [t_0,t_1]$. 
+
+  Then for $t \in [t_0,t_1]$, $\phi\restricted{[t-4\delta-1,t+4\delta+1] \intersection[t_0, t_1]}$ has image in $N_{r+4\delta+1, \infty}(\gamma)$.  
+  Therefore any geodesic segment from $\phi(\min\{t-4\delta-1, t_0\})$ to $\phi(\max\{t+4\delta+1, t_1\})$ is contained in $N_{r, \infty}(\gamma)$, so by minimality of the length of $\phi$, $\phi\restricted{[t-4\delta-1,t+4\delta+1] \intersection [t_0, t_1]}$ is a geodesic. 
+  This means that $\phi\restricted{[t_0,t_1]}$ is an $(8\delta+2)$-local geodesic. 
+  Therefore by Theorem~\ref{theorem:local_geodesics} it is contained in a $D$-neighbourhood of any geodesic from $\phi(t_0)$ to $\phi(t_1)$.
+
+  By maximality of $[t_0,t_1]$, either $d(\phi(t_0),\gamma) = r + 4\delta+1$ or $t_0=0$, so certainly $d(\phi(t_0),\gamma) \leq \max\{r+4\delta+1,K\}$, and similarly $d(\phi(t_1),\gamma)$ satisfies the same inequality. 
+  By $\delta$-hyperbolicity applied to the geodesic quadrilateral with vertices $\phi(t_0)$, $\phi(t_1)$ and the points $\gamma(s_0)$ and $\gamma(s_1)$ on $\gamma$ minimising the distances to $\phi(t_0)$ and $\phi(t_1)$, any geodesic from $\phi(t_0)$ to $\phi(t_1)$ is contained in a $2\delta + \max\{r + 4\delta + 1, K\}$ neighbourhood of a geodesic from $\gamma(s_0)$ to $\gamma(s_1)$, so is a subset of $N_{2\delta+\max\{r+4\delta+1, K\} + D}(\gamma)$. 
+  Hence $d(\phi(s),\gamma) \leq 2\delta + \max\{r+4\delta+2,K\} + 2D$, which is a contradiction. 
+\end{proof}
+
+\begin{figure}
+  \begin{center}
+    \input{detecting_cut_pairs/local_geodesic.pdf_tex}
+  \end{center}
+  \caption{
+    \label{figure:replace_infinity_by_R}
+    The configuration of points and paths in the proof of Proposition~\ref{proposition:replace_infinity_by_R}.
+    We show that the shortest path from $x$ to $y$ that avoids $N_r(\gamma)$ is contained in $N_R(\gamma)$, so the cusped space cannot contain a large ``hole'' obstructing such paths as shown in the diagram.
+  }
+\end{figure}
+
+From the results of this section we draw the following conclusion, which was main goal of this section.
+
+\begin{proposition}\label{proposition:summary_of_cylinder_results} 
+  The map that sends a component $U$ of $\Cyl_{r, R, K}(\gamma)$ to the shadow (with respect to the base point $1 \in \gamma$) of the component of $\Cyl_{r, \infty, K}(\gamma)$ containing $U$ is a well defined bijection between the set of connected components of $\Cyl_{r, R, K}(\gamma)$ and the set of connected components of $\boundary X - \Lambda\gamma$ as long as $r$, $R$ and $K$ are taken to simultaneously satisfy the conditions of Lemmas~\ref{lemma:disjoint_cover_by_shadows}, \ref{lemma:non_empty_shadows}, \ref{lemma:shadows_clopen} and Propositions \ref{proposition:shadows_connected} and~\ref{proposition:replace_infinity_by_R}.\qed\end{proposition}
+
+\begin{remark}\label{rem:rKRcomputable} 
+  The conditions on $r$, $R$ and $K$ depend only on $\delta$, $n$ and $\lambda$. 
+  Suitable values for $r$, $R$ and $K$ can be computed from these data.
+\end{remark}
+
+We end this section with the following proposition, which shows that it is possible to detect which components of $N_{r, R}(\gamma)$ meet $C_K(\gamma)$ just by looking at a ball of a bounded size in $X$.
+Therefore it is possible to construct bounded subsets of $A_{r, R, K}(\gamma)$ algorithmically.
+
+\begin{proposition}\label{proposition:cylinder_disconnected_locally} 
+  Suppose that $\gamma$ is a bi-infinite $\lambda$-quasi-geodesic and that neither point in $\Lambda\gamma$ is a cut point. 
+  Let $r$ and $R$ be chosen to satisfy Propositions~\ref{proposition:shadows_connected} and~\ref{proposition:replace_infinity_by_R}. 
+  Let $T$ be at least $\log_a(2k_1/k_2) + 3D + 2\delta + K$. 
+  Then every component of\/ $\Cyl_{r, R, K}(\gamma)$ meets $C_K(\gamma) \intersection \Ball_{T}(\gamma(t))$ for any $t$ such that $\gamma(t)$ is in $X_0$.  
+\end{proposition}
+
+\begin{proof} 
+  Without loss of generality assume that $\gamma(t) = 1$.
+  Let $U$ be a component of $\Cyl_{r, R, K}(\gamma)$ and let $U'$ be the component of $\Cyl_{r, \infty, K}(\gamma)$ containing $U$.
+  Then it is sufficient to show that $U'$ meets $C_K(\gamma) \intersection \Ball_{T}(1)$ since $U' \intersection C_K(\gamma) = U \intersection C_K(\gamma)$ by Proposition~\ref{proposition:replace_infinity_by_R}. 
+
+  Suppose that $U'$ does does not meet $C_K(\gamma) \intersection \Ball_{T}(1)$.
+  We show then that $\shadow U$ must then be clustered around the two points in $\Lambda\gamma$.
+  Let $p$ be a point in $\shadow U$ and let $\alpha$ be a geodesic ray from $1$ to $p$.
+  Then $\alpha(s) \in U \intersection C_K(\gamma)$ for some $s$; by assumption $d(\alpha(s), v) \geq T$.
+
+  Let $\gamma'$ be a geodesic connecting the points of $\Lambda\gamma$ so that the Hausdorff distance between $\gamma$ and $\gamma'$ is at most $D$.
+  Parametrise $\gamma'$ so that $d(\gamma'(0), 1) \leq D$.
+  Then $d(\alpha(s), \gamma') \leq K + D$; let $d(\alpha(s), \gamma'(s')) \leq K + D$.
+  This implies that $d(\gamma'(s'), 1)\geq T - D - K$.
+  We therefore have the following inequality.
+  \begin{align}
+    \gromprod[1]{\alpha(s)}{\gamma'(s')} \geq T - D - K.
+  \end{align}
+  Assume that $s'\geq0$; this implies that
+  \begin{align}
+    \gromprod[1]{p}{\gamma'(\infty)} & \geq \liminf_{m, n \to \infty}\gromprod[1]{\alpha(m)}{\gamma'(n)} \\
+                                     & \geq \gromprod[1]{\alpha(s)}{\gamma'(s')} - D \\
+                                     & \geq T - 2D - K.
+  \end{align}
+  So $d_\rmv(p, \gamma'(\infty)) \leq k_2a^{-T + 2D + K}$. 
+  Similarly, if $s' \leq 0$, $d_\rmv(p, \gamma'(-\infty)) \leq k_2a^{-T + 2D + K}$. 
+  Therefore $\shadow U'$ is contained in a $k_2a^{-T + 2D + K}$ neighbourhood of $\Lambda\gamma$.  
+  Also, for any $s$, the geodesic from $\gamma(t+s)$ to $\gamma(t-s)$ passes within a distance $D$ of $\gamma(t)$, so $\gromprod[1]{\gamma(t+s)}{\gamma(t-s)} \leq D$. 
+  Then $\gromprod[1]{\gamma(\infty)}{\gamma(-\infty)} \leq 2\delta + D$, and so $d_\rmv(\gamma(\infty), \gamma(-\infty)) \geq k_1a^{-(2\delta + D)}$. 
+  It follows by the inequality satisfied by $T$ that the closed balls of radius $k_2a^{-T + 2D + K}$ around $\gamma(\infty)$ and $\gamma(-\infty)$ are disjoint. 
+  By Proposition~\ref{proposition:shadows_connected} $\shadow U'$ is connected, so is contained in one of these two balls, say in the ball around $\gamma(\infty)$.  
+  But then $\shadow U$ is a non-empty proper subset of $\boundary X - \{\gamma(\infty)\}$ that is closed and open, so $\gamma(\infty)$ is a cut point, which is a contradiction.
+\end{proof}
+
+\section{Cylinders in the thin part of the cusped space}\label{section:geodesics_in_thin_part}
+
+As in the previous section, let $G$ be a hyperbolic group and let $\calH$ be a finite set of pairwise non-conjugate maximal virtually cyclic subgroups of $G$, so that $G$ is hyperbolic relative to $\calH$. 
+Let $S$ be a generating set for $G$ such that $S \intersection H$ generates $H$ for each $H$ in $\calH$. 
+Let $X$ be the cusped space associated to $(G, \calH, S)$.
+Let $\gamma$ be a $(8\delta + 1)$-local-geodesic in $X$ with one or both end points in $\boundary X$.
+
+In this section we study the connectedness of the intersection of $\Cyl_{r, R, K}(\gamma)$ with the thin part of $X$.
+Because of our assumption that the peripheral subgroups are virtually cyclic, the geometry of the cusps of $X$ is quite simple. 
+We begin to restricting to the case in which $\gamma$ is a vertical geodesic ray contained in a horoball corresponding to a subgroup $H \in \calH$.
+Then the vertex set of $\Hor(\Cay(H, S\intersection H))$ can be identified with $H \times \integers_{\geq 0}$ and for any $k$ there is an inclusion of the Cayley graph $\Cay(H, S \intersection H) \hookrightarrow h^{-1}(k) \intersection \Hor(\Cay(H, S \intersection H))$ mapping a vertex $g \in \Cay(H, S)$ to $(g, k)$. 
+For $k = 0$ this inclusion is an isomorphism of graphs. 
+
+Let $d_H$ be the path metric in $\Cay(H, S \intersection H)$ and let $\Cay(H, S \intersection H)$ be $\delta_H$-hyperbolic with respect to this metric. 
+Let $\alpha$ be a bi-infinite geodesic in $\Cay(H, S)$ with respect to $d_H$. 
+Then any point in $\Cay(H, S)$ is within a distance of at most $2\delta_H + 1$ of $\alpha$.
+
+Let $\gamma \colon [0, \infty) \to X$ be a vertical geodesic ray with $\gamma(0) = (\alpha(0), 0)$. 
+The $\delta$-thin part of the horoball is convex by~\cite[Lemma 3.26]{grovesmanning08}, so for any point $x$ in $\Hor(\Gamma(H, S \intersection H))$ with $h(x) \geq \delta$, the distance from $x$ to $\gamma$ is minimised by a geodesic comprising a vertical segment followed by a single horizontal edge.
+Then for any $k \geq \delta$, the vertex set of $h^{-1}(k) \intersection N_{r, R}(\gamma)$ is
+\begin{align}
+  \{g \in H \colon 2^{k + r - 2} < d_H(g, \alpha(0)) \leq 2^{k + R - 1}\} \times \{k\}.
+\end{align} 
+We will denote by $Y_k$ the set $h^{-1}(k) \intersection N_{r, R}(\gamma)$. 
+
+Assume now that $k \geq \max\{\log_2(2\delta_H + 1),\delta\}$. Then every vertex in $h^{-1}(k)$, and therefore every vertex in $Y_k$, is adjacent to a vertex in $\alpha \times \{k\}$. 
+Therefore $Y_k$ contains connected components $Y_k^+$ and $Y_k^-$ with
+\begin{align}
+  \alpha\restricted{[2^{k+r-1}, 2^{k+R-1}]} \times \{k\} & \subset Y_k^+,\\
+  \alpha\restricted{[-2^{k+R-1}, -2^{k+r-1}]} \times \{k\} & \subset Y_k^-,\\
+\end{align}
+and each of these components meets $C_K(\gamma)$. 
+Therefore each of the sets $Y_k^\pm$ is a subset of a component of $\Cyl_{r, R, K}(\gamma)$. 
+Any vertex in the complement of these two components of $Y_k$ is adjacent to a point in $\{(\alpha(\pm 2^{k+r-2}), k)\}$, so is contained in the following set.
+\begin{align}
+  \{g \in H \colon d_H(g, \alpha(0)) \leq 2^{k + r - 1}\} \times \{k\}.
+\end{align}
+Therefore only those vertices of $Y_k$ that are in $Y_k^+ \union Y_k^-$ are adjacent in $X$ to vertices of $Y_{k+1}$. 
+Furthermore, $Y_k^+$ is adjacent to $Y_{k+1}^+$ and not to $Y_{k+1}^-$ and likewise for $Y_k^-$. 
+Finally, any vertex that is in $Y_{k+1}$ but not in $Y_{k+1}^{+} \union Y_{k+1}^{-}$ is adjacent to a vertex in $Y_{k}^{+} \union Y_{k}^{-}$.
+
+Therefore, if $k \geq \max\{\log_2(2\delta_H + 1),\delta\}$ then $\Cyl_{r, R, K}(\gamma) \intersection h^{-1}[k, \infty) \intersection \Hor(\Cay(H, S \intersection H))$ contains two unbounded components $Y_{\geq k}^+$ and $Y_{\geq k}^-$ containing $\union_{l \geq k} Y_l^+$ and $\union_{l \geq k} Y_l^-$ respectively and the complement of these two components is contained in
+\begin{align}
+  \{g \in H \colon d_H(g, \alpha(0)) \leq 2^{k + r}\} \times \{k\}.
+\end{align}
+
+To make precise the consequences of this description of $\Cyl_{r, R, K}(\gamma)$,
+we make the following definition, now allowing $\gamma$ to be any geodesic segment, geodesic ray or bi-infinite geodesic in $X$.
+
+\begin{definition}\label{definition:loose_ends}
+  Let $\gamma$ be a geodesic segment, geodesic ray or bi-infinite geodesic in $X$.
+  We call an end point of $\gamma$ a \emph{loose end} if it is in $X$ (as opposed to $\boundary X$), and this end point is a local maximum of the function $h \composed \gamma$.
+  (In other words, if the end point is at the start of $\gamma$ then $\gamma$ is descending vertically at that point, while if the end point is at the end of $\gamma$ then $\gamma$ is ascending vertically at that point.)
+  Then let $\hat\gamma$ be the bi-infinite path obtained by concatenating $\gamma$ with geodesic rays at any loose ends of $\gamma$.
+  Note that this can be done in a unique way, since the loose ends of $\gamma$ have positive height.
+\end{definition}
+
+Note that if the height of the loose ends of $\gamma$ is at least $8\delta + 1$, $\hat\gamma$ is a $(8\delta + 1)$-local-geodesic.
+
+With $\gamma$ as in Definition~\ref{definition:loose_ends}, let $\Cyl_{r, R, K}'(\gamma)$ be the space obtained by truncating $\Cyl_{r, R, K}(\hat\gamma)$ at the loose ends of $\gamma$:
+\begin{align}
+  \Cyl_{r, R, K}(\hat\gamma) - \left(h^{-1}[k, \infty) \intersection N_R (\hat\gamma - \gamma)\right).
+\end{align} 
+This space is shown in Figure~\ref{figure:geodesic_in_thin_part}.
+
+\begin{figure}
+  \begin{center}
+    \input{detecting_cut_pairs/geodesic_in_thin_part.pdf_tex}
+  \end{center}
+  \caption{
+    \label{figure:geodesic_in_thin_part}
+    The union of the red and blue components of $\Cyl'_{r, R, K}(\gamma)$, where $\gamma$ is a geodesic with a loose end at height $k$. 
+    Note that extending $\gamma$ by a geodesic ray (to obtain $\hat\gamma$) does not change the number of connected components of the cylinder.
+  }
+\end{figure}
+
+The results of this section together give the following lemma, which we shall
+use to control the depth to which geodesics in $X$ connecting cut pairs in
+$\boundary X$ penetrate into the thin part of $X$.
+
+\begin{lemma}\label{lemma:geodesics_in_horoballs} 
+  Let $\gamma$ be a geodesic segment, geodesic ray or bi-infinite geodesic in $X$ such that any ends of $\gamma$ not in $\boundary X$ are loose ends of $\gamma$ and have height at least $\min\{R, \log_2(2\deltaH + 1), 8\delta + 1\}$. 
+  Let $\deltaH$ be such that each $H \in \calH$ is $\deltaH$-hyperbolic with respect to the generating set $H \intersection S$.  
+  Then the inclusion $\Cyl'_{r, R, K}(\gamma) \hookrightarrow \Cyl_{r, R, K}(\hat\gamma)$ induces a bijection between the sets of connected components of those spaces.\qed
+\end{lemma}
+
+\section{The geometry of finite balls in the cusped space}\label{section:pumping_lemma}
+
+In this section we apply the results of Sections~\ref{section:geodesics} and~\ref{section:geodesics_in_thin_part} to prove some of the results referred to in the introduction.
+We show that certain topological properties of the boundary of the pair $(G, \calH)$ are determined by the geometry of a large ball in the cusped space.
+All of these results require the assumption that the cusped space satisfies a double dagger condition.
+
+\subsection{Cut points}
+
+The first topological feature we treat is a cut point. 
+As discussed in Sections~\ref{section:local_connectedness_of_gromov_boundary} and~\ref{section:bowditch_boundary} there is never a cut point in the boundary in the Gromov boundary of a hyperbolic group, but cut points are possible in the Bowditch boundary of relatively hyperbolic groups.
+Note also that we require a double dagger condition, which is not guaranteed if the boundary does contain a cut point.
+
+\begin{proposition}\label{proposition:cut_point_feature} 
+  Let $G$ be a group and let $\calH$ be a finite set of virtually cyclic subgroups of $G$ so that $G$ is hyperbolic relative to $\calH$.
+  Let $S$ be a finite generating set for $G$ such that $S \intersection H$ generates $H$ for each $H \in \calH$.
+  Suppose that the cusped space $X$ associated to the triple $(G, \calH, S)$ is $\delta$-hyperbolic and satisfies $\ddag(n)$.
+  Fix $r$, $R$ and $K$ satisfying Proposition~\ref{proposition:summary_of_cylinder_results}.
+  Let $\deltaH$ be large enough that $\Cay(H,S\intersection H)$ is $\deltaH$-hyperbolic for each $H \in \calH$ and let $k \geq \log_2(2\deltaH + 1)$.
+  Then $\boundary(G, \calH, S)$ contains a cut point if and only if there is a vertical geodesic segment $\gamma \colon [0, k] \to X$ with $\gamma(0) = 1$ such that $\Cyl'_{r, R, K}(\gamma)$ is disconnected.
+\end{proposition}
+  
+\begin{proof} 
+  It is shown in~\cite[Theorem 0.2]{bowditch99a} that any cut point in $\boundary(G, \calH)$ must be the limit point of $gHg^{-1}$ for some $H \in \calH$ and $g \in G$. 
+  Therefore $\boundary(G, \calH)$ contains a cut point if and only if $\Lambda H$ is a cut point for some $H \in \calH$.  
+  For $H \in \calH$ let $\gamma_H$ be the vertical geodesic ray contained in $\Hor(\Cay(H, S \intersection H))$ with $\gamma_H(0)=1$.
+  Note that $\gamma_H(\infty) = \Lambda H$.
+
+  By Proposition~\ref{proposition:summary_of_cylinder_results}, $\gamma_H(\infty)$ is a cut point if and only if $\Cyl_{r, R, K}(\gamma_H)$ is disconnected.
+  By Lemma~\ref{lemma:geodesics_in_horoballs} $\Cyl_{r, R, K}(\gamma_H)$ is disconnected if and only if $\Cyl_{r, R, K}'(\gamma_H\restricted{[0,k]})$ is disconnected.
+\end{proof}
+
+\subsection{Cut pairs}\label{section:detecting_cut_pairs}
+
+We now assume that $\boundary(G,\calH)$ does not contain a cut point and give criteria for the existence of a cut pair in $\boundary(G, \calH)$.
+In this situation all results of Section~\ref{section:cylinders_and_the_boundary} are applicable.
+We use a pumping lemma argument: we aim to replace an arbitrary geodesic joining the two points in a cut pair in $\boundary X$ with a periodic local geodesic with bounded period that also joins the points of a (possibly different) cut pair.
+
+Before stating the theorem we define some constants. 
+Let the cusped space $X$ be $\delta$-hyperbolic and satisfy the double dagger condition $\ddag(n)$.
+Fix $\deltaH$ so that $\Cay(H,S\intersection H)$ is $\deltaH$-hyperbolic for each $H \in \calH$.
+Take $\lambda = \max\{(12\delta+1)/(4\delta+1), 2\delta\}$ so that any $(8\delta+1)$-local-geodesic is a $\lambda$-quasi-geodesic as in Theorem~\ref{theorem:local_geodesics} and fix $D$ so that any $(8\delta+1)$-local geodesic is contained in a $D$-neighbourhood of a geodesic with the same end points.
+Fix $r$, $R$ and $K$ to simultaneously satisfy the conditions of the results of Section~\ref{section:cylinders_and_the_boundary} as summarised in Proposition~\ref{proposition:summary_of_cylinder_results}.
+Fix $T$ to satisfy the condition of Proposition~\ref{proposition:cylinder_disconnected_locally}. 
+We also make the following definitions.
+\begin{align}
+     k &= \max\{8\delta + 1, \log_2(2\deltaH + 1), T + R\}.\\
+  \rho &= (2R + \lambda + 1)\lambda^2 + \lambda + R.\\
+  \eta &= \max\{(8\delta + 1)/2, \lambda(T + K + \lambda), \lambda(R + r + \lambda), \lambda(R + \rho + \lambda), \lambda(2R + \lambda + 1)\}.
+\end{align}
+To summarise, we take $r \ll K \ll R \ll \rho \ll \eta$ and $k \gg R$.
+
+Let $\Val$ be the maximum valence of any vertex in $X_{k + R}$ and let $V$ be the maximum number of vertices in any ball of radius $\rho$ around any vertex in $X_{k + R}$. 
+Then define $N_{\min}$ and $N_{\max} \gg \eta$ as follows.
+\begin{align}
+  N_\text{min} &= \max\{8\delta+1, \lambda(2R+\lambda+1) + 1\}\\
+  N_\text{max} &= N_\text{min} \left(k + R + 1\right) \Val^{2\eta} 2^V + 1
+\end{align}
+
+\begin{theorem}\label{theorem:cut_pair_feature} 
+  There is a cut pair in $\boundary(G, \calH)$ if and only if and only if $X$ contains one of the following two features:
+\begin{enumerate}
+  \item A short coarsely separating geodesic segment at shallow depth in $X$: a geodesic segment $\gamma \colon [a - \eta, b + \eta] \to X$ contained in $X_{k + R}$ satisfying the following conditions.
+    Such a feature is shown in Figure~\ref{figure:pumping_lemma}.
+  \begin{enumerate}
+    \item\label{cutpairshort} The segment is short: $N_\text{min} \leq b - a \leq N_{max}$.
+    \item\label{cutpairmatch} The ends of the segment match: $h(\gamma(a)) = h(\gamma(b))$, so there exists $g \in G$ such that $\gamma(b) = g \cdot \gamma(a)$, and $\gamma\restricted{[b - \eta, b + \eta]} = g\cdot \gamma\restricted{[a - \eta, a + \eta]}$.
+    \item\label{cutpairnontrivial} The segment coarsely separates $X$: there is a partition $\calP$ of the vertices of $N_{r, R}(\gamma) \intersection N_R(\gamma\restricted{[a,b]})$ into two subsets such that adjacent vertices lie in the same subset and each of the sets meets $C_K(\gamma) \intersection \Ball_{T}(\gamma(c))$ for some $c \in [a, b]$ such that $\gamma(c) \in X_0$.
+    \item\label{cutpairpartition} The ends of the partition match: the partition on the vertices of $N_{r, R}(\gamma) \intersection \Ball_{{\rho}}(\gamma(b))$ induced by the restriction of $\calP$ to that subset is the same as the translate by $g$ of the partition on the vertices of $N_{r, R}(\gamma) \intersection \Ball_{{\rho}}(\gamma(a))$ obtained by restricting $\calP$. 
+      Note that $N_{r, R}(\gamma) \intersection \Ball_{\rho}(\gamma(b))$ is equal to $g \cdot N_{r, R}(\gamma) \intersection \Ball_{\rho}(\gamma(a))$ by Condition~\ref{cutpairmatch}.
+  \end{enumerate} 
+  \item A short coarsely separating horseshoe-shaped geodesic: a geodesic segment $\gamma \colon [a, b] \to X$ satisfying the following conditions.
+  \begin{enumerate}
+    \item The segment is short: $b - a \leq N_{max} - 2R + 2\eta$.
+    \item Both ends are loose ends: $h(\gamma(a)) = h(\gamma(b)) \geq k$ and $h \composed \gamma$ is decreasing at $a$ and increasing at $b$.
+    \item The segment coarsely separates $X$: $\Cyl'_{r, R, K}(\gamma)$ is disconnected.
+  \end{enumerate}
+\end{enumerate}
+\end{theorem}
+
+\begin{figure}
+  \begin{center}
+    \input{detecting_cut_pairs/pumping_lemma.pdf_tex}
+  \end{center}
+  \caption{
+    \label{figure:pumping_lemma}
+    A short coarsely separating geodesic segment in $X$. 
+    The partition $\calP$ consists of the red set and the blue set.
+    Note that the two ends of the segment, and the partitions around the two ends, match under translation by $g$.
+  }
+\end{figure}
+
+\begin{proof} 
+  First suppose that the first type of feature exists in $X$.
+  Define a path $\gamma'$ in $X$ by concatenating translates of $\gamma$:
+  \begin{align} 
+    \gamma'\left((b - a)m + t\right) = g^m\gamma(a + t)
+  \end{align}
+  for $m \in \integers$ and $t \in [0, b-a]$. 
+  Then $\gamma'$ is an $(8\delta + 1)$-local-geodesic by Condition~\ref{cutpairmatch}.
+  (Here we use the condition that $\eta \geq (8\delta + 1)/2$.) 
+  It is therefore a $\lambda$-quasi-geodesic by Theorem~\ref{theorem:local_geodesics}. 
+  We now show that $\Cyl_{r, R, K}(\gamma')$ is disconnected.
+
+  Note that $N_R(\gamma')$ is a union $\bigcup_{m\in\integers} g^m\cdot N_R(\gamma\restricted{[a, b]})$ of translates of neighbourhoods of $\gamma$.
+  Since $\eta \geq \lambda(R + r + \lambda)$, $N_r(\gamma') \intersection N_R(\gamma\restricted{[a, b]})$ is a subset of $N_{r}(\gamma)$, so is equal to $N_r(\gamma) \intersection N_R(\gamma\restricted{[a, b]})$.  
+  Therefore $N_{r, R}(\gamma')$ is also a union:
+  \begin{align} 
+    N_{r, R}(\gamma') = \bigcup_{m \in \integers} g^m\cdot \left(N_{r, R}(\gamma) \intersection N_R\left(\gamma\restricted{ [a,b]}\right)\right).
+  \end{align}
+
+  Since $b - a > \lambda(2R+\lambda+1)$, $g^m \cdot N_R(\gamma\restricted{[a, b]})$ and $g^l \cdot N_R(\gamma\restricted{[a, b]})$ contain no adjacent vertices for $\mod{m - l} \geq 2$. 
+  Furthermore, if $l = m+1$ then any pair of adjacent vertices in these two sets is contained in $g^m\cdot \Ball_{\rho}(\gamma(b))$ since $\rho \geq (2R + \lambda + 1)\lambda^2 + \lambda + R$.
+
+  For each set $U \in \calP$ define a set $U'$ of vertices of $N_{r, R}(\gamma')$ by letting $u \in U'$ if $g^m u \in U$ for some $m \in \integers$.
+  This gives a well defined partition $\calP'$ of the vertices of $N_{r, R}(\gamma')$ such that adjacent vertices lie in the same set by condition \ref{cutpairpartition}. 
+  Its restriction to $\Cyl_{r, R, K}(\gamma')$ is non-trivial: $C_K(\gamma')$ contains $C_K(\gamma) \intersection \Ball_{T}(\gamma(c))$ since $\eta \geq \lambda(T + K + \lambda)$ and this set meets both sets in $\calP'$ by condition \ref{cutpairnontrivial}. 
+  Therefore $\Cyl_{r, R, K}(\gamma')$ is disconnected and therefore $\Lambda\gamma'$ is a cut pair by the results of Section~\ref{section:geodesics}.
+
+  Now suppose that the second type of feature exists in $X$.
+  As in Section~\ref{section:geodesics_in_thin_part}, let $\hat\gamma$ be the $(8\delta + 1)$-local-geodesic obtained by concatenating $\gamma$ with vertical geodesic rays. 
+  Then $\Cyl_{r, R, K}(\hat\gamma)$ is disconnected by Lemma~\ref{lemma:geodesics_in_horoballs} and $\Lambda\hat\gamma$ is a cut pair by the results of Section~\ref{section:geodesics}.
+
+  Conversely, suppose that $\boundary X$ does contain a cut pair. 
+  Let $\gamma'$ be a geodesic in $X$ such that $\Lambda\gamma'$ is a cut pair. 
+  Assume first that some connected component of $\gamma'^{-1} h^{-1}[0, k + R]$ is an interval of length less than $N_{max} + 2R$, say $[a - R, b + R]$ with $h(\gamma'(a - R)) = h(\gamma'(b + R)) = k + R$, so $h(\gamma'(a)) = h(\gamma'(b)) = k$. 
+  Shortening $\gamma$ if necessary, we may assume that $h \composed \gamma$ is decreasing at $a$ and increasing at $b$.
+  Let $\gamma = \gamma' \restricted{[a, b]}$.  
+  Let $c \in [a, b]$ such that $h(\gamma'(c)) = 0$.  
+  $\Cyl_{r, R, K}(\gamma')$ is disconnected and each component meets $C_K(\gamma') \intersection \Ball_{T}(\gamma'(c))$ by Proposition~\ref{proposition:cylinder_disconnected_locally}. 
+  Since $k \geq T$ this is a subset of $\Cyl'_{r, R, K}(\gamma)$, and $\Cyl'_{r, R, K}(\gamma)$ is  a subset of $\Cyl_{r, R, K}(\gamma')$, so $\Cyl_{r, R, K}'(\gamma)$ is disconnected. 
+  Therefore $\gamma'$ is a feature of the second kind described in the proposition.
+
+  On the other hand, suppose that some interval $[-\eta, N_{max} + \eta]$ is a subset of $\gamma'^{-1} h^{-1}[0, k + R]$. 
+  Then there exist $a_0 < a_1 < \dots < a_{2^V}$ in $[0, N_{max}]$ such that $h(a_i) = h(a_j)$ for all $i$ and $j$, so $a_i = g_i a_0$ for some $g_i \in G$, such that $\gamma'\restricted{[a_i - \eta, a_i + \eta]} = g_i \cdot \gamma'\restricted{[a_0 - \eta, a_0 + \eta]}$, and such that $a_i - a_{i - 1} \geq N_\text{min}$. 
+  Let $\calP'$ be a partition of the vertices of $N_{r, R}(\gamma')$ into two subsets such that adjacent vertices are in the same set and so that both sets meet $C_K(\gamma')$. 
+  Such a partition exists by the results of section~\ref{section:cylinders_and_the_boundary} since $\Lambda\gamma'$ is a cut pair. 
+  Since $\eta \geq \lambda(R + \rho + \lambda)$, $N_{r, R}(\gamma') \intersection \Ball_{\rho}(\gamma(a_0))$ is equal to $g_i^{-1} N_{r, R}(\gamma') \intersection \Ball_{\rho}(\gamma(a_i))$ for all $i$.  
+  This set contains at most $V$ vertices, so there exist $0 \leq i < j \leq 2^V$ such that
+  \begin{align}
+  g_i^{-1}\calP'\restricted{N_{r, R}(\gamma') \intersection
+  \Ball_{\rho}(\gamma(a_i))} = g_j^{-1}\calP'\restricted{N_{r, R}(\gamma')
+  \intersection \Ball_{\rho}(\gamma(a_j))}.
+  \end{align}
+
+  Let $a = a_i$ and $b = a_j$ and let $\gamma = \gamma'\restricted{[a - \eta, b + \eta]}$. 
+  We claim that $\gamma$ is then a feature of the first kind described in the proposition. 
+  Setting $g = g_jg_i^{-1}$ and $\calP = \calP'\restricted{N_{r, R}(\gamma') \intersection N_R(\gamma\restricted{[a, b]})}$, conditions \ref{cutpairshort}, \ref{cutpairmatch}, and~\ref{cutpairpartition} are satisfied by definition of the $a_i$. 
+  Let $c \in [a, b]$ such that $\gamma'(c) \in X_0$. 
+  Then $C_K(\gamma) \intersection \Ball_{T}(\gamma(c))$ is equal to $C_K(\gamma') \intersection \Ball_{T}(\gamma'(c))$ since $\eta \geq \lambda(T+K+\lambda)$ and Proposition~\ref{proposition:cylinder_disconnected_locally} guarantees that both sets in $\calP'$ meet this set, so Condition~\ref{cutpairnontrivial} is satisfied, too.
+\end{proof}
+
+\subsection{Circular boundaries}\label{section:detecting_circular_boundaries}
+
+We now show that the boundary is homeomorphic to a circle if and only if a large ball in the cusped space satisfies a geometric condition.
+To identify circles we require the following theorem from point-set topology.
+
+\begin{theorem}
+  \cite[II.2.13]{wilder49}\label{thm:topologyimpliescircle} 
+  Let $X$ be a separable, connected, locally connected space containing more than one point that is without a cut point.
+  If every pair of points in $X$ is a cut pair then $X$ is homeomorphic to $S^1$.
+\end{theorem}
+
+Recall a theorem of Bowditch~\cite[Theorem 0.1]{bowditch99b}: if $G$ is hyperbolic relative to $\calH$ where every element of $\calH$ is finitely presented, one-{} or two-ended and contains no infinite torsion subgroup then $\boundary(G, \calH)$ is locally connected whenever it is connected.
+The boundary of a relatively hyperbolic group is a compact metric space, so it is separable.
+Therefore we see that the boundary of a relatively hyperbolic group is homeomorphic to a circle if and only if it is connected, does not contain a cut point and every pair of points is a cut pair.
+We call a pair of points that is not a cut pair a \emph{non-cut pair.}
+This reduces the problem of identifying circular boundaries to the problem of determining whether or not $\boundary (G, \calH)$ contains a non-cut pair.
+
+By a similar argument to that of Section~\ref{section:detecting_cut_pairs} we now show that the existence of a non-cut pair is equivalent to the presence in a ball of large radius in the cusped space of a short coarsely non-separating geodesic segment.
+First we prove the following lemma.
+
+\begin{lemma}\label{lem:equivalenceclass} 
+  Suppose that $\boundary X$ does not contain a cut point. 
+  Let $(x_n)_{n \in \integers}$ be a sequence of points in $\boundary X$ with $x_n \to x_{\pm \infty}$ as $n\to \pm \infty$. 
+  Suppose that each pair $\{x_n, x_{n+1}\}$ is a cut pair. 
+  Then so is $\{x_{-\infty}, x_\infty\}$.  
+\end{lemma}
+
+\begin{proof} 
+  The boundary $\boundary X$ is locally connected by the main theorem of~\cite{bowditch99b}. 
+  By assumption $\boundary X$ does not contain a cut point, so the results of~\cite[Sections 2 and 3]{bowditch98} can be applied. 
+  We recall some definitions from that paper; these definitions were previously discussed in Section~\ref{section:bowditch_decomposition}.
+  For $x \in \boundary X$ we define $\val(x) \in \naturals$ to be the number of ends of $\boundary X - \{x\}$. 
+  Then we let $M(n) = \{x \in \boundary X \colon \val(x) = n\}$ and $M(n{+}) = \{x \in \boundary X \colon \val(x) \geq n\}$. 
+  For $x$ and $y$ in $M(2)$ we write $x \equivrelation y$ if $x = y$ or $\{x, y\}$ is a cut pair; this defines an equivalence relation. 
+  For $x$ and $y$ in $M(3{+})$ we write $x \approx y$ if $\val(x) = \val(y)$ and $\boundary X - \{x, y\}$ has exactly $\val(x)$ components.
+
+  Recall~\cite[Lemma 3.8]{bowditch98}: if $x \approx y$ and $x \approx z$ then $y \approx z$. 
+  Therefore $x_n \in M(2)$ for all $n$, so $\{x_n\}_{n \in \integers}$ is a subset of a $\equivrelation$-equivalence class $\sigma$. 
+  By~\cite[Lemma 3.2]{bowditch98} $\sigma$ is a cyclically separating set, and so is the closure of $\sigma$ by~\cite[Lem.\ 2.2]{bowditch98}, which implies that $\{x_{-\infty}, x_\infty\}$ is a cut pair as required.
+\end{proof}
+
+Let $\lambda$, $r$, $R$, $K$, $T$, $k$, $\rho$, $\eta$, $\Val$ and $V$ be constants as defined in Section~\ref{section:detecting_cut_pairs}. 
+Let $N_1$, $N_2$ and $N_3$ be given by the following expressions.
+\begin{align} 
+  N_1 &= 2(V-1)((k+R+1)\Val^{2\eta}V^{V+1} + 2\eta) + 2\eta + 2((k+R+1)\Val^{2\eta} + 1),\\
+  N_2 &= (k+R+1)\Val^{2\eta} + 1,\\
+  N_3 &= 2(k + R + 1)\Val^{2\eta}V^{V+1} + 4\eta.
+\end{align}
+
+\begin{theorem}\label{theorem:circular_boundary_feature} 
+  The boundary $\boundary (G,\calH)$ is homeomorphic to a circle if and only if $X$ contains one of the following two features.
+\begin{enumerate}
+  \item 
+    A short non-separating geodesic: geodesic segments $\gamma_i \colon [a_i - \eta, b_i + \eta] \to X$ with image in $X_k$ for $i = 1, 2, 3$ with $a_2 = b_1$ and $a_3 = b_2$ satisfying the following conditions.
+    \begin{enumerate}
+      \item\label{noncutpairshort} The segments are short: $1 \leq b_i - a_i \leq N_1$ for $i = 1$ and for $i = 3$, and $1 \leq b_2 - a_2 \leq N_2$.
+      \item\label{noncutpairmatching} 
+        The ends of the segments match: $\gamma_i\restricted{[b_i - \eta, b_i + \eta]} = \gamma_{i+1}\restricted{[a_i - \eta, a_i + \eta]}$ for $i = 1, 2$. 
+        Also, $h(\gamma_i(a_i)) = h(\gamma_i(b_i))$ for $i = 1, 3$, so there exist $g_i \in G$ such that $\gamma_i(b_i) = g_i\gamma(a_i)$.
+        Finally, $\gamma_i\restricted{[b_i - \eta, b_i + \eta]} = g_i \cdot\gamma_i\restricted{[a_i - \eta, b_i + \eta]}$ for $i = 1, 3$.
+      \item\label{noncutpairconnected} 
+        The segment does not coarsely separate: all vertices of $C_K(\gamma_2) \intersection \Ball_{T}(\gamma_2(c))$ lie in the same connected component of $N_{r, R}(\gamma_2) \intersection N_R(\gamma_2\restricted{[a_2, b_2]})$ for some $c \in [a_2, b_2]$ such that $\gamma_2(c) \in X_0$.
+    \end{enumerate}
+  \item A horseshoe shaped non-separating geodesic: a geodesic segment $\gamma \colon [a, b] \to X$ with image in $X_k$ satisfying the following conditions.
+  \begin{enumerate}
+    \item The segment is short: $b - a \leq N_3$.
+    \item Both ends are loose ends: $h(\gamma(a)) = h(\gamma(b)) = k$ with $\gamma$ descending vertically at $a$ and ascending vertically at $b$.
+    \item The segment does not coarsely separate: $\Cyl'_{r, R, K}(\gamma)$ is connected.
+  \end{enumerate}
+\end{enumerate}
+\end{theorem}
+
+\begin{proof} 
+  First suppose that $X$ contains a feature of the first kind described in the proposition.  
+  Then define a path $\gamma'$ in $X$ as follows:
+  \begin{align} \gamma'(t) = 
+    \begin{dcases}
+      g_1^m \cdot \gamma_1(t') & \text{if $t = m(b_1 - a_1) + t'$ for 
+        $m \in \integers_{\leq 0}$ and $t' \in [a_1, b_1]$ }\\
+      \gamma_2(t) & \text{if $t \in [a_2, b_2]$}\\
+      g_3^m \cdot \gamma_3(t') & \text{if $t = m(b_3 - a_3) + t'$ for 
+        $m \in \integers_{\geq 0}$ and $t' \in [a_3, b_3]$ }\\
+    \end{dcases}
+  \end{align}
+  That is, $\gamma'$ is obtained by concatenating infinitely many translates of $\gamma_1$, then a copy of $\gamma_2$, then infinitely many translates of $\gamma_3$. 
+  Note that this is an $(8\delta + 1)$-local-geodesic by Condition~\ref{noncutpairmatching} since $\eta \geq 8\delta + 1$ and is therefore a $\lambda$-quasi-geodesic.
+
+  Since $\gamma'\restricted{[a_2 - \eta, b_2 + \eta]} = \gamma_2$ and $\eta \geq \lambda(T + K + \lambda)$, $C_K(\gamma') \intersection \Ball_{T}(\gamma'(c))$ is equal to $C_K(\gamma_2) \intersection \Ball_{T}(\gamma_2(c))$.
+  Furthermore, $\eta \geq \lambda (R + r + \lambda)$, which similarly guarantees that $N_{r, R}(\gamma_2) \intersection N_R(\gamma_2\restricted{[a_2, b_2]})$ is a subset of $N_{r, R}(\gamma')$. 
+  Therefore $C_K(\gamma') \intersection \Ball_{T}(\gamma'(c))$ lies in a single component of $\Cyl_{r, R, K}(\gamma')$ by Condition~\ref{noncutpairconnected}, so $\Cyl_{r, R, K}(\gamma')$ is connected by Proposition~\ref{proposition:cylinder_disconnected_locally}, so $\Lambda\gamma'$ is a non-cut pair by the results of Section~\ref{section:cylinders_and_the_boundary}.
+
+  Now suppose that a feature of the second type exists in $X$. 
+  Let $\hat\gamma$ be the path obtained by concatenating $\gamma$ with vertical geodesic rays.  
+  Then $\hat\gamma$ is an $(8\delta+1)$-local-geodesic since $k \geq 8\delta+1$.  
+  Also, $\Cyl_{r, R, K}(\hat\gamma)$ is connected by Lemma~\ref{lemma:geodesics_in_horoballs}, so $\Lambda\hat\gamma$ is a non-cut pair by the results of Section~\ref{section:cylinders_and_the_boundary}.
+
+  Conversely, suppose that $\boundary X$ contains a non-cut pair. 
+  Let $\gamma'$ be an $(8\delta+1)$-local-geodesic in $X$ such that $\Lambda\gamma'$ is such a pair. 
+  Assume first that $\gamma'$ is contained in $X_{k+R}$ and reparametrise $\gamma'$ so that $\gamma'(0) \in X_0$. 
+  Then $C_K(\gamma') \intersection \Ball_{T}(\gamma'(0))$ contains at most $V$ vertices and lies in a single component of $N_{r, R}(\gamma')$. 
+  Define $n_V^\pm$ to be $\pm\lambda(K+T+\lambda)$ and then for $l$ decreasing from $V-1$ to $1$ let $n_l^+$ and $n_l^-$ be chosen to minimise $n_l^+ - n_l^-$ among pairs such that $C_K(\gamma') \intersection \Ball_{T}(\gamma'(0))$ meets at most $l$ components of 
+  \begin{align}
+    N_{r, R}(\gamma') \intersection N_R(\gamma'\restricted{[n_l^-, n_l^+]})
+  \end{align}
+  and $[n_{l+1}^-, n_{l+1}^+] \subset [n_l^-, n_l^+]$.  
+  Note that the condition that $\mod{n^\pm_l} \geq \lambda(K + T + \lambda)$ ensures that $C_K(\gamma') \intersection \Ball_{T}(\gamma'(0))$ is a subset of $N_{r, R}(\gamma') \intersection N_R(\gamma'\restricted{[n_l^-, n_l^+]})$.
+
+  Suppose that $n_{l - 1}^+ - n_l^+ > (k + R + 1)\Val^{2\eta} V^{V+1} + 2\eta$. 
+  Let $\mathcal{Q}$ be the partition of $C_K(\gamma') \intersection \Ball_{T}(\gamma'(0))$ into $l$ non-empty subsets induced by connectivity in $N_{r, R}(\gamma') \intersection N_R(\gamma'\restricted{[n_{l-1}^-, n_{l-1}^+-1]})$.  
+  For each $t \in [n_l + \eta, n_{l-1} - \eta]$ define the following sets:
+  \begin{align}
+    Y_t &= N_{r, R}(\gamma') \intersection \Ball_{\rho}(\gamma'(t)) \\
+    Z_t &= N_{r, R}(\gamma') \intersection \left(\Ball_{\rho}(\gamma'(t)) \union
+      N_R(\gamma'\restricted{[n_{l-1}^-, t]})\right)
+  \end{align}
+  and let $\calP_t$ be the partition of the vertices of $Y_t$ into $l + 1$ subsets: $l$ corresponding to the $l$ sets in $\mathcal{Q}$ by connectivity in $Z_t$ and one containing the part of $Y_t$ not connected to $C_K(\gamma') \intersection \Ball_{T}(\gamma'(0))$ in $Z_t$.  
+  As in the proof of Theorem~\ref{theorem:cut_pair_feature} there exist $s_1 < s_2$ in $[n^+_l + \eta, n^+_{l-1} - \eta]$ such that the following conditions hold.
+  \begin{enumerate}
+    \item The geodesic $\gamma'$ matches at $s_1$ and $s_2$:  $h(\gamma'(s_1)) = h(\gamma'(s_2))$, so $\gamma'(s_2) = g\gamma'(s_1)$ for some $g$ in $G$, and $\gamma'\restricted{[s_2-\eta,s_2+\eta]} = g\cdot\gamma' \restricted{[s_1-\eta,s_1+\eta]}$, which implies that $Y_{s_2} = g\cdot Y_{s_1}$.
+    \item The partitions matches at $s_1$ and $s_2$: the partition $\calP_{s_2}$ is equal to the translation of $\calP_{s_1}$ by the group element $g$.
+  \end{enumerate}
+  Then replace $\gamma'$ by another path defined by
+  \begin{align} 
+    \gamma''(t) = 
+      \begin{dcases}
+        \gamma'(t) & \text{if $t \leq s_1$}\\
+        g^{-1}\cdot \gamma'(t + (s_2 - s_1)) & \text{if $t \geq s_2$} \\
+      \end{dcases}
+  \end{align}
+
+  This is an $(8\delta+1)$-local-geodesic since $\eta \geq 8\delta+1$. 
+  By definition of $\rho$, the intersection of $Z_{s_2}$ and $N_{r, R}(\gamma') \intersection N_R(\gamma'\restricted{[s_2, n_{l-1}^+]})$ is contained in $Y_{s_2}$. 
+  Then by definition of $n_{l-1}^+$, two distinct sets in $\calP_{s_2}$ meet $N_{r, R}(\gamma') \intersection N_R(\gamma'\restricted{[s_2, n_{l-1}^+]})$. 
+  Since $\eta \geq \lambda(R + r + \lambda)$,
+  \begin{align}
+    g^{-1}N_{r, R}(\gamma') \intersection N_R(\gamma'\restricted{[s_2, n_{l-1}^+]})
+    = N_{r, R}(\gamma'') \intersection N_R(\gamma'\restricted{[s_1, n_{l-1}^+ -
+    (s_2 - s_1)]}),
+  \end{align}
+  and it follows that $C_K(\gamma'') \intersection \Ball_{T}(\gamma'(0))$ meets at most $l-1$ components of 
+  \begin{align}
+    N_{r, R}(\gamma'') \intersection N_R(\gamma''\restricted{[n_{l-1}^-, n_{l-1}^+ - (s_2 - s_1)]}). 
+  \end{align}
+  This implies that the process of replacing $\gamma'$ by $\gamma''$ leaves unchanged $n_{l'}^+$ for all $l' < l$ and $n_{l'}^-$ for all $l'$ and strictly reduces $n_l^+$.  
+  Therefore by repeating this process we can assume that $\gamma'$ was chosen to ensure that $\mod{n_{l-1}^\pm - n_l^\pm}$ is at most $(k+R+1)\Val^{2\eta}V^{V+1} + 2\eta$ for all $l$, and therefore that 
+  \begin{align}
+    \mod{n_1^\pm} \leq \lambda(K + T + \lambda) + (V-1)((k+R+1)\Val^{2\eta}V^{V+1} + 2\eta).
+  \end{align}
+
+  There exist $a_1 \leq b_1 \leq n_1^- - \eta$ with $n_1^- - b_1$ and $b_1 - a_1$ both at most $(k+R+1)\Val^{2\eta} + 1$ such that the following matching conditions hold.
+  \begin{enumerate}
+    \item Firstly, $h(\gamma'(b_1)) = h(\gamma'(a_1))$, so $\gamma'(b_1) = g_1\cdot \gamma'(a_1)$ for some $g_1 \in G$.
+    \item Secondly, $\gamma'\restricted{[b_1 - \eta, b_1 + \eta]} = g_1\cdot\gamma'\restricted{[a_1 - \eta, a_1 + \eta]}$.
+  \end{enumerate}
+  Then let $\gamma_1 = \gamma'\restricted{[a_1 - \eta, b_1+\eta]}$. 
+  Similarly define $b_3 \geq a_3 \geq n_1^+$ and let $\gamma_3 = \gamma'\restricted{[a_3 - \eta, b_3 + \eta]}$. 
+  Let $a_2 = b_1$ and $b_2 = a_3$ and let $\gamma_2 = \gamma'\restricted{[a_2 - \eta, b_2 + \eta]}$; note that $b_2 - a_2 \leq N_1$.  
+  Then the triple $(\gamma_1, \gamma_2, \gamma_3)$ is a feature in $X$ of the first kind listed in the proposition: conditions~\ref{noncutpairshort} and~\ref{noncutpairmatching} clearly hold by construction and Condition~\ref{noncutpairconnected} holds because the condition that $\eta \geq \lambda(R + r + \lambda)$ ensures that $N_{r, R}(\gamma') \intersection N_R(\gamma'\restricted{[n_1^-, n_1^+]})$ is a subset of $N_{r, R}(\gamma_2) \intersection N_R(\gamma_2\restricted{[a_2, b_2]})$.
+
+  If $\gamma'$ is not contained in $X_{k+R}$ let $\gamma'^{-1}h^{-1}[0, k+R]$ be a (possibly infinite) union of (possibly infinite) intervals $\union_{i \in I}[a_i-R, b_i+R]$ where we order the intervals so that $a_{i+1} > b_i$ for all $i$. 
+  Then $h(\gamma'(a_i)) = h(\gamma'(b_i)) = k$ for all $i$ and we can apply the results of Section~\ref{section:geodesics_in_thin_part}.  
+  For $i \in I$ let $\gamma'_i = \gamma'\restricted{[a_i, b_i]}$. 
+  Let $\hat{\gamma}'_i$ be the bi-infinite $(8\delta + 1)$-local-geodesic obtained by concatenating $\gamma_i$ with either one or two vertical geodesic rays.
+
+  Suppose that $\Lambda\hat\gamma'_i$ is a cut pair for all $i$. 
+  Then Lemma~\ref{lem:equivalenceclass} tells us that $\Lambda\gamma'$ is a cut pair, which is a contradiction.  
+  Therefore there exists $i$ such that $\Lambda\hat\gamma_i$ is a non-cut pair. 
+
+  Arguing as before, the geodesic $\hat\gamma_i$ can be altered to ensure that $b_i - a_i \leq 4\eta + 2(k+R+1)\Val^{2\eta}V^{V+1}$; this yields a feature of the second type described in the proposition.  
+\end{proof}
+
+\section{Generalisations}\label{section:cut_pairs_generalisations}
+
+It seems possible that these methods could work for a wider class of relatively hyperbolic groups.
+The assumption that the peripheral subgroups are virtually cyclic is used in two essential steps.
+Firstly, we need the cusped space to satisfy a double dagger condition.
+As discussed in Section~\ref{section:double_dagger}, the cusped space is known by work of Dahmani and Groves~\cite{dahmanigroves08a} to satisfy this condition when the peripheral subgroups are finitely generated abelian, and we showed in Proposition~\ref{proposition:double_dagger_thin_virtually_cyclic} that this result may be extended to allow virtually cyclic peripheral subgroups.
+The arguments used make use of fairly explicit descriptions of paths in the Cayley graphs of the peripheral subgroups, so any generalisation to a substantially broader class of peripheral subgroups would require new methods.
+
+Secondly, in Section~\ref{section:geodesics_in_thin_part} we assumed that the peripheral subgroups are virtually cyclic in our analysis of the geometry of cylinders in the thin part of the cusped space.
+Lemma~\ref{lemma:geodesics_in_horoballs} followed from the two-endedness of the peripheral subgroups. 
+It seems likely that a similar result will hold for one-ended peripheral subgroups: the cylinder $\Cyl_{r, R, K}(\gamma)$ should be connected whenever $\gamma$ strays too deep into a horoball based on a one-ended subgroup.
+However, without the double dagger condition this fact does not seem to be particularly useful.
+

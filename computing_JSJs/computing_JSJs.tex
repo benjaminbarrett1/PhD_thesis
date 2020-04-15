@@ -1,0 +1,939 @@
+\chapter{Algorithmic consequences}\label{chapter:computing_JSJs}
+
+In this chapter we prove some algorithmic consequences of Theorems~\ref{theorem:cut_pair_feature} and~\ref{theorem:circular_boundary_feature}.
+Our ultimate aim is to prove Theorem~\ref{theorem:computing_JSJ_decompositions}: the computability of some JSJ decompositions of a one-ended hyperbolic group, including Bowditch's JSJ decomposition.
+The novel results of this chapter are taken from~\cite[Sections 3--5]{barrett18}.
+
+Central to the algorithm of Theorem~\ref{theorem:computing_JSJ_decompositions} is an algorithm that determines whether or not a given hyperbolic group with a (possibly empty) finite collection of virtually cyclic subgroups admits a non-trivial splitting as an amalgamated product or HNN extension over a virtually cyclic subgroup, relative to that collection of subgroups. 
+One of the consequences of~\cite{bowditch98} is that in the absolute case (that is, if the collection of subgroups is empty), a one-ended hyperbolic group admits such a splitting if and only if its Gromov boundary contains a cut pair, at least as long as its boundary is not homeomorphic to a circle. 
+In the case of interest here we obtain a relative version of this statement by replacing the Gromov boundary with the Bowditch boundary of the group relative to the given family of subgroups. 
+Unlike the Gromov boundary, the Bowditch boundary might contain a cut point, in which case the group admits a relative splitting. 
+This is the peripheral splitting in the sense of Bowditch~\cite{bowditch99b}. 
+In the absence of a cut point the existence of a relative splitting is determined by the existence of a cut pair, as in the absolute case. 
+It is the presence of these topological features of the boundary that we use the results of Chapter~\ref{chapter:detecting_cut_pairs} to show to be computable.
+
+A maximal splitting is obtained from a JSJ decomposition by refining at the flexible vertices. 
+Conversely, to obtain a JSJ decomposition we must decide which edges of the maximal splitting should be collapsed to reassemble the flexible vertices in the JSJ decomposition. 
+In Bowditch's JSJ decomposition the stabilisers of flexible vertex groups are the maximal hanging fuchsian subgroups. 
+These are those subgroups that occur as a vertex stabiliser in some splitting such that the Bowditch boundary of the subgroup relative the stabilisers of the incident edges is homeomorphic to a circle. 
+
+In Section~\ref{section:detecting_topology} we apply the results of Chapter~\ref{chapter:detecting_cut_pairs}: we prove that it is possible to detect algorithmically whether or not the boundary $\boundary(G, \calH)$ of a hyperbolic group relative to a collection of virtually cyclic subgroups contains a cut point or cut pair, and whether or not $\boundary(G, \calH)$ is homeomorphic to a circle.
+
+In Section~\ref{section:computing_splittings} we give a one-sided algorithm to compute non-trivial splittings of a hyperbolic group over its virtually cyclic subgroups.
+The algorithm eventually outputs every splitting, but we still need a way to tell whether or not a given splitting is maximal, so that we can tell when to stop the process.
+This algorithm requires tools for dealing with virtually cyclic subgroups of hyperbolic groups.
+
+In Section~\ref{section:fuchsian_groups} we deal with the special case of determining whether or not a group with circular boundary admits a non-trivial relative splitting over a virtually cyclic subgroup.
+We first recall some results that reduce the problem of determining whether or not such a group admits a proper splitting relative to its given virtually cyclic subgroups to the case in which the group is the fundamental group of a compact two-dimensional hyperbolic orbifold and the given subgroups are conjugacy class representatives of the fundamental groups of the boundary components of that orbifold. 
+In \cite{guirardellevitt17} a complete list of such orbifolds that do not admit such a splitting is described; we use this list to complete this special case.
+
+In Section~\ref{section:maximal_splittings} we show how the topology of the boundary determines whether or not a group admits a non-trivial relative splitting, and then use the results of Sections~\ref{section:detecting_topology}, \ref{section:computing_splittings} and~\ref{section:fuchsian_groups} to show how to compute a maximal splitting of a given one-ended hyperbolic group over its virtually cyclic subgroups.
+
+Finally, in Section~\ref{section:JSJs_computable} we put together these results to complete the proof of the computability of various JSJ decompositions. 
+We describe a processes to convert a maximal splitting of a one-ended hyperbolic group over virtually cyclic subgroups into its $\mathcal{VC}$-JSJ, $\calZ$-JSJ and $\calZ_\text{max}$-JSJ.
+The $\calVC$-JSJ can be taken to be Bowditch's canonical decomposition.
+
+\section{Detecting cut points, cut pairs and circular boundaries}\label{section:detecting_topology}
+
+\subsection{Computing the constants}\label{section:computing_the_constants}
+
+To begin, we review some results that prove the computability of the various constants on which the criteria of Theorems~\ref{theorem:cut_pair_feature} and~\ref{theorem:circular_boundary_feature} depend.
+Most importantly, we need an algorithm that computes a constant $\delta$ such that the cusped space is $\delta$-hyperbolic.
+For the Cayley graph of a hyperbolic group, the existence of such an algorithm is originally due to Gromov~\cite{gromov87}.
+A more detailed account of an alternative (and more practical) algorithm to accomplish this is due to Papasoglu~\cite{papasoglu95}. 
+
+For relatively hyperbolic groups, the computability of $\delta$ such that the cusped space is $\delta$-hyperbolic is essentially due to Dahmani. 
+Dahmani's result proves that the constant of a linear isoperimetric inequality satisfied by the group is computable.
+We recall this result, then describe results of Groves and Manning that translate this linear isoperimetric inequality into a quantitative hyperbolicity result for the cusped space.
+
+\begin{proposition}\cite[Prop.\ 2.3]{dahmani08} \label{thm:linearisoperimetricinequality} 
+ There is an algorithm that takes as input a presentation for a group $G$, the generators in $G$ for a finite set of subgroups of $G$ with respect to which $G$ relatively hyperbolic, and a solution to the word problem in $G$ and returns the constant of a linear relative isoperimetric inequality satisfied by the given presentation of $G$.
+\end{proposition}
+
+In the case of interest here, $G$ is hyperbolic. 
+Hyperbolic groups have uniformly solvable word problem, so the requirement that the algorithm be given a solution to the word problem in $G$ is no restriction to its applicability.
+
+The linear relative isoperimetric inequality satisfied by the group is closely related to a linear combinatorial isoperimetric inequality satisfied by the coned-off Cayley complex. 
+Refer to~\cite[Definition 2.47]{grovesmanning08} for a definition of this space.
+
+In~\cite{grovesmanning08} the cusped 2-complex is defined; this is a simply connected 2-complex, the 1-skeleton of which is the cusped graph defined in Definition~\ref{definition:cusped_space}. 
+The length of the attaching map of each 2-cell in this complex is bounded above by the maximum of $5$ and the length of the longest relator in the given presentation for $G$.
+
+\begin{theorem}\cite[Theorem 3.24]{grovesmanning08}\label{thm:cuspedtwocomplex}
+ Suppose that the coned-off Cayley complex of $G$ with respect to $S$ and $\calH$ satisfies a linear combinatorial isoperimetric inequality with constant $K$. 
+ Then the cusped 2-complex $X$ associated to the triple satisfies a linear combinatorial isoperimetric inequality with constant $3K(2K + 1)$.
+\end{theorem}
+
+The computation of $\delta$ from a presentation for $G$ and a set of generators for each group $H$ in $\calH$ is therefore completed by the following proposition:
+
+\begin{proposition}\cite[Proposition 2.23]{grovesmanning08}\label{prop:linearimplieshyperbolic}
+Suppose that a 2-complex $X$ is simply connected, that each attaching map has length at most $M$ and that $X$ satisfies a linear combinatorial isoperimetric inequality. 
+Then the 1-skeleton $X^{(1)}$ of $X$ is $\delta$-hyperbolic for some $\delta$ and this $\delta$ is computable from $M$ and the constant of the isoperimetric inequality. 
+\end{proposition}
+
+We also need to be able to compute the constant $\deltaH$ defined in Section~\ref{section:geodesics_in_thin_part}.
+Recall that $\deltaH$ is defined so that for each $H \in \calH$, the Cayley graph $\Cay(H, S \intersection H)$ is $\deltaH$-hyperbolic.
+Note that it is not enough to simply apply Papasoglu's algorithm~\cite{papasoglu95} to each $H \in \calH$, since Papasoglu invokes an algorithm of Epstein, Paterson, Cannon, Holt, Levy and Thurston~\cite[Theorem 5.2.4]{epstein92} that computes an automatic structure for a given automatic group. 
+This requires a \emph{presentation} for the group, which we are not given for the peripheral subgroups. 
+Since we can compute large balls in the Cayley graph $\Cay(H, S \intersection H)$ using hyperbolicity of $G$, this deficiency might be fixable, at least with our assumption that $H$ is a virtually cyclic subgroup of a hyperbolic group.
+However, rather than delve into the inner workings of this algorithm, we adopt an alternative approach. 
+
+\begin{proposition}\label{proposition:computing_delta_H}
+  There is an algorithm that takes as input a presentation for a hyperbolic group $G$ with finite generating set $S$ and a set of subsets of $S$ generating a set $\calH$ of virtually cyclic subgroups of $G$, and returns an integer $\deltaH$ such that $\Cay(H, S \intersection H)$ is $\deltaH$-hyperbolic for each $H \in \calH$.
+\end{proposition}
+
+\begin{proof}
+  Using Papasoglu's algorithm~\cite{papasoglu95} compute $\delta$ such that $\Cay(G, S)$ is hyperbolic.
+  Let $H \in \calH$.
+  Since $H$ is virtually cyclic, it is quasi-convex in $G$.
+  The quasi-convexity constant may be computed from the given data using an algorithm of Kapovich~\cite[Proposition 4]{kapovich96}.
+  Equivalently, the inclusion $\Cay(H, S \intersection H) \hookrightarrow \Cay(G,S)$ is a $\lambda$-quasi-isometric embedding by Lemma~\ref{lemma:quasi_convex_QI_embedded}, where $\lambda$ can be computed from the given data.
+  If $\Delta$ is a geodesic triangle in $\Cay(H, S \intersection H)$ then it is a $\lambda$-quasi-geodesic triangle in $\Cay(G, S)$, so by Theorem~\ref{theorem:morse_property} is close to a geodesic triangle in $\Cay(G, S)$, where the distance depends only on $\lambda$.
+  Therefore geodesic triangles in $\Cay(H, S \intersection H)$ are uniformly slim with respect to the metric on $\Cay(G, S)$, where the thinness constant depends only on $\delta$ and $\lambda$.
+  But the inclusion $\Cay(H, S \intersection H) \hookrightarrow \Cay(G, S)$ is a $\lambda$-quasi-isometric embedding, so geodesic triangles in $\Cay(H, S \intersection H)$ are uniformly thin with respect to the metric on $\Cay(H, S \intersection H)$, where the thinness depends in a computable way on $\delta$ and $\lambda$.
+  Therefore there is a computable constant $\delta_H$ such that $\Cay(H, S \intersection H)$ is $\delta_H$-hyperbolic.
+
+  Repeat this process for each $H \in \calH$ and let $\deltaH = \max\{\delta_H \suchthat H \in \calH\}$.
+\end{proof}
+
+Finally, note also that there is an algorithm that computes $n$ such that $X$ satisfies $\ddag(n)$: see Theorem~\ref{theorem:double_dagger_computable}.
+
+\subsection{Algorithms}
+
+Let $G$ be a group and let $\calH$ be a finite collection of virtually cyclic subgroups of $G$ such that $G$ is hyperbolic relative to $\calH$.
+Let $S$ be a finite generating set for $G$ such that $S \intersection H$ is a generating set for $H$ for each $H \in \calH$.
+Note that the values of $\delta$ such that the associated cusped space $X$ is $\delta$-hyperbolic, $n$ such that $X$ satisfies $\ddag(n)$, $\deltaH$ such that $\Cay(H, S \intersection H)$ is $\deltaH$ hyperbolic for each $H \in \calH$, and $\mod{S}$ together determine the values of all constants defined in Chapter~\ref{chapter:detecting_cut_pairs}, and that these constants can be computed from these data.
+Note also that the geometric features in $X$ described in Proposition~\ref{proposition:cut_point_feature}, Theorem~\ref{theorem:cut_pair_feature} and Theorem~\ref{theorem:circular_boundary_feature} all have bounded size, so their existence or non-existence can be determined by looking only at some finite ball in $X$, where the radius of that ball depends on the constants defined in Chapter~\ref{chapter:detecting_cut_pairs}.
+Finally, note that for any given radius, the ball in $X$ of that radius can be computed from a presentation for $G$ with generating set $S$ and for each $H \in \calH$ the set $S \intersection H$ of generators for $H$: this follows immediately from the uniform solvability of the word problem in hyperbolic groups. 
+
+From this discussion we deduce the following corollaries.
+
+\begin{corollary}\label{corollary:cut_point_computable} 
+ There is an algorithm that takes as input a presentation for a hyperbolic group $G$ with generating set $S$ and a list of subsets of $S$ generating a collection $\calH$ of pairwise non-conjugate maximal virtually cyclic subgroups of $G$ such that the cusped space associated to the triple $(G, \calH, S)$ satisfies a double dagger condition and returns the answer to the question ``does\/ $\boundary(G, \calH)$ contain a cut point?'' \qed 
+\end{corollary}
+
+\begin{corollary}\label{corollary:cut_pair_computable} 
+  There is an algorithm that takes as input a presentation for a hyperbolic group $G$ with generating set $S$ and a list of subsets of $S$ generating a collection $\calH$ of pairwise non-conjugate maximal virtually cyclic subgroups of $G$ such that $\boundary(G, \calH)$ is connected and does not contain a cut point and returns the answer to the question ``does\/ $\boundary(G, \calH)$ contain a cut pair?'' \qed 
+\end{corollary}
+
+\begin{corollary}\label{corollary:circular_boundary_computable} 
+  There is an algorithm that takes as input a presentation for a hyperbolic group $G$ with generating set $S$ and a list of subsets of $S$ generating a collection $\calH$ of pairwise non-conjugate maximal virtually cyclic subgroups of $G$ such that $\boundary(G, \calH)$ is connected and does not contain a cut point and returns the answer to the question ``is\/ $\boundary(G, \calH)$ homeomorphic to a circle?'' \qed 
+\end{corollary}
+
+Note that Corollaries~\ref{corollary:cut_pair_computable} and~\ref{corollary:circular_boundary_computable} together prove Theorem~\ref{theorem:intro_detecting_topological_properties}.
+
+\section{Computing splittings}\label{section:computing_splittings}
+
+In this section we show that there is an algorithm that, when given as input a presentation for a hyperbolic group $G$, returns all splittings of $G$ over its virtually cyclic subgroups. The algorithm does not terminate.
+First, we clarify exactly what we mean when we say that an algorithm returns a splitting of $G$.
+The algorithm should return the following data.
+
+\begin{enumerate}
+  \item \label{item:graph} A finite connected graph $Y$ in the sense of Serre; see Definition~\ref{definition:serre_graph}.
+  \item For each vertex $v \in Y$ a finite alphabet $S_v$ (with $S_{v_1} \intersection S_{v_2} = \emptyset$ for distinct vertices $v_1$ and $v_2$) and a finite set $R_v$ of words in $S_v$.
+  \item For each edge $e \in Y$ a finite alphabet $S_e$ and a finite set $R_e$ of words in $S_e$ such that $S_{\bar{e}} = S_e$ and $R_{\bar{e}} = R_{e}$, and other alphabets are disjoint.
+  \item \label{item:edge_maps} For each edge $e \in Y$ a map $(\boundary')^e_{-} \from S_e \to S_{\initial e}$ such that $(\boundary')^e_{-}$ extends to an injective group homomorphism $\boundary^e_{-} \from \presentation{S_e}{R_e} \to \presentation{S_{\initial(e)}}{R_{\initial(e)}}$.
+  \item For each vertex $v \in Y$ a map $\theta'_v \from S_v \to G$ such that $\theta'_v$ extends to a group homomorphism $\theta_v \from \presentation{S_v}{R_v} \to G$ satisfying the following condition.
+    Let $\calY$ be the graph of groups given by the data of items~\ref{item:graph}--\ref{item:edge_maps}.
+    Then we require that there exists an isomorphism $\theta\from\pi_1\calY\to G$ and a choice of inclusion $\presentation{S_v}{R_v} \mapsinto \pi_1\calY$ for each vertex $v$ as discussed in Remark~\ref{remark:vertex_subgroups} such that the composition of this inclusion with $\theta$ is equal to $\theta_v$.
+\end{enumerate}
+
+In Section~\ref{section:virtually_cyclic_subgroups_algorithms} we provide useful algorithms for solving various problems regarding virtually cyclic subgroups of a hyperbolic group.
+These algorithms will be used several times throughout the rest of this Chapter.
+
+Then, in Section~\ref{section:computing_non_trivial_splitting} we show that there is an algorithm that enumerates all splittings of a hyperbolic group over its virtually cyclic subgroups in the sense described above.
+
+\subsection{Virtually cyclic subgroups}\label{section:virtually_cyclic_subgroups_algorithms}
+
+We will need the following lemma, which allows us to do various computations related to virtually cyclic subgroups of hyperbolic groups.
+
+\begin{lemma}\cite[Lemma 2.8]{dahmaniguirardel11}\label{lemma:virtually_cyclic_subgroups}
+  There is an algorithm that, when given a presentation for a hyperbolic group $G$ and a finite subset $S \subset G$, returns an answer to the question ``is $\langle S \rangle \leq G$ virtually cyclic?''
+  If the answer is ``yes'' then the algorithm also determines the following.
+  \begin{enumerate}
+    \item The (unique) maximal finite normal subgroup of $\langle S \rangle$. 
+    \item A presentation for $\langle S\rangle$.
+    \item Whether $\langle S \rangle$ is of type $\calZ$ or $D_\infty$.
+      (Recall that we say that a virtually cyclic group of type $\calZ$ (respectively $D_\infty$) if it surjects onto $\integers$ (respectively $D_\infty$), and that any virtually cyclic group has exactly one of these types.)
+    \item A generating set for the maximal virtually cyclic subgroup of $G$ containing $\langle S\rangle$.\end{enumerate}
+\end{lemma}
+
+The proof of this lemma in~\cite{dahmaniguirardel11} uses Makanin's algorithm for solving equations in hyperbolic groups. 
+We modify that part of the argument to use only elementary methods in keeping with the themes of this thesis.
+
+\begin{proof} 
+We give an alternative method to determine whether or not $\langle S\rangle$ is virtually cyclic and to produce a maximal finite normal subgroup of $\langle S\rangle$ in the case that it is; the rest of the argument can be copied verbatim from~\cite{dahmaniguirardel11}. 
+First compute $\delta$ with respect to which $G$ is $\delta$-hyperbolic.
+
+Use Kapovich's algorithm~\cite[Proposition 4]{kapovich96} to search for a constant $K$ with respect to which $\langle S\rangle$ is $K$-quasi-convex in $G$.
+This algorithm finds such a constant if it exists and does not terminate if $\langle S\rangle$ is not quasi-convex; note that if $\langle S\rangle$ is virtually cyclic then it is guaranteed to be quasi-convex. 
+
+In parallel to Kapovich's algorithm, search for a pair of elements $g$ and $h$ in $\langle S\rangle$ such that the commutator $[g^2, h^2]$ has infinite order. 
+This can be checked since the order of an element of $G$ of finite order is bounded above by the number of elements of $G$ in the ball of radius $4\delta + 2$.
+
+If Kapovich's algorithm terminates, use $K$ and $\delta$ to compute $\delta'$ such that $\langle S\rangle$ is $\delta'$-hyperbolic, as in the proof of Proposition~\ref{proposition:computing_delta_H}. 
+Then any finite subgroup of $\langle S\rangle$ can be conjugated into a ball of radius at most $4\delta' + 2$ with respect to the word metric in $\langle S\rangle$, so all finite normal subgroups of $\langle S\rangle$ can be computed using solutions to the word and conjugacy problems in $G$. 
+Once this is computed the algorithm of~\cite[Lemma 2.8]{dahmaniguirardel11} can be used to determine whether or not $\langle S\rangle$ is virtually cyclic.
+
+If $\langle S\rangle$ is not quasi-convex then it contains a free group on two generators, so a pair $(g, h)$ such that $[g^2,h^2]$ has infinite order certainly exists.
+Conversely, if such a pair exists then $\langle S\rangle$ cannot be virtually cyclic, since any virtually cyclic group contains a subgroup of index two that surjects onto $\integers$ with finite kernel.
+But for any $g$ and $h$ in a virtually cyclic group, $[g^2,h^2]$ is contained in this index two subgroup and is mapped to the identity in $\integers$, so is contained in this finite kernel.
+\end{proof}
+
+We also give an algorithm that checks whether or not given maximal virtually cyclic subgroups of a hyperbolic group are conjugate.
+
+\begin{lemma}\label{lemma:detecting_conjugate_subgroups} 
+  There is an algorithm that, when given a presentation for a hyperbolic group $G$ and finite subsets $S_1, S_2 \subset G$ such that $\langle S_1\rangle$ and $\langle S_2\rangle$ are maximal virtually cyclic subgroups of $G$, returns an answer to the question ``is $\langle S_1\rangle$ conjugate to $\langle S_2\rangle $ in $G$?''
+\end{lemma}
+
+\begin{proof}
+  Use Lemma~\ref{lemma:virtually_cyclic_subgroups} to check that $\langle S_1\rangle$ and $\langle S_2\rangle$ are either both of type $\calZ$ or both of type $D_\infty$; if they are not of the same type then clearly they cannot be conjugate.
+
+  Compute presentations of $\langle S_1\rangle$ and $\langle S_2\rangle$, together with maximal finite normal subgroups $K_i$ of those groups.
+  Note that $\langle S_i\rangle/K_i$ is isomorphic to either $\integers$ or $D_\infty$ according to the types of the groups.
+
+  If both are of type $\calZ$, find the $2\mod{K_i}$ elements of $\langle S_i\rangle$ that map to a generator of $\integers$ and use a solution to the conjugacy problem in $G$ (which exists due to Gromov~\cite{gromov87} since $G$ is hyperbolic) to check whether there is an element of $\langle S_1\rangle$ with this property that is conjugate in $G$ to an element of $\langle S_2\rangle$ with this property.
+  If there is such a pair then the groups are conjugate since they are maximal.
+  If there is no such pair then they cannot be conjugate.
+
+  If both are of type $D_\infty$ find the $\mod{K_i}$ pairs of elements of $\langle S_i\rangle$ that map to some prechosen pair of reflections that generate $D_\infty$.
+  Use a solution to the simultaneous conjugacy problem~\cite{bridsonhowie05,buckleyholt13} to check whether some pair of pairs are conjugate in $G$ up to reordering.
+  If there is then the groups are conjugate, again by maximality.
+  If there is no such pair then they cannot be conjugate since any pair of (unordered) generating sets for $D_\infty$ consisting of two reflections are conjugate in $D_\infty$.
+\end{proof}
+
+\subsection{Enumerating the splittings}\label{section:computing_non_trivial_splitting}
+
+\begin{lemma}\label{lemma:finding_a_splitting}
+  There is an algorithm that takes as input a presentation for a hyperbolic group $G$ and outputs all minimal splittings of $G$ over virtually cyclic subgroups. (The algorithm does not terminate.)
+\end{lemma}
+
+\begin{proof}
+At the beginning of Section~\ref{section:computing_splittings} we described a finite set of data that together determine a splitting of a group $G$.
+Given this data, one can use the Seifert-van Kampen theorem find an isomorphism $\theta$ from a presentation $\presentation{S}{R}$ to $G$ where there is a finite connected graph $Y$ with a maximal subtree $Y'$ such that $\presentation{S}{R}$ takes the following form.
+\begin{enumerate}
+  \item\label{condition:generators_partition} The generating set $S$ can be partitioned as 
+    \begin{align*}
+      S = \bigdisjointunion_{v \in V(Y)} S_v \disjointunion \bigdisjointunion_{e \in E(Y)} S_e \disjointunion \{t_e \suchthat e \in E(Y) - E(Y')\}
+    \end{align*}
+    and there is a bijection from $S_e \to S_{\bar{e}}$ for each edge $e$, which we denote $s \mapsto \bar{s}$.
+  \item\label{condition:boundary_maps_exist} For each $e \in E(Y)$ there is a map $(\boundary')^e_{-} S_e \to S_{\initial(e)}$. 
+    We then denote by $(\boundary')^e_{+}$ the map $(\boundary')^{\bar{e}}_{-}$.
+  \item\label{condition:relators_partition} The set of relators $R$ can be partitioned as 
+    \begin{align*}
+      R =&    \left(\bigunion_{v \in V(Y)} R_v\right) 
+      \union \left(\bigunion_{e \in E(Y)} R_e \right)
+      \union \left(\bigunion_{e \in E(Y')} \{s^{-1}\bar{s} \suchthat s \in S_e\}\right)
+      \union \left(\bigunion_{e \in E(Y)} \{s^{-1}(\boundary')^e_{-}(s) \suchthat s \in R_e\}\right) \\
+      & \union \{t_et_{\bar{e}} \suchthat e \in E(Y) - E(Y')\}
+      \union \left(\bigunion_{e \in E(Y) - E(Y')} \{t_est_e^{-1}\bar{s}^{-1} \suchthat s \in R_e\}\right)
+    \end{align*}
+    where relators in $R_v$ only involve generators in $S_v$ for $v \in V(Y)$ and relators in $R_e$ only involve generators in $S_e$ for $e \in E(Y)$, and so that for each relator $r \in R_e$ for each edge $e \in E(Y)$, the word in the free monoid generated $S_{\bar{e}}$ obtained by replacing each letter in $s$ appearing in $r$ by $\bar{s}$ is in $R_{\bar{e}}$.
+  \item\label{condition:boundary_maps_consistent} For each $e \in E(Y)$ and each $r \in R_e$, the word in the free monoid generated by $S_{\initial(e)}$ obtained by applying $(\boundary')^e_{+}$ to each letter of $r$ is in $R_{\initial(e)}$.
+    It follows that $(\boundary')^e_{-}$ extends to a homomorphism $\boundary^e_{-} \from \presentation{S_e}{R_e} \to \presentation{S_v}{R_v}$, and similarly for $(\boundary')^{e}_{+}$
+  \item\label{condition:virtually_cyclic} For each $e \in E(Y)$ the group $\presentation{S_e}{R_e}$ is virtually cyclic.
+  \item\label{condition:injective} For each $e \in E(Y)$ the homomorphism $\boundary^e_{-} \from \presentation{S_e}{R_e} \to \presentation{S_v}{R_v}$ is injective.
+\end{enumerate}
+It is clear that when given such a presentation one can find a corresponding splitting of $G$; we shall say that such a presentation \emph{exhibits a splitting of $G$ over virtually cyclic subgroups}.
+Note that Condition~\ref{condition:injective} and Lemma~\ref{lemma:britton} guarantee that for any vertex $v \in V(Y)$, $\langle \theta(S_v)\rangle$ is isomorphic to $\presentation{S_v}{R_v}$, and the same statement holds for edges.
+
+Using Tietze transformations (see~\cite[Section 2.2]{lyndonschupp77}) one can enumerate all presentations $\presentation{S}{R}$ for $G$ together the isomorphisms $\presentation{S}{R} \to G$.
+It remains to show that the conditions for a presentation to exhibit a splitting of $G$ over virtually cyclic subgroups can be checked, and that one can check whether or not that splitting is minimal.
+The processes to check Conditions~\ref{condition:generators_partition}--\ref{condition:boundary_maps_consistent} are clear.
+Condition~\ref{condition:virtually_cyclic} can be checked using the algorithm of Lemma~\ref{lemma:virtually_cyclic_subgroups}.
+
+If conditions~\ref{condition:generators_partition}--\ref{condition:virtually_cyclic} hold, then condition~\ref{condition:injective} holds if and only if the restriction of $\theta$ to $\presentation{S_e}{R_e}$ is injective for each edge $e$.
+To check this condition for an edge $e$, compute the maximal finite normal subgroup of $\presentation{S_e}{R_e}$ and check the injectivity of the restriction of $\theta$ to this subgroup.
+If it is injective, next find an element of $\presentation{S_e}{R_e}$ of infinite order and check whether or not its image under $\theta$ has infinite order.
+If it does then the restriction of $\theta$ to $\presentation{S_e}{R_e}$ is injective.
+
+To check minimality, it is enough to be able to check if a boundary map is surjective, which we do by applying Lemma~\ref{lemma:virtually_cyclic_subgroups}.
+To check whether $\boundary^e_{-}$ is surjective, first check whether or not $\presentation{S_{\initial(e)}}{R_{\initial(e)}}$ is virtually cyclic.
+If it is, check whether or not the boundary map sends the maximal finite normal subgroup of $\presentation{S_e}{R_e}$ surjectively to the maximal finite normal subgroup of $\presentation{S_{\initial(e)}}{R_{\initial(e)}}$.
+If it does, check whether or not $\presentation{S_e}{R_e}$ and $\presentation{S_{\initial(e)}}{R_{\initial(e)}}$ are both of type $\calZ$ or both of type $D_\infty$.
+If they are both of the same type, pass to an index two subgroup of each if necessary to ensure that they are both of type $\calZ$.
+Now check whether or not the composition of $\boundary^e_{-}$ with the natural surjection to $\integers$ is surjective.
+If it is then $\boundary^e_{-}$ is surjective; if any of these tests produced the opposite answer then $\boundary^e_{-}$ is not surjective.
+\end{proof}
+
+\section{Splittings of groups with circular boundary}\label{section:fuchsian_groups}
+
+The question of the existence of a relative splitting of a hyperbolic group cannot be answered by consideration of the topology of its boundary alone if the boundary is homeomorphic to a circle: some groups with circular boundary split and some do not. 
+In this section we deal with this special case. 
+
+\subsection{Groups with circular boundary}\label{section:convergence_group_theorem}
+
+Relatively hyperbolic groups with circular boundary are closely related to fundamental groups of compact orbifolds of dimension two, with peripheral subgroups corresponding to boundary components.
+We now make this relationship explicit, so that we can answer the question of when such a group admits a non-trivial splitting over a virtually cyclic subgroup by analysing the structure of the orbifold.
+
+Let $G$ by a hyperbolic group with a finite collection $\calH$ of subgroups such that $G$ is hyperbolic relative to $\calH$ and $\boundary(G, \calH)$ is homeomorphic to $S^1$. 
+Then $G$ acts as a discrete convergence group on $\boundary(G, \calH)$ by~\cite{bowditch99c}, so we can apply the Convergence Group Theorem of Tukia, Casson, Jungreis and Gabai:
+
+\begin{theorem}\cite{tukia88,cassonjungreis94,gabai92} 
+  Let $G$ act as a convergence group on $S^1$.
+  Then there is a properly discontinuous action of $G$ by isometries on $\bbH^2$ and a $G$-equivariant homeomorphism $\boundary(G, \calH) \to \boundary\bbH^2$.
+\end{theorem}
+
+Let $K$ be the (finite) kernel of the action of $G$ on $\boundary(G, \calH)$; note that this is the same as the kernel of the extension of the action to $\bbH^2$. 
+Then $G$ is an extension
+ \begin{center}\begin{tikzpicture}[>=angle 90]
+ \matrix (a) [matrix of nodes, row sep=3em, column sep = 2em, text height = 
+  1.5ex, text depth=0.25ex]
+ {
+  $1$ & $K$ & $G$ & $G'$ & $1$\\
+ };
+ \path[->](a-1-1) edge (a-1-2)
+  (a-1-2) edge (a-1-3)
+  (a-1-3) edge (a-1-4)
+  (a-1-4) edge (a-1-5);
+ \end{tikzpicture}
+\end{center}
+where the quotient $G'$ acts faithfully on $\bbH^2$. 
+Let $\calH'$ be the set of images of elements of $\calH$ in $G'$.
+Note that $\calH'$ is a set of conjugacy class representatives of maximal parabolic subgroups of $G' \leq \Isom\bbH^2$, so each element of $\calH'$ is either infinite cyclic or infinite dihedral depending on whether or not it preserves orientation.
+
+\begin{lemma}\label{lemma:quotient_by_effective_kernel} 
+  With $G$ and $G'$ as above, $G$ splits non-trivially over a virtually cyclic subgroup relative to $\calH$ if and only if $G'$ splits non-trivially over a virtually cyclic subgroup relative to $\calH'$.
+\end{lemma}
+
+\begin{proof} 
+  One direction is clear: if $G'$ acts minimally on a non-trivial tree $T$ with virtually cyclic edge stabilisers then the quotient map $G \to G'$ induces a minimal action of $G$ on $T$.
+  If $e$ is an edge of $T$ then $G_e$ is an extension of $G'_e$ by $K$, which is a finite group, so is itself virtually cyclic.
+  Note also that elements of $\calH$ act elliptically on $T$, since elements of $\calH'$ do.
+
+  Conversely, suppose that $G$ acts minimally on a non-trivial tree $T$ with virtually cyclic edge stabilisers. 
+  The kernel $K$ is finite, so the restriction of the action to $K$ fixes a vertex $v$. 
+  Also, $K$ is normal, so its action fixes the orbit $G\cdot v$ pointwise. 
+  Any point in $T$ lies on a geodesic path connecting points in $G\cdot v$, since the union of all such paths is a $G$-invariant subtree of $T$ and the action was assumed to be minimal.  
+  Therefore $K$ acts trivially on $T$.
+
+  It follows that the $G$-action descends to a $G'$ action.
+  If $e$ is an edge of $T$ then $G'_e$ is the quotient $G_e/K$, so $G'_e$ is virtually cyclic.
+  Furthermore, elements of $\calH'$ are elliptic if elements of $\calH$ are.
+\end{proof}
+
+Any finite normal subgroup of $G$ is contained in the ball of radius $4\delta + 2$ centred at the identity by~\cite[Theorem 3.2]{bridsonhaefliger99}, so by checking all finite subsets of this ball using a solution to the word problem, the set of finite normal subgroups of $G$ can be computed. 
+Any finite subgroup of $G$ fixes a point in $\bbH^2$, and any finite normal subgroup of $\bbH^2$ fixes the $G$-orbit of that point pointwise and is therefore in the kernel of the action of $G$ on $\boundary(G,\calH)$, so $K$ is the unique maximal finite normal subgroup of $G$.
+Therefore the kernel $K$ of the action of $G$ on $\bbH^2$ can be computed from a presentation of $G$.
+By adjoining all elements of $K$ to the set of relators of $G$ one obtains a presentation for $G'$.
+
+As described above, $G'$ can be realised as a discrete subgroup of $\Isom\bbH^2$. 
+The conjugacy classes of elements of $\calH'$ are then precisely the conjugacy classes of maximal parabolic subgroups of $G'$. 
+The action of $G'$ on $\boundary(G', \calH')$ is minimal, so the limit set of the action is $S^1$. 
+It follows that $G'$ is a Fuchsian group of the first kind: $\bbH^2/G'$ is a finite volume orbifold and $\calH'$ is a choice of conjugacy class representatives for the cusp subgroups. 
+Truncating the cusps of the orbifold, we realise $G'$ as the fundamental group of a compact hyperbolic orbifold such that $\calH'$ is a choice of conjugacy class representatives for the boundary subgroups. 
+(See the following section for the definition of an orbifold.)
+
+Recall Definition~\ref{definition:bounded_Fuchsian} of a~\emph{bounded Fuchsian} group.
+We shall call a choice of conjugacy class representatives of peripheral subgroups of a bounded Fuchsian group a \emph{boundary peripheral structure} on that group.
+Therefore $G'$ is a bounded Fuchsian group and $\calH'$ is a boundary peripheral structure on $G'$.
+The results of Section~\ref{section:convergence_group_theorem} are summarised by the following lemma.
+
+\begin{lemma}\label{lemma:group_to_orbifold} There is an algorithm that, when given a
+presentation for a hyperbolic group with a set $\calH$ of virtually
+cyclic peripheral subgroups, returns a presentation for another hyperbolic
+group $G'$ with a set $\calH'$ of virtually cyclic subgroups such
+that $\boundary(G', \calH')$ is homeomorphic to $\boundary(G,
+\calH)$ and $G$ splits over a virtually cyclic subgroup relative
+to $\calH$ if and only if $G'$ splits over a virtually cyclic
+subgroup relative to $\calH'$. Furthermore, if $\boundary(G',
+\calH')$ is homeomorphic to a circle then $G'$ is the fundamental
+group of a compact two-dimensional hyperbolic orbifold and $\calH'$ is
+a set of representatives of fundamental groups of components of the boundary of
+the orbifold. \end{lemma}
+
+\subsection{Orbifolds}
+
+Given the results of the previous section, the problem of determining whether or not a given group $G$ with circular boundary splits non-trivially over a virtually cyclic subgroup relative to a collection $\calH$ of peripheral subgroups reduces to the case in which $G$ is a bounded Fuchsian group and $\calH$ is a boundary peripheral structure on $G$.
+Equivalently, we may assume that $G = \pi_1^\orb Q$ where $Q$ is a compact hyperbolic orbifold, so $\calH$ is a set of conjugacy class representatives of orbifold fundamental groups of boundary components of $Q$.
+
+In this section we review some basic terminology for describing compact two dimensional orbifolds.
+We then recall a result of Guirardel and Levitt~\cite{guirardellevitt17}, which tells us precisely when a bounded Fuchsian group admits a non-trivial splitting over a virtually cyclic subgroup relative to its boundary peripheral structure.
+
+In particular, we concentrate on compact hyperbolic orbifolds.
+For more information about orbifolds see~\cite{scott83}.
+Hyperbolic orbifolds are particularly easy to deal with, since they are covered by a closed convex subset of $\bbH^2$.
+(This property is in contrast to a general two dimensional orbifold: such an orbifold need not be covered by any manifold.)
+This allows us to make the following definition.
+
+\begin{definition}
+  A compact hyperbolic orbifold $Q$ is a compact underlying surface, which we denote $Q_\rmtop$, together with a map from a closed convex subset $\widetilde{Q}$ of $\bbH^2$ to $Q$ that is a quotient by a cocompact properly discontinuous group action by isometries.
+  The \emph{orbifold fundamental group} $\pi_1^\orb Q$ is the group of deck transformations, so $\pi_1^\orb Q$ acts cocompactly, properly discontinuously and by isometries of $\widetilde{Q}$ with quotient $Q$.
+\end{definition}
+
+The orbifold $Q$ can be described without reference to the covering map $\widetilde{Q} \to Q_\rmtop$ by endowing the compact surface $Q_\rmtop$ with additional structure.
+
+\begin{definition}
+  A point in $Q$ is a \emph{singular point} if it is the image of a point in $\widetilde{Q}$ with non-trivial stabiliser.
+  Otherwise it is a \emph{regular point}
+  The \emph{singular locus} of $Q$ is the set of all singular points.
+\end{definition}
+
+We now classify the singular points of $Q$.
+Note that we have the following classification of elliptic subgroups of $\Isom\bbH^2$: any elliptic subgroup is either cyclic acting by rotations, cyclic of order two generated by a reflection or dihedral generated by reflections through intersecting geodesics in $\widetilde{Q}$.
+
+\begin{definition}
+  The image in $Q_\rmtop$ of a point in $\widetilde{Q}$ with a cyclic stabiliser consisting of rotations is a \emph{cone point}.
+  The image of the set of fixed points in $\widetilde{Q}$ of a reflection in $\pi_1^\orb Q$ is a \emph{mirror}.
+  The image of a point in $\widetilde{Q}$ with dihedral stabiliser is a \emph{corner reflector}.
+\end{definition}
+
+Now we consider the boundary of $Q_\rmtop$. 
+A point in the boundary of $Q_\rmtop$ is either contained in a mirror or is in the image of the boundary $\boundary\widetilde{Q}$ of $\widetilde{Q}$.
+Note however that not every point in the image of $\boundary\widetilde{Q}$ is in $\boundary Q_\rmtop$, since two components of $\boundary\widetilde{Q}$ can be identified in the quotient.
+
+\begin{definition}
+  The \emph{topological boundary} $\boundary_\rmtop Q$ of $Q$ is the boundary of $Q_\rmtop$, while the \emph{orbifold boundary} $\boundary Q$ of $Q$ is the intersection of $\boundary_\rmtop Q$ with image in $Q_\rmtop$ of the boundary of $\widetilde{Q}$ under the quotient projection. 
+  Each component of the orbifold boundary is either a component of the topological boundary homeomorphic to $S^1$, in which case we call it a \emph{circular boundary component}, or is a proper subset of a component of $\boundary_\rmtop Q$, in which case it is homeomorphic to an interval and we call it an \emph{interval boundary component}
+\end{definition}
+
+Note that the singular locus is the union of all cone points and mirrors in $Q_\rmtop$, and the orbifold boundary $\boundary Q$ is the closure of the set of regular points in $\boundary_\rmtop Q$.
+
+This description of the singular locus of an orbifold allows us to draw a picture of any two dimensional hyperbolic orbifold as follows. 
+Start by drawing the underlying surface $Q_\rmtop$.
+Then mark each cone point in $Q_\rmtop$ and annotate each one with the order of the cyclic stabiliser of one of its preimages.
+Next, identify each component of the boundary of $Q_\rmtop$ with a polygon so that each edge is either a mirror or a component of the orbifold boundary $\boundary Q$ and mark those edges that are mirrors.
+Finally, wherever two mirror edges of a boundary polygon meet at a vertex, annotate that vertex with the order of the dihedral stabiliser of one of its preimages.
+Some pictures of this type---illustrating all possible types of singular points in orbifolds---are displayed in Figure~\ref{figure:orbifold}.
+
+\begin{figure}
+  \begin{center} 
+    \input{computing_JSJs/orbifold.pdf_tex}
+  \end{center}
+  \caption{
+    Three pictures of orbifolds.
+    Orbifold boundary components are coloured red.
+    The first has underlying surface of genus one with two boundary components, one of which is a mirror and the other is an orbifold boundary component.
+    The second has underlying surface homeomorphic disc.
+    Its topological boundary is identified with a hexagon, two edges of which are orbifold boundary components and the other four are mirrors.
+    Where mirrors meet there are corner reflectors of order depending on the angle at which the mirrors meet.
+    Mirrors meet orbifold boundary components at right angles.
+    The third also has underlying surface homeomorphic to a disc.
+    Here there is a single cone point of order 3.
+    The total angle around the cone point is \ang{120}.
+    Note that this is not actually a hyperbolic orbifold: it is covered by a disc.
+  }
+  \label{figure:orbifold}
+\end{figure}
+
+Orbifolds satisfy the Seifert-van Kampen Theorem.
+See for example \cite[Corollary 2.3]{boileaumaillotporti03}.
+Using this, one can recover the fundamental group $\pi_1^\orb Q$ from the picture described in the previous paragraph.
+
+Our description of $\pi_1^\orb Q$ from its picture is completed by the observation that one can recover the boundary peripheral structure.
+The boundary peripheral structure consists of a set of conjugacy class representatives of stabilisers of orbifold boundary components of $\widetilde{Q}$.
+The boundary peripheral structure contains a subgroup of $\pi_1^\orb Q$ isomorphic to $\integers$ for each circular boundary component of $Q$ and a subgroup of $\pi_1^\orb Q$ isomorphic to $D_\infty$ for each interval boundary component of $Q$.
+Therefore the picture of an orbifold contains sufficient information about that orbifold for our purposes.
+
+\begin{definition}
+  A \emph{geodesic} in $Q$ is a curve $\gamma$ that is the image of a geodesic $\widetilde\gamma$ in $\widetilde{Q}$ under the quotient projection. 
+  A geodesic $\gamma$ is \emph{closed} if it is compact and \emph{simple} if it is closed and furthermore $g\cdot\widetilde\gamma$ is either equal to or disjoint from $\widetilde\gamma$ for each $g$ in $\pi_1^\orb Q$. 
+  A simple closed geodesic is homeomorphic to either a circle or an interval with each of its end points contained in a mirror in $Q$. 
+  A simple closed geodesic is \emph{essential} if it is not contained in $\boundary_\rmtop Q$. 
+\end{definition}
+
+\subsection{Splittings of fundamental groups of orbifolds}
+
+The theory of splittings of fundamental groups of orbifolds relative to their boundary peripheral structures is developed in~\cite{guirardellevitt17}; we recall the following results:
+
+\begin{lemma}\cite[Corollary 5.6]{guirardellevitt17}\label{lemma:splitting_if_not_small}
+  The fundamental group of a compact orbifold $Q$ splits non-trivially over a virtually cyclic subgroup relative to its boundary peripheral structure if and only if $Q$ contains an essential simple closed geodesic.
+\end{lemma}
+
+\begin{definition} We call a compact orbifold without an essential simple closed geodesic 
+\emph{small}.\end{definition}
+
+Any sufficiently complicated orbifold contains an essential simple closed geodesic, so there are not very many small orbifolds.
+Guirardel and Levitt provide a complete list.
+
+\begin{proposition}\cite[Proposition 5.12]{guirardellevitt17}\label{prop:characterisationofsmall}
+  A hyperbolic orbifold $Q$ of dimension two is small if and only if it is one of the following. 
+\begin{enumerate}
+ \item A sphere with three cone points, so $\pi_1^\orb Q$ has presentation $\presentation{a, b}{a^p, b^q, ab^r}$ where $p^{-1}+q^{-1}+r^{-1} < 1$ and the boundary peripheral structure is empty.
+ \item A triangle, all three edges of which are mirrors, so $\pi_1^\orb Q$ has presentation 
+   \begin{align*} 
+     \presentation{a, b, c}{a^2, b^2, c^2, (ab)^p, (bc)^q, (ca)^r}
+   \end{align*}
+   where $p^{-1}+q^{-1}+r^{-1} < 1$ and the boundary boundary peripheral structure is empty.
+ \item A disc with two cone points, so $\pi_1^\orb Q$ has presentation $\presentation{a, b}{a^p, b^q}$ where $p, q > 1$ and the boundary peripheral structure is $\{\langle ab\rangle\}$.
+ \item A cylinder with one cone point, so $\pi_1^\orb Q$ has presentation $\presentation{a, b}{(ab)^p}$ where $p >1$ and the boundary peripheral structure is $\{\langle a\rangle, \langle b\rangle\}$.
+ \item A pair of pants, so $\pi_1^\orb Q$ has presentation $\presentation{a, b}{}$ and the boundary peripheral structure is $\{\langle a\rangle, \langle b\rangle, \langle ab\rangle\}$.
+ \item A disc with one cone point with edge consisting of an interval boundary component and a mirror, so $\pi_1^\orb Q$ has presentation $\presentation{a, t}{a^2, t^p}$ where $p > 1$ and the boundary peripheral structure is $\{\langle a, tat^{-1}\rangle\}$.
+ \item A square with an interval boundary component and three mirrors edges, so $\pi_1^\orb Q$ has presentation 
+   \begin{align*} 
+     \presentation{a, b, c}{a^2, b^2, c^2, (ab)^p, (bc)^q}
+   \end{align*}
+   where $p + q \geq 1$ and the boundary peripheral structure is $\{\langle a, c\rangle\}$.
+ \item An annulus in which one edge comprises an interval boundary component and a mirror and the other is a circular boundary component, so $\pi_1^\orb Q$ has presentation $\presentation{a, t}{a^2}$ with boundary peripheral structure $\{\langle a, tat^{-1}\rangle\}$.
+ \item A pentagon with two non-adjacent interval boundary components and three mirrors as edges, so $\pi_1^\orb Q$ has presentation $\presentation{a, b, c}{a^2, b^2, c^2, (ab)^p}$ with boundary peripheral structure $\{\langle b, c\rangle, \langle c, a\rangle\}$.
+ \item A hexagon, the six edges of which are alternately interval boundary components and mirrors, so $\pi_1^\orb Q$ has presentation $\presentation{a, b, c}{a^2, b^2, c^2}$ and the boundary peripheral structure is  
+   \begin{align*}
+     \{\langle a, b\rangle, \langle b, c\rangle, \langle c, a\rangle\}.
+   \end{align*}
+\end{enumerate}
+\end{proposition}
+
+\subsection{Detecting whether or not an orbifold is small}
+
+In this section we complete the objective of Section~\ref{section:fuchsian_groups}: we show that there is an algorithm that, when given a presentation for the fundamental group of a small orbifold together with the boundary peripheral structure of that orbifold, eventually certifies that the orbifold is small.
+
+\begin{lemma}\label{lemma:identifying_small_orbifolds} 
+  There is an algorithm that takes as input a presentation for a hyperbolic group $G$ and a collection $\calH$ of maximal virtually cyclic peripheral subgroups and terminates if and only if $\boundary(G, \calH)$ is homeomorphic to a circle and $G$ does not split relative to $\calH$ over a virtually cyclic subgroup.
+\end{lemma}
+
+\begin{proof} 
+First use the algorithm of Lemma~\ref{lemma:group_to_orbifold} and let the output of that algorithm be $(G', \calH')$. 
+Then $\boundary(G, \calH)$ is homeomorphic to a circle and $G$ does not split over a virtually cyclic subgroup relative to $\calH$ if and only if there is an isomorphism from $G'$ to one of the groups with boundary peripheral structure listed in Proposition~\ref{prop:characterisationofsmall} that maps elements of $\calH'$ to conjugates of elements of the given boundary peripheral structure.  
+
+The algorithm runs infinitely many processes in parallel using a standard diagonal argument, so that it first runs the first step of the first process, then the second step of the first process, then the first step of the second process, and so on.
+Enumerate the groups and peripheral structures described in Proposition~\ref{prop:characterisationofsmall} and, in parallel, enumerate all homomorphisms from these groups to $G'$ and homomorphisms from $G'$ to these groups. 
+Note that this is possible since one can test whether or not a map defined on the generators of a group extends to a homomorphism using a solution to the word problem in the codomain of the map, and $G'$ and all groups listed in Proposition~\ref{prop:characterisationofsmall} are hyperbolic. 
+Whenever an inverse pair of homomorphisms is found, start a search for a set of conjugating elements to check that the map $G' \to \pi_1^\orb Q$ maps each element of $\calH'$ to a conjugate of an element of the boundary peripheral structure for $Q$.
+
+If an inverse pair of homomorphisms and a set of conjugating elements is found, the algorithm terminates.
+\end{proof}
+
+\section{Maximal splittings}\label{section:maximal_splittings}
+
+We now apply the results of Sections~\ref{section:detecting_topology}, \ref{section:computing_splittings} and \ref{section:fuchsian_groups} to the problem of finding a maximal splitting of a one-ended hyperbolic group over its virtually cyclic subgroups.
+
+First we fix some notation.
+
+\begin{definition}
+  Given a virtually cyclic subgroup $H$ of a hyperbolic group $G$ we shall denote by $\widehat{H}$ the unique maximal virtually cyclic subgroup of $G$ containing $H$.
+  Given a set $\calH$ of virtually cyclic subgroups of $G$ let $\widehat{\calH}$ be a set of subgroups of $G$ obtained by choosing one representative of each conjugacy class that meets the set $\{\widehat{H} \suchthat H \in \calH\}$.
+  Given a vertex $v$ in the underlying graph of a graph of groups $\calY$, let $\inc v$ be the set $\{\boundary^e_{-}(\calY_e) \suchthat \initial(e) = v\}$ of subgroups of $\calY_v$.
+\end{definition}
+
+\begin{remark}
+  Given a hyperbolic group $G$ and a finite set of elements generating a virtually cyclic subgroup $H \leq G$, Lemma~\ref{lemma:virtually_cyclic_subgroups} provides an algorithm that computes a generating set for $\widehat{H}$.
+  Given a finite set of subsets of $G$ generating a set $\calH$ of virtually cyclic subgroups of $G$ one can compute finite generating sets for the elements of $\widehat{\calH}$ by first applying the algorithm of Lemma~\ref{lemma:virtually_cyclic_subgroups} and then throwing away any duplicate subgroups up to conjugacy using the algorithm of Lemma~\ref{lemma:detecting_conjugate_subgroups}.
+\end{remark}
+
+Now note the following proposition, which allows us to iteratively apply the results of Section~\ref{section:detecting_topology}.
+
+\begin{proposition}
+  Let $\calY$ be a graph of groups with virtually cyclic edge groups underlying graph $Y$ such that $\pi_1\calY$ is hyperbolic and $\boundary\pi_1\calY$ is connected.
+  Then for each vertex $v \in Y$, $\calY_v$ is hyperbolic relative to $\widehat{\inc v}$ and $\boundary(\calY_v, \widehat{\inc v})$ is connected.
+\end{proposition}
+
+\begin{proof}
+    First note that $\calY_e$ is virtually cyclic so is quasi-convex in $\pi_1\calY$ for each edge $e$ in $Y$.
+    Therefore $\calY_v$ is quasi-convex by~\cite[Proposition 1.2]{bowditch98}, and therefore $\calY_v$ is hyperbolic. 
+    The elements of $\widehat{\inc v}$ are maximal non-conjugate virtually cyclic subgroups of a hyperbolic group, so they are certainly malnormal.
+    Therefore hyperbolicity of $\calY_v$ relative to $\widehat{\inc v}$ follows from Theorem~\ref{theorem:quasiconvex_almost_malnormal}.
+
+    If $\boundary(\calY_v, \widehat{\inc v})$ is disconnected then $\calY_v$ admits a non-trivial splitting over a finite group relative to $\widehat{\inc v}$ by~\cite[Proposition 10.1]{bowditch12}.
+    This splitting is then also relative to $\inc v$.
+    Therefore the graph of groups $\calY$ admits a refinement $\calY'$ including an edge $e$ mapping to $v$ under the collapse map $Y' \to Y$ such that $\calY'_e$ is finite and neither $\boundary^e_{+}$ nor $\boundary^e_{-}$ is surjective. 
+    By collapsing $Y - e$ to either one or two points (depending on whether or not $e$ is separating) one obtains a non-trivial splitting of $\pi_1\calY$ over finite subgroups, contracting the assumption that $\boundary\pi_1\calY$ is connected.
+\end{proof}
+
+\subsection{Boundaries with cut pairs}
+
+Recall Corollary~\ref{corollary:cut_pair_implies_splitting} of Bowditch relating splittings of a hyperbolic group over its virtually cyclic subgroups to the existence of cut pairs in its boundary.
+We require a relative version of this theorem. 
+Such a theorem was recently proved in considerable generality by Haulmark~\cite{haulmark17}, but we only need the special case in which $G$ arises as a vertex group in a splitting of a larger hyperbolic group over virtually cyclic subgroups, and $\calH$ is the collection of edge groups incident at that vertex. 
+In this section we give an elementary proof that this simple case follows from Corollary~\ref{corollary:cut_pair_implies_splitting}.
+In particular we can avoid $\reals$-trees machinery. 
+For a discussion in greater generality, see~\cite{groff13}.
+
+\begin{proposition}\label{proposition:cut_pair_implies_relative_splitting} 
+  Let $v$ be a vertex in a minimal $G$-tree $T$ with virtually cyclic edge groups where $G$ is hyperbolic and one-ended. 
+  Let $\inc v$ be a set of representatives of $G_v$-conjugacy classes of stabilisers of edges in $T$ incident at $v$.  
+  Suppose that $\boundary(G_v, \widehat{\inc v})$ is not a single point, does not contain a cut point and is not homeomorphic to a circle but does contain a cut pair. 
+  Then $G_v$ admits a non-trivial splitting over virtually cyclic subgroups of $G_v$ relative to $\inc v$. 
+\end{proposition}
+
+First we need the following lemma. 
+
+\begin{lemma}\label{lemma:fixed_component} 
+  Let $f \colon T_1 \to T_2$ be an equivariant map of $G$-trees with virtually infinite cyclic edge stabilisers such that the action of $G$ on $T_1$ is cocompact and the action of $G$ on $T_2$ is minimal.  
+  Let $v$ be a vertex of $T_2$ such that $\boundary(G_v, \widehat{\inc v})$ is not a single point, is connected and does not contain a cut point. 
+  Then the action of $G_v$ on $T_1$ fixes a component of $f^{-1}(v)$.
+\end{lemma}
+
+\begin{proof}
+First we show that there is a vertex $w \in T_1$ such that $G_w \intersection G_v$ is non-elementary. 
+If this is not the case then the stabiliser of each edge of $T_1$ with respect to the action of $G_v$ on $T_1$ is either finite or commensurable with the stabilisers of its end points. 
+Therefore the action induces a splitting of $G_v$ with finite edge groups and virtually cyclic vertex groups. %Another sentence here
+By minimality of the action of $G$ on $T_2$ each edge $e$ incident at $v$ is $f(e')$ for some edge $e'$ of $T_1$, and then $G_{e'}$ is a finite index subgroup of $G_e$, since each is virtually infinite cyclic. 
+In particular, $\widehat{ G_e}$ is elliptic, and the splitting is relative to $\widehat{\inc v}$.  
+But $\boundary(G_v, \widehat{\inc v})$ was assumed to be connected and not a single point, which is a contradiction.
+
+Then $f(w) = v$, otherwise any edge separating $f(w)$ from $v$ in $T_2$ has non-elementary stabiliser. 
+Let $S$ be the component of $f^{-1}(v)$ containing $w$. 
+We now show that any other vertex $w'$ of $T_1$ such that $G_{w'} \intersection G_v$ is non-elementary is also in $S$. 
+Suppose that $e$ is an edge of $T_1$ that is not in $f^{-1}(v)$. 
+As in Section~1 of~\cite{bowditch98} there exists a partition of $\boundary(G, \emptyset) - \Lambda G_e$ as $U_1 \disjointunion U_2$. 
+The intersection of $G_e$ with $G_v$ is either finite or commensurable with a conjugate of an element of $\widehat{\inc v}$, so the images of $U_1 \intersection \Lambda G_v$ and $U_2 \intersection \Lambda G_v$ under the projection map $\Lambda G_v \to \boundary(G, \widehat{\inc v})$ cover all but at most a point of $\boundary(G, \widehat{\inc v})$. 
+These sets are disjoint, so one must be empty, say $U_2$. 
+But $\Lambda G_w$ and $\Lambda G_{w'}$ each contain more than two points, so must both be contained in $U_1 \union \Lambda G_e$. 
+This implies that $w$ and $w'$ are on the same side of $e$.
+
+Therefore the action of $G_v$ on $T_1$ fixes $S$, for any element of $G_v$ must send $w$ to a vertex of $S$.
+\end{proof}
+
+\begin{proof}[Proof of Proposition~\ref{proposition:cut_pair_implies_relative_splitting}]
+Let $\Sigma$ be Bowditch's JSJ tree for $G$. $\Sigma$ is then elliptic with respect to $T$, so by~\cite[Proposition 2.2]{guirardellevitt17} there exists a $G$-tree $\widehat\Sigma$ and maps $p \colon \widehat\Sigma \to \Sigma$ and $f \colon \widehat\Sigma \to T$ such that:
+\begin{enumerate}
+  \item $p$ is a collapse map. (That is, a map given by collapsing some edges of $\widehat\Sigma$ to points.)
+  \item For $w \in \Sigma$, the restriction of $f$ to $p^{-1}(w)$ is injective.
+\end{enumerate}
+
+By Lemma~\ref{lemma:fixed_component} there is a component $S$ of $f^{-1}(v)$ that is fixed by the action of $G_v$.
+Suppose that a vertex $w$ of $S$ is fixed by the $G_v$-action.
+
+If $e$ is any edge of $\widehat\Sigma$ that is adjacent to but not contained in $S$ then $G_e \leq G_{f(e)}$ and the subgroup is necessarily of finite index. 
+Conversely the stabiliser of any edge incident at $v$ contains the stabiliser of an edge adjacent to $S$ at finite index. 
+The stabiliser of any edge adjacent to $S$ is then commensurable with the stabiliser of an edge incident at $w$, and vice versa. 
+Therefore $\boundary(G_v, \widehat{\inc w})$ is homeomorphic to $\boundary(G_v, \widehat{\inc v})$. 
+We assumed that $\boundary(G_v, \widehat{\inc v})$ was neither a point nor homeomorphic to a circle, so $pw$ is not in $T_1$ or $T_2$, and is therefore in $T_3$, where here we recall the partition $T_1\disjointunion T_2\disjointunion T_3$ of vertices of $\Sigma$.
+
+Let $x$ and $y$ be points in $\boundary(G_v, \widehat{\inc v})$ and choose preimages $\widetilde{x}$ and $\widetilde{y}$ in $\boundary(G_v, \emptyset)$, which we identify with $\Lambda G_v \subset \boundary(G, \emptyset)$.  
+The set of components of $\boundary(G_v, \widehat{\inc v}) - \{x, y\}$ is in bijection with the set of those components of $\boundary(G, \emptyset) - \{\widetilde{x}, \widetilde{y}\}$ that meet $\Lambda G_v$. 
+
+Suppose then that $\{x, y\}$ is a cut pair in $\boundary(G_v, \widehat{\inc v})$, so at least two components of $\boundary(G, \emptyset) - \{\widetilde{x}, \widetilde{y}\}$ meet $\Lambda G_v$.
+
+Then by Corollary~\ref{corollary:cut_pair_implies_splitting} there is a vertex $u$ of $\Sigma$ in $T_1$ or $T_2$ such that $\Lambda G_u$ contains $\{\widetilde{x}, \widetilde{y}\}$. 
+Then $\{\widetilde{x}, \widetilde{y}\} = \Lambda G_u \intersection \Lambda G_v$, so $\{\widetilde{x}, \widetilde{y}\}$ is the limit set of an edge incident at $v$. 
+Therefore $\{x, y\} \subset \boundary(G_v, \widehat{\inc v})$ is a single point, which is a contradiction because $\boundary(G_v, \widehat{\inc v})$ was assumed not to contain a cut point. 
+Hence the action of $G_v$ on $S$ does not fix any vertex and therefore gives rise to a non-trivial splitting of $G_v$ relative to $\inc v$.
+
+\end{proof}
+
+\subsection{Boundaries without cut points or pairs}
+
+Our description of the relationship between the existence of splittings and the topology of the boundary is completed by the following proposition, which serves as a converse to Theorem~\ref{theorem:cut_point_implies_splitting} and Proposition~\ref{proposition:cut_pair_implies_relative_splitting}.
+
+\begin{proposition}\label{prop:relativesplittingimpliescutpair} 
+  Let $G$ be a hyperbolic group and let $\calH$ be a finite set of virtually cyclic subgroups of $G$ such that $\boundary(G, \widehat{\calH})$ is connected. 
+  Suppose that $G$ admits a non-trivial splitting over a virtually cyclic subgroup relative to $\calH$. 
+  Then $\boundary(G, \widehat{\calH})$ contains a cut point or pair.
+\end{proposition}
+
+\begin{proof} 
+Let $T$ be the $G$-tree associated to such a non-trivial splitting. 
+Without loss of generality assume that the action of $G$ on $T$ is minimal. 
+Let $e$ be any edge in $T$. 
+Let $T_1$ and $T_2$ be the two components of the complement of the interior of $e$ in $T$. 
+Then as in the proof of Lemma~\ref{lemma:fixed_component} we obtain a partition of $\boundary(G, \emptyset) - \Lambda G_e$ as $U_1\disjointunion U_2$ where $U_i$ are open sets given by
+\begin{align*}
+ U_i = \boundary T_i \union \bigunion_{w \in T_i} (\Lambda G_w - \Lambda G_e)
+\end{align*}
+
+If a subgroup $H$ of $G$ is in $\calH$, $H \leq G_w$ for some vertex $w \in \Sigma$ and either $\Lambda H = \Lambda G_e$ or $\Lambda H \intersection \Lambda G_e = \emptyset$. 
+In the latter case either $\Lambda H \subset U_1$ or $\Lambda H \subset U_2$. 
+Let $q \colon \boundary(G, \emptyset) \to \boundary(G, \widehat{\calH})$ be the quotient projection of Theorem~\ref{theorem:bowditch_from_gromov}. 
+It follows that the images of $U_1$ and $U_2$ under $q$ in the complement of $q(\Lambda G_e)$ in $\boundary(G, \widehat{\calH})$ are disjoint open sets; they are non-empty by the minimality of the action of $G$ on $T$. 
+The image of $\Lambda G_e$ is either one or two points, and therefore $\boundary(G, \widehat{\calH})$ contains a cut point or pair. 
+\end{proof}
+
+\subsection{Computing a maximal splitting}
+
+\begin{proposition}\label{proposition:is_there_a_splitting} 
+  There is an algorithm that takes as input a presentation for a hyperbolic group $G$ with a collection $\calH$ of virtually cyclic subgroups of $G$ such that $G$ appears as a vertex group in a minimal splitting of a one-ended hyperbolic group and $\calH$ is the set of incident edge groups and returns the answer to the question ``does $G$ split non-trivially over a virtually cyclic subgroup relative to $\calH$?''
+\end{proposition}
+
+\begin{figure}
+\centering 
+\input{detecting_cut_pairs/flowchart}
+\caption{The decision process in the algorithm of Proposition~\ref{proposition:is_there_a_splitting}.}
+\end{figure}
+
+\begin{proof} 
+Let the given group be $G$ and the peripheral structure be $\calH$. 
+First check whether or not $G$ is virtually cyclic. 
+If it is then $G$ does not split properly over a virtually cyclic subgroup.  
+If it is not then compute $\widehat{\calH}$; then $\boundary(G, \widehat{\calH})$ contains more than a single point and the results of this section can be applied.
+
+Next use the results described in Section~\ref{section:computing_the_constants} to compute $\delta$ such that the cusped space $X$ associated to the pair $(G, \widehat{\calH})$ is $\delta$-hyperbolic. 
+Search for a non-trivial splitting of $G$ relative to $\calH$ using Lemma~\ref{lemma:finding_a_splitting} and, in parallel, search for $n$ such that $\ddag(n)$ holds in $X$; one of these processes must terminate by Proposition~\ref{proposition:double_dagger_condition_satisfied} and Theorem~\ref{theorem:cut_point_implies_splitting}.
+
+If a splitting is found then $G$ does split non-trivially over a virtually cyclic subgroup relative to $\calH$, and the algorithm can return ``yes''. 
+If $X$ satisfies $\ddag(n)$ then use the algorithm of Corollary~\ref{corollary:cut_pair_computable} to check whether or not $\boundary(G, \widehat{\calH})$ contains a cut point. 
+If it does then $G$ does split properly over a virtually cyclic subgroup by Theorem~\ref{theorem:cut_point_implies_splitting}
+
+If there is no cut point, use the algorithm of Corollary~\ref{corollary:cut_pair_computable} on $X$ to determine whether or $\boundary(G, \widehat{\calH})$ contains a cut pair; if it does not then $G$ does not split relative to $\calH$ by Proposition~\ref{prop:relativesplittingimpliescutpair}.
+
+If there is a cut pair then simultaneously run the algorithms given in Lemmas~\ref{lemma:finding_a_splitting} and~\ref{lemma:identifying_small_orbifolds}. 
+If the former terminates then a splitting has been found; if the latter does then no splitting exists.
+\end{proof}
+
+\begin{proposition}\label{proposition:maximal_splitting_computable} 
+  There is an algorithm that, when given a presentation for a one-ended hyperbolic group, computes the graph of groups associated to a splitting of that group that is maximal for domination.
+\end{proposition}
+
+\begin{proof}
+  Apply the algorithm of Lemma~\ref{lemma:finding_a_splitting} to enumerate all minimal splittings of $G$ over virtually cyclic subgroups.
+  By Bestvina and Feighn's accessibility theorem (Theorem~\ref{theorem:bestvina_feighn_accessibility}), this algorithm will eventually output a splitting that is maximal for domination.
+  By Lemma~\ref{lemma:refinement_by_blowing_up} no vertex group in this maximal splitting admits a non-trivial splitting over its incident edge groups.
+
+  Conversely, let $T$ be the tree associated to a minimal splitting of $G$ over its virtually cyclic subgroups such that no vertex stabiliser admits a non-trivial splitting relative to the stabilisers of the incident edges and let $T'$ be a minimal $G$-tree that dominates $T$.
+  Let $v$ be a vertex of $T$ and let $e$ be an edge of $T$ with $\initial(e) = v$.
+  Since $T$ is minimal, the map $T' \to T$ is surjective, so there exists an edge $e'$ of $T'$ such that the image of $e'$ contains $e$.
+  Then $G_{e'} \leq G_e$.
+  By assumption, $T'$ is minimal and $G$ is one-ended, so $G_{e'}$ is infinite, so it is a finite index subgroup of $G_e$, so the orbit of $e'$ under the action of $G_e$ is finite.
+  It follows that $G_e$ is elliptic with respect to the action on $T'$.
+  Therefore $G_v$ is elliptic with respect to the action on $T'$, since otherwise this action gives a non-trivial splitting of $G_v$ relative to $\{G_e \suchthat \initial(e) = v\}$.
+  This argument applies to every vertex of $T$, so $T$ dominates $T'$ by Lemma~\ref{lemma:minimality_through_trees} and it follows that $T$ is maximal for domination.
+
+  For each splitting returned by the algorithm of Lemma~\ref{lemma:finding_a_splitting} use the algorithm of Proposition~\ref{proposition:is_there_a_splitting} to test whether each vertex group splits relative to its incident edge groups.
+  When a splitting is found such that no vertex group splits relative to its incident edge groups, return that splitting.
+\end{proof}
+
+\section{JSJ decompositions}\label{section:JSJs_computable}
+
+In this section we complete the proof of Theorem~\ref{theorem:computing_JSJ_decompositions}: we show that three closely related types of JSJ splittings are computable for hyperbolic groups. 
+Fix a one-ended hyperbolic group $G$.
+We define three classes of virtually cyclic subgroups of $G$.
+\begin{enumerate}
+    \item Let $\calVC$ be the set of virtually cyclic subgroups of $G$.
+    \item Let $\calZ$ be the set of virtually cyclic subgroups of $G$ with infinite centre.
+        Equivalently, $\calZ$ is the set of virtually cyclic subgroups of $G$ that surject onto $\integers$.
+    \item Let $\calZ_\rmmax$ be the set of subgroups of $G$ in $\calZ$ that are maximal among subgroups of $\calZ$.
+\end{enumerate}  
+We consider JSJ decompositions over groups in these three classes of subgroups.
+Note that here we follow~\cite{dahmaniguirardel11} in defining the $\calZ_\rmmax$-JSJ: since a proper subgroup of a $\calZ_\rmmax$ group is not $\calZ_\rmmax$, this does not fit into Guirardel and Levitt's framework for JSJ theory. 
+We call a splitting over $\calZ_\rmmax$ a $\calZ_\rmmax$-JSJ if it is $\calZ$-universally elliptic and is maximal for domination among $\calZ$-universally elliptic splittings over $\calZ_\rmmax$.
+
+\subsection{Virtually cyclic edge groups and Bowditch's decomposition}\label{section:VC-JSJ_computable}
+
+In this section we show that a JSJ decomposition over $\calVC$ is computable.
+We then show that Bowditch's canonical decomposition is a $\calVC$-JSJ and show how to obtain this special JSJ algorithmically.
+This completes the proof of the first part of Theorem~\ref{theorem:computing_JSJ_decompositions}.
+
+We first prove the following lemma.
+
+\begin{lemma}\label{lemma:JSJ_from_maximal} The tree obtained from the tree
+associated to a maximal splitting by collapsing each edge whose stabiliser is
+not universally elliptic is a $\mathcal{VC}$-JSJ tree.\end{lemma}
+
+\begin{proof} Let $T$ be the tree associated to a maximal splitting and let
+$T'$ be the tree obtained by collapsing each edge of $T$ that is not
+universally elliptic. Then certainly $T'$ is universally elliptic, so it is
+sufficient to show that if $\Sigma$ is another universally elliptic
+$G$-tree then $T'$ dominates $\Sigma$.
+
+The tree $\Sigma$ can be refined to dominate $T$, so there exists a map $f
+\colon T \to \Sigma$. Let $v$ be a vertex of $T'$ and let $S$ be a
+component of its preimage in $T$. Then $f\restricted{S}$ is constant: if
+an edge $e$ in $S$ is mapped into an edge $e'$ in $\Sigma$ then $G_e \leq
+ G_{e'}$, which is universally elliptic. But then the image of $S$ in
+$T'$ contains more than a single vertex. Therefore $G_v$ fixes the
+vertex $f(S)$ in $\Sigma$, so is elliptic with respect to $\Sigma$. This shows that
+$T'$ dominates $\Sigma$.\end{proof}
+
+We must now identify the edges in the tree associated to the maximal splitting
+that are not maximally elliptic. We make the following definitions.
+
+\begin{definition}\label{definition:mobius_strip_group} 
+    An \emph{extended M\"obius strip group} is a virtually cyclic group $H$ of type $\calZ$ with peripheral structure consisting of the preimage of $2\integers$ under the canonical surjection $H \to \integers$.  
+    Equivalently, it is an extension of the pair $(\integers, \{2\integers\})$ by a finite group.
+\end{definition}
+
+Recall Definition~\ref{definition:hanging_fuchsian} of a hanging Fuchsian group.
+
+\begin{definition}\label{defn:surfaceboundaryedges} We say that an edge $e$
+connecting vertices $v_1$ and $v_2$ of a $G$-tree is a \emph{internal
+surface edge} if, for each $i$, either $G_{v_i}$ is a hanging Fuchsian
+group and $G_e$ is maximal among virtually cyclic subgroups of
+$G_{v_i}$, or $G_{v_i}$ is an extended M\"obius strip group and
+$G_e \leq G_{v_i}$ is the peripheral subgroup of $G_{v_i}$.
+\end{definition}
+
+\begin{lemma}\label{lemma:internal_surface_edges} 
+  Suppose that $T$ is a maximal $\calVC$-tree.
+  Then the edges of $T$ that are not universally elliptic are precisely the internal surface edges.
+\end{lemma}
+
+\begin{proof} 
+Let $T'$ be the tree obtained by collapsing each edge of $T$ that is not universally elliptic as in Lemma~\ref{lemma:JSJ_from_maximal}, so $T'$ is a JSJ tree and there is a collapse map from $T$ to $T'$. 
+The edges of $T$ that are not universally elliptic are precisely those edges that are mapped to flexible vertices of $T'$ under the collapse map; by~\cite[Theorem 6.2]{guirardellevitt17} all flexible vertices of $T'$ are hanging Fuchsian vertices. 
+
+Any splitting of a hanging Fuchsian group is dual to a family of curves on the associated orbifold, so any edge in such a splitting is an internal surface edge, so all edges that are not universally elliptic are internal surface edges.
+
+Conversely, let $e$ be an internal surface edge. 
+Let $T'$ be the tree obtained by collapsing each edge in the orbit of $e$.
+Let $v$ be the vertex of $T'$ in the image of $e$. 
+Then $T$ is obtained from $T'$ by refining at $v$. 
+This refinement is dual to an essential simple closed curve $\ell$ on the associated orbifold $Q$. 
+Then $Q$ contains another essential simple closed curve $\ell'$ that is not homotopic to a curve disjoint from $\ell$. 
+Refine $T'$ at $v$ dual to $\ell'$ to obtain a tree $T''$; then $G_e$ is not elliptic with respect to $T''$.
+\end{proof}
+
+\begin{theorem}\label{theoremm:VC-JSJ_computable} 
+    There is an algorithm that takes as input a presentation for a one-ended hyperbolic group and returns as output the graph of groups associated to a $\mathcal{VC}$-JSJ decomposition for that group.
+\end{theorem}
+
+\begin{proof} 
+    First compute a maximal splitting of the group over virtually cyclic subgroups by Theorem~\ref{proposition:maximal_splitting_computable}. 
+    Let $T$ be the associated tree. 
+    By construction $T$ is reduced; in any case, $T$ can easily be made reduced using the processes of Lemma~\ref{lemma:virtually_cyclic_subgroups}. 
+    For each edge $e$ connecting vertices $v_1$ and $v_2$ of the graph of groups $T/ G$ determine whether $G_e$ is maximal in $G$ using the algorithm of Lemma~\ref{lemma:virtually_cyclic_subgroups} and whether the two vertex groups $G_{v_1}$ and $G_{v_2}$ have circular boundary relative to their incident edge groups by Corollary~\ref{corollary:circular_boundary_computable}. 
+    Check also whether each of $G_{v_1}$ and $G_{v_2}$ is virtually cyclic of $\calZ$-type, and, if it is, whether or not $G_e$ has index 2{} in that group. 
+    One of these possibilities is the case if and only if $e$ is not universally elliptic by Lemma~\ref{lemma:internal_surface_edges}; collapse all edges where this is the case.
+\end{proof}
+
+Recall the description of Bowditch's canonical decomposition from Section~\ref{section:bowditch_decomposition}.
+We now show that this decomposition of a one-ended hyperbolic group is computable.
+First we show that it is a $\calVC$-JSJ decomposition.
+
+\begin{proposition}\label{proposition:bowditch_decomposition_is_a_JSJ}
+  Bowditch's canonical decomposition of a one-ended hyperbolic group is a $\calVC$-JSJ decomposition.
+\end{proposition}
+
+\begin{proof}
+  Let $T$ be the tree associated to Bowditch's canonical decomposition of a one-ended hyperbolic group $G$ with vertex set partitioned as $T_1 \disjointunion T_2 \disjointunion T_3$.
+  First note that stabilisers of edges in $T$ are virtually cyclic.
+
+  By~\cite[Corollary 9.20]{guirardellevitt17} $G$ admits a JSJ decomposition over its virtually cyclic subgroups in which all flexible vertices are hanging Fuchsian.
+  Therefore the stabiliser of any flexible vertex in the JSJ tree stabilises a point in $T_2$ by~\cite[Proposition 6.1]{bowditch98}.
+  Automatically the stabiliser of any rigid vertex in the JSJ tree is elliptic in $T$, so the JSJ decomposition dominates $T$ and $T$ is universally elliptic.
+
+  Therefore every edge in $T$ is elliptic in the JSJ tree.
+  The stabiliser of a vertex in $T_1$ is virtually cyclic and it contains stabilisers of its incident edge groups at finite index, so it follows that the stabiliser of a vertex in $T_1$ is elliptic in the JSJ tree.
+  As in the proof of Lemma~\ref{lemma:internal_surface_edges} no stabiliser of a vertex in $T_2$ admits a non-trivial universally elliptic splitting over a virtually cyclic subgroup relative to its incident edge groups, so the stabiliser of any vertex in $T_2$ is elliptic in the JSJ tree.
+  The stabiliser of a vertex in $T_3$ does not split non-trivially over a virtually cyclic subgroup relative to its incident edge groups (see the remark after~\cite[Proposition 5.31]{bowditch98}), so the stabiliser of any vertex in $T_3$ is elliptic in the JSJ tree.
+
+  It follows that $T$ dominates the JSJ decomposition, so $T$ is a JSJ tree.
+\end{proof}
+
+In~\cite{dahmaniguirardel11} Dahmani and Guirardel define an operation on $\calVC$-trees.
+Their construction is more general, but here we quote the special case that is relevant to Bowditch's decomposition.
+
+\begin{definition} 
+  Let $T$ be a $\mathcal{VC}$-tree. 
+  Define the \emph{commensurability} equivalence relation $\sim$ on $\mathcal{VC}$ by letting $A \sim B$ if and only if $A$ and $B$ lie in the same maximal virtually cyclic subgroup of $G$. 
+  Also denote by $\sim$ the equivalence relation on the set of edges of $T$ defined by letting $e \sim e'$ if and only if $G_e \sim G_{e'}$. 
+  A \emph{cylinder} is a subset of $T$ that is the union of all edges in a $\sim$-equivalence class.
+\end{definition}
+
+A cylinder in a subtree of $T$: if $e\sim e'$ and $e''$ is an edge separating $e'$ from $e$ then $G_{e''} \leq G_e \intersection G_{e'}$, so $G_{e''}$ is commensurable with $G_e$ and $G_e'$.
+
+\begin{definition} 
+  Let $T$ be a $\mathcal{VC}$-tree. 
+  The corresponding \emph{tree of cylinders} $T_c$ is a bipartite tree with vertex set $V_1 \disjointunion V_2$, where $V_1$ is the set of vertices of $T$ that lie in at least two cylinders and $V_2$ is the set of cylinders in $T$. 
+  A vertex $v \in V_1$ is connected by an edge to $Y \in V_2$ if and only if $v \in Y$.
+\end{definition}
+
+\begin{remark}
+  Guirardel and Levitt then define a \emph{collapsed tree of cylinders} obtained by collapsing all edges of the tree of cylinders that are not in the class of allowed edge groups.
+  This is unnecessary in this special case: let $e$ be an edge contained in some cylinder in $T$ and let $g$ be in the stabiliser of that cylinder.
+  Then $gG_eg^{-1} = G_{g\cdot e} \sim G_e$, so $\widehat{gG_eg^{-1}} = \widehat{G_e}$ and therefore $g$ is in the normaliser of $\widehat{G_e}$, which is $\widehat{G_e}$ itself.
+  So stabilisers of cylinders are virtually cyclic, so all edge stabilisers in the tree of cylinders are virtually cyclic.
+\end{remark}
+
+\begin{lemma}\cite[Lemma 7.3]{guirardellevitt17}\label{lemma:equal_to_its_own_cylinders}
+  The tree $T_c$ is equal to its own tree of cylinders $(T_c)_c$.
+\end{lemma}
+
+\begin{lemma}
+  The $G$-tree corresponding to Bowditch's canonical decomposition is the tree of cylinders of any $\calVC$-JSJ tree.
+\end{lemma}
+
+\begin{proof}
+  Using Proposition~\ref{proposition:bowditch_decomposition_is_a_JSJ} and Lemma~\ref{lemma:equal_to_its_own_cylinders} it is enough to show that Bowditch's tree is equal to its own tree of cylinders.
+  Recall that Bowditch's tree $T$ is bipartite with vertex set partitioned as $T_1 \disjointunion (T_2 \disjointunion T_3)$ and the stabiliser of any vertex in $T_1$ is maximal virtually cyclic.
+  Therefore cylinders in Bowditch's tree are precisely the stars of vertices in $T_1$, from which the result follows immediately.
+\end{proof}
+
+Bowditch's canonical decomposition is the graph of cylinders of the decomposition obtained in this way. 
+The operation of replacing a decomposition with the decomposition associated to its tree of cylinders can be done algorithmically using Lemma~\ref{lemma:virtually_cyclic_subgroups}. 
+This result is the content of~\cite[Lemma 2.34]{dahmaniguirardel11}; note that while the result is stated for a $\calZ$-tree, replacing this with a $\mathcal{VC}$-tree makes no difference to the proof.
+Therefore the results of this section give the following corollary.
+
+\begin{corollary}
+  Bowditch's canonical decomposition of a one-ended hyperbolic groups is computable.
+\end{corollary}
+
+\begin{remark}
+  Using Lemma~\ref{lemma:virtually_cyclic_subgroups} and Corollary~\ref{corollary:circular_boundary_computable} one can algorithmically recover the partition $T_1 \disjointunion T_2\disjointunion T_3$  of the vertex set of Bowditch's canonical decomposition.
+\end{remark}
+
+\subsection{\texorpdfstring{$\calZ$}{Z} edge groups}
+
+We now prove the second part of Theorem~\ref{theorem:computing_JSJ_decompositions}.
+
+\begin{theorem} There is an algorithm that takes as input a presentation for a one-ended hyperbolic group and returns the graph of groups associated to a $\calZ$-JSJ decomposition for that group.\end{theorem}
+
+In~\cite{dahmaniguirardel11} it is shown that the $\calZ$-JSJ decomposition is closely related to the $\mathcal{VC}$-JSJ: a $\calZ$-JSJ tree can be obtained from a $\mathcal{VC}$-JSJ tree $T$ by first refining $T$ by applying the so-called mirrors splitting to each hanging Fuchsian vertex group and then collapsing each edge with stabiliser of dihedral type.  
+The second of these processes can be done algorithmically using the part of the algorithm of Lemma~\ref{lemma:virtually_cyclic_subgroups} that determines whether or not a given virtually cyclic group is of dihedral type. 
+Therefore we must now show that the mirrors splitting is computable.%Picture would be nice!
+
+Recall the definition of the mirrors splitting of the fundamental group of a compact 2-dimensional orbifold $Q$ from~\cite{dahmaniguirardel11}. 
+
+\begin{definition} 
+  Let $N$ be a regular neighbourhood of the union of the mirrors and $D_\infty$-boundary components of $Q$ that does not contain any cone point of $Q$. 
+  If $Q - N$ is an annulus or a disc with at most one cone point then the \emph{mirrors splitting} of $\pi_1Q$ is defined to be trivial; otherwise it is the splitting obtained by cutting $Q$ along each component of $\boundary N$. 
+\end{definition}
+
+If the mirrors splitting is non-trivial then the graph of groups associated to the splitting is a star; the group at the central vertex is the fundamental group of an orbifold with no mirrors and the group at each leaf is the fundamental group of an orbifold with no cone points and underlying surface an annulus, one of whose topological boundary components is a circular orbifold boundary component and the other a union of interval boundary components and at least one mirror. 
+If $G$ is any hyperbolic group with a collection $\calH$ of virtually cyclic subgroups such that $\boundary(G, \widehat{\calH})$ is homeomorphic to a circle then the mirrors splitting of $G$ relative to $\calH$ is defined to be the splitting induced by the mirrors splitting of the quotient $G$ by a maximal finite normal subgroup of $G$ as in Proposition~\ref{lemma:group_to_orbifold}.
+
+\begin{lemma} 
+  The mirrors splitting of a hyperbolic group $G$ with a set $\calH$ of virtually cyclic subgroups such that $\boundary(G, \widehat{\calH})$ is homeomorphic to a circle is computable.
+\end{lemma}
+
+\begin{proof}
+Using Proposition~\ref{lemma:group_to_orbifold} it is enough to show that the mirrors splitting is computable in the case where $G$ is bounded Fuchsian and $\calH$ is the a collection of representatives of peripheral subgroups of $G$. 
+To do this we enumerate all mirrors splittings: for each non-negative integer $k$ enumerate all fundamental groups of compact orbifolds without mirrors and with at least $k$ boundary components and all $k$-tuples of fundamental groups of orbifolds homeomorphic to an annulus with no cone points and such that one topological boundary component of the orbifold is a circular orbifold boundary component. 
+In each case form the graph of groups in which the underlying graph is a $k$-pointed star, the group at the central vertex is the fundamental group of the orbifold without mirrors, the group at each leaf is the fundamental group of an orbifold homeomorphic to an annulus and the group at each edge is infinite cyclic and is identified with the fundamental group of a circular orbifold boundary component of each of the orbifolds associated to the end points of that edge. 
+Compute the fundamental group of each such graph of groups and record also the peripheral structure consisting of conjugacy class representatives of the fundamental groups of components of the orbifold boundary of the orbifold.  
+
+Also enumerate all groups with trivial mirrors splitting, i.e.\ fundamental groups of orbifolds homeomorphic as topological spaces to a disc with at most one cone point, or homeomorphic to an annulus with no cone points and such that one topological boundary component is a circular orbifold boundary component.
+
+In parallel enumerate all homomorphisms from the fundamental groups of these graphs of groups to $G$ and all homomorphisms from $G$ to the fundamental groups of these graphs of groups. 
+Some such pair of homomorphisms is an inverse pair that preserves the peripheral structure up to conjugacy.  
+On finding this pair the algorithm returns the associated mirrors splitting.
+\end{proof}
+
+\subsection{\texorpdfstring{$\calZ_\text{max}$}{Zmax} edge groups}
+
+The $\calZ_\text{max}$-JSJ decomposition can be obtained from a $\calZ$-JSJ decomposition by performing the so-called $\calZ_\text{max}$-fold: see~\cite[Proposition 4.11]{dahmaniguirardel11}.
+Let $T$ be the $G$-tree corresponding to a $\calZ$-JSJ.
+Dahmani and Guirardel show that the tree corresponding to the $\calZ_\text{max}$-fold is obtained by iterating the following process.
+Suppose that there exists an edge $e$ in $T$ such that $G_e \neq \widehat{G_e}$.
+Then there exists such an edge $e$ such that $\widehat{G_e} \leq G_{\initial(e)}$.
+Then quotient $T$ by the $G$-equivariant equivalence relation generated by $e \sim g\cdot e$ for each $g \in \widehat{G_e}$.
+Repeat this process until $G_e = \widehat{G_e}$ for each edge $e$.
+Note that this process takes at most as many steps as there are edges in $G \backslash T$, which is finite as long as $T$ is minimal.
+
+We now note that this process can be performed algorithmically, which completes the proof of the final part of Theorem~\ref{theorem:computing_JSJ_decompositions}.
+
+\begin{lemma} 
+  There is an algorithm that takes as input a graph of groups decomposition of a hyperbolic group $G$ over virtually cyclic subgroups and returns the graph of groups associated to the $\calZ_\text{max}$-fold of the associated $G$-tree.
+\end{lemma}
+
+\begin{proof} 
+  Let $\calY$ be the graph of groups with underlying graph $Y$ associated to a $\calZ$-JSJ.
+  We describe the folding process described above at the level of the graph of groups $\calY$.
+  Unfortunately this description is a little more complicated than the description at the level of the tree.
+  Note that the folds do not change the quotient graph $G \backslash T$, since $e \sim e'$ only when $e$ and $e'$ lie in the same $G$-orbit.
+
+  Take an edge $e$ of $Y$ with the following two properties.
+  \begin{enumerate}
+    \item Let $v = \initial(e)$. Then $\boundary^e_{-}(G_e)$ is not a maximal virtually cyclic subgroup of $\calY_v$.
+    \item For each edge $e'$ with $\initial(e') = v$ with $\boundary^{e'}_{-}(\calY_{e'})$ contained in the maximal virtually cyclic subgroup of $\calY_v$ containing $\boundary^e_{-}(\calY_e)$, $\boundary^{e'}_{+}(\calY_{e'})$ is a maximal virtually cyclic subgroup of $\calY_{\terminal(e)}$.
+  \end{enumerate}
+  Note that if such an edge exists then it can be found using the algorithm of Lemma~\ref{lemma:virtually_cyclic_subgroups}.
+
+  Then change $\calY$ by making the following two replacements.
+  \begin{enumerate}
+    \item Replace $\calY_{\terminal(v)}$ by the fundamental group of the graph of groups $\calY'$ with a single edge $e$, $\calY'_e = \calY_e$, $\calY'_{\terminal(e)} = \calY_{\terminal(e)}$ and $\calY'_{\initial(e)}$ equal to the maximal virtually cyclic subgroup of $\calY_{\initial(v)}$ containing $\boundary^e_{-}(\calY_e)$. 
+      Note that this fundamental group is either an amalgamated product or an HNN extension, so this can easily be done algorithmically.
+    \item Replace $\calY$ by the maximal virtually cyclic subgroup of $\calY_{\initial(v)}$ containing $\boundary^e_{-}(\calY_e)$.
+  \end{enumerate}
+
+  Repeat this process until there is no edge $e$ satisfying the given condition.
+\end{proof}
+
+This completes the proof of Theorem~\ref{theorem:computing_JSJ_decompositions}.
+
+\section{Generalisations}
+
+In light of Haulmark's theorem~\cite{haulmark17}, it seems possible that the techniques used in this chapter might be applicable to determining whether or not groups in a larger class of relatively hyperbolic groups admit non-trivial splittings over virtually cyclic subgroups.
+As discussed in Section~\ref{section:cut_pairs_generalisations}, the main impediment to our ability detect cut pairs in the boundary in more general situations is the double dagger condition: except when the peripheral subgroups are either abelian or virtually cyclic, we do not know that the cusped space satisfies a double dagger condition, even when the boundary is connected and without a cut point.
+A resolution to this problem would answer~\cite[Question 1.8]{dahmanitouikan13} and would therefore extend the class of relatively hyperbolic groups for which the isomorphism problem is known to be solvable: in light of Dahmani and Touikan's work, the problem of detecting rigidity is the only barrier to the solution for the isomorphism problem for relatively hyperbolic groups with virtually nilpotent peripheral subgroups.
+The class of relatively hyperbolic groups with virtually nilpotent peripheral subgroups is particularly natural, since the Margulis lemma tells us that groups that act geometrically finitely on complete simply connected Riemannian manifolds with pinched negative sectional curvature fall into this class.
+
